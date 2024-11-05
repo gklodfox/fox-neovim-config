@@ -18,14 +18,47 @@ M.keys = {
 function M.opts()
 	return {
 		modes = {
-			diagnostics_buffer = {
+			mydiags = {
+				auto_open = true,
+				auto_preview = true,
+				pinned = true,
+				warn_no_results = false,
+				open_no_results = true,
 				mode = "diagnostics", -- inherit from diagnostics mode
-				filter = { buf = 0 }, -- filter diagnostics to the current buffer
-				auto_close = false,
-				auto_open = false,
-				open_no_results = false,
+				filter = {
+					any = {
+						buf = 0, -- current buffer
+						{
+							severity = vim.diagnostic.severity.ERROR, -- errors only
+							-- limit to files in the current project
+							function(item)
+								return item.filename:find((vim.loop or vim.uv).cwd(), 1, true)
+							end,
+						},
+					},
+				},
+			},
+			test = {
+				mode = "diagnostics",
+				preview = {
+					type = "split",
+					relative = "win",
+					position = "right",
+					size = 0.3,
+				},
 			},
 		},
+		-- modes = {
+		-- 	diagnostics_buffer = {
+		-- 		mode = "diagnostics", -- inherit from diagnostics mode
+		-- 		filter = { buf = 0 }, -- filter diagnostics to the current buffer
+		-- 		auto_close = false,
+		-- 		auto_open = true,
+		-- 		pinned = true,
+		-- 		warn_no_results = false,
+		-- 		open_no_results = true,
+		-- 	},
+		-- },
 	}
 end
 

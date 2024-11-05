@@ -72,6 +72,7 @@ function M.opts()
 			},
 			lualine_y = {
 				{ "progress", padding = { left = 1, right = 1 } },
+        { 'location' },
 			},
 			lualine_z = {
 				get_venv(),

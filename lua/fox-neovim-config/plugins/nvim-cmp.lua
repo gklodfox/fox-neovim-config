@@ -1,6 +1,5 @@
 local M = { "hrsh7th/nvim-cmp" }
 
-M.event = "InsertEnter"
 M.dependencies = {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
@@ -23,49 +22,23 @@ M.dependencies = {
     "williamboman/mason-lspconfig.nvim",
 }
 
-function M.init()
-  vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-
-  vim.diagnostic.config({
-    virtual_text = true,
-    severity_sort = true,
-    float = {
-      border = 'rounded',
-      -- source = 'if_many',
-    },
-    signs = {
-      text = {
-        [vim.diagnostic.severity.ERROR] = '✘',
-        [vim.diagnostic.severity.WARN] = '▲',
-        [vim.diagnostic.severity.INFO] = '⚑',
-        [vim.diagnostic.severity.HINT] = '',
-      },
-    }
-  })
-  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    {border = 'rounded'}
-  )
-  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    {border = 'rounded'}
-  )
-end
-
 function M.opts()
-  local cmp = require("cmp")
-  local luasnip = require("luasnip")
-  local cmp_select = { behavior = cmp.SelectBehavior.Select }
+  local cmp_status_ok, cmp = pcall(require, "cmp")
+  if not cmp_status_ok then
+    return
+  end
+  -- local cmp = require("cmp")
+  -- local luasnip = require("luasnip")
+  -- local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
   return {
     snippet = {
       expand = function(args)
-        luasnip.lsp_expand(args.body)
+        require("luasnip").lsp_expand(args.body)
       end
     },
     formatting = {
-      fields = {'menu', 'abbr', 'kind'},
-      expandable_indicator = true,
+      fields = { "kind", "abbr", "menu" },
       format = require('lspkind').cmp_format({
         with_text = 'true', -- show only symbol annotations
         maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
@@ -99,16 +72,17 @@ function M.opts()
       {name = 'buffer', keyword_length = 3},
     }),
     mapping = cmp.mapping.preset.insert({
-      ['<Up>'] = cmp.mapping.select_prev_item(cmp_select),
-      ['<Down>'] = cmp.mapping.select_next_item(cmp_select),
+      ['<Up>'] = cmp.mapping.select_prev_item(),
+      ['<Down>'] = cmp.mapping.select_next_item(),
 
       ['<C-Up>'] = cmp.mapping.scroll_docs(-4),
       ['<C-Down>'] = cmp.mapping.scroll_docs(4),
 
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({select = true, behavior = cmp.ConfirmBehavior.Insert}),
+      ['<CR>'] = cmp.mapping.confirm({select = true}),
       ['<Tab>'] = cmp.mapping(function(fallback)
+        local luasnip = require("luasnip")
         if cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
@@ -118,6 +92,7 @@ function M.opts()
         end
       end, {'i', 's'}),
       ['<S-Tab>'] = cmp.mapping(function(fallback)
+        local luasnip = require("luasnip")
         if cmp.visible() then
           cmp.select_prev_item()
         elseif luasnip.jumpable(-1) then
@@ -127,19 +102,56 @@ function M.opts()
         end
       end, {'i', 's'})
     }),
-    window = {
-      completion = cmp.config.window.bordered(),
-      documentation = cmp.config.window.bordered(),
+    confirm_opts = {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
     },
-
+    experimental = {
+      ghost_text = true,
+    }
   }
 end
 
 function M.config(_, opts)
   local cmp = require("cmp")
 
-  local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-  cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+  local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+  local cmp_autopairs_handlers = require("nvim-autopairs.completion.handlers")
+  cmp.event:on(
+    "confirm_done",
+    cmp_autopairs.on_confirm_done({
+      filetypes = {
+        -- "*" is a alias to all filetypes
+        ["*"] = {
+          ["("] = {
+            kind = {
+              cmp.lsp.CompletionItemKind.Function,
+              cmp.lsp.CompletionItemKind.Method,
+            },
+            handler = cmp_autopairs_handlers["*"]
+          }
+        },
+        lua = {
+          ["("] = {
+            kind = {
+              cmp.lsp.CompletionItemKind.Function,
+              cmp.lsp.CompletionItemKind.Method
+            },
+            ---@param char string
+            ---@param item table item completion
+            ---@param bufnr number buffer number
+            ---@param rules table
+            ---@param commit_character table<string>
+            handler = function(char, item, bufnr, rules, commit_character)
+              -- Your handler function. Inspect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+            end
+          }
+        },
+        -- Disable for tex
+        tex = false
+      }
+    })
+  )
 
   require('luasnip.loaders.from_vscode').lazy_load()
 
@@ -176,46 +188,6 @@ function M.config(_, opts)
     }),
     matching = { disallow_symbol_nonprefix_matching = false }
   })
-
-  local lspconfig = require("lspconfig")
-  local cmp_nvim_lsp = require("cmp_nvim_lsp")
-  local protocol = require("vim.lsp.protocol")
-
-  local completionItem = {
-    textDocument = {
-      foldingRange = {
-          dynamicRegistration = false,
-          lineFoldingOnly = true,
-        },
-      completion = {
-        completionItem = {
-          documentationFormat = { "markdown", "plaintext" },
-          snippetSupport = true,
-          preselectSupport = true,
-          insertReplaceSupport = true,
-          labelDetailsSupport = true,
-          deprecatedSupport = true,
-          commitCharactersSupport = true,
-          tagSupport = { valueSet = { 1 } },
-          resolveSupport = {
-            properties = {
-              "documentation",
-              "detail",
-              "additionalTextEdits",
-            },
-          },
-        },
-      },
-    },
-  }
-
-  local capabilities = vim.tbl_deep_extend(
-    "force",
-    protocol.make_client_capabilities(),
-    cmp_nvim_lsp.default_capabilities(),
-    completionItem
-  )
-  lspconfig.util.default_config = capabilities
 end
 
 return M

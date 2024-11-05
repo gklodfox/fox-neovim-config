@@ -3,6 +3,7 @@ local M = { "lewis6991/gitsigns.nvim" }
 M.event = "User FilePost"
 
 function M.opts()
+	local a = {}
 	return {
 		signs = {
 			add = { text = "┃" },
@@ -22,9 +23,9 @@ function M.opts()
 		},
 		signs_staged_enable = true,
 		signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-		numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+		numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
 		linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
-		word_diff = true, -- Toggle with `:Gitsigns toggle_word_diff`
+		word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
 		watch_gitdir = {
 			follow_files = true,
 		},

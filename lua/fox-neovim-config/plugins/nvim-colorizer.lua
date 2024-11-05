@@ -1,6 +1,6 @@
 local M = { "norcalli/nvim-colorizer.lua" }
 
-M.event = "User FilePost"
+M.event = "VimEnter"
 
 -- function M.opts()
 --   return {
