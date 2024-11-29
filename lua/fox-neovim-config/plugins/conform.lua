@@ -8,7 +8,7 @@ function M.opts()
 	local rust_formatters = { "rustfmt" }
 	local yaml_formatters = { "yamlfmt" }
 	local all_formatters = { "codespell" }
-	local on_save_formatters = { "trim_whitespace" }
+	local on_save_formatters = {}
 
 	return {
 		formatters_by_ft = {
