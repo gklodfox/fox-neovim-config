@@ -1,7 +1,7 @@
 local M = {"stevearc/conform.nvim"}
 
 function M.opts()
-    local lua_formatters = {"lua-format"}
+    local lua_formatters = {"lua-format", "stylua"}
     local python_formatters = {"isort", "black"}
     local rust_formatters = {"rustfmt"}
     local yaml_formatters = {"yamlfmt"}
