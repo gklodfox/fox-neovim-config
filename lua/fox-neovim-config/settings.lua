@@ -3,11 +3,11 @@ local set_opt = vim.opt
 local set_o = vim.o
 
 -- GLOBALS
-set_global.loaded_node_provider = 1
--- set_global.loaded_python3_provider = 0
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
-set_global.python3_host_prog = vim.loop.os_homedir() .. '/.venvs/neovim/bin/python3'
+set_global.python3_host_prog = vim.loop.os_homedir() .. '/.config/nvim/venv/bin/python3'
+set_global.node_host_prog = '/usr/bin/neovim-node-host'
+set_global.have_nerd_font = true
 -- NUMBER LINE
 set_o.number = true
 set_o.relativenumber = true
@@ -21,9 +21,15 @@ set_o.shiftwidth = 2
 set_o.tabstop = 2
 set_o.softtabstop = 2
 set_o.smartindent = true
+set_opt.breakindent = true
 -- EDITOR
+set_opt.list = true
+set_opt.listchars = { trail = '·', nbsp = '␣' }
+set_opt.ignorecase = true
+set_opt.smartcase = true
 set_opt.modelines = 5
 set_opt.modeline = true
+set_opt.showmode = false
 set_opt.path = vim.opt.path + "**"
 set_opt.equalalways = true
 set_o.mouse = "a"
@@ -31,8 +37,8 @@ set_o.smoothscroll = true
 set_o.clipboard = "unnamedplus"
 set_o.title = true
 set_o.inccommand = "split"
--- set_o.timeoutlen = 1000
 set_o.ttimeoutlen = 0
+set_opt.timeoutlen = 300
 set_o.updatetime = 250
 set_o.wrap = false
 set_opt.whichwrap:append "<>[hl]"
@@ -40,7 +46,7 @@ set_opt.shortmess:append "sI"
 set_o.splitbelow = true
 set_o.splitright = true
 set_o.winheight = 3
-set_o.scrolloff = 4
+set_o.scrolloff = 9
 set_o.sidescrolloff = 4
 set_o.signcolumn = "yes"
 set_o.colorcolumn = "80"

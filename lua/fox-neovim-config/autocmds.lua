@@ -210,3 +210,37 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+
+-- Auto save session
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+  callback = function ()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      -- Don't save while there's any 'nofile' buffer open.
+      if vim.api.nvim_get_option_value("buftype", { buf = buf }) == 'nofile' then
+        return
+      end
+    end
+    require("session_manager").save_current_session()
+  end
+})
+
+local config_group = vim.api.nvim_create_augroup('MyConfigGroup', {}) -- A global group for all your config autocommands
+
+vim.api.nvim_create_autocmd({ 'User' }, {
+  pattern = "SessionLoadPost",
+  group = config_group,
+  callback = function()
+    require('nvim-tree.api').tree.toggle(false, true)
+  end,
+})
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'fish',
+--   callback = function(args)
+--     -- local match = vim.fs.find(root_markers, { path = args.file, upward = true })[1]
+--     -- local root_dir = match and vim.fn.fnamemodify(match, ':p:h') or nil
+--     vim.lsp.start {
+--       cmd = { '/home/fox/Sources/fish-lsp/bin/fish-lsp', 'start' },
+--       settings = {},
+--     }
+--   end,
+-- })

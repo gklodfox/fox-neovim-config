@@ -8,37 +8,37 @@ M.dependencies = "HiPhish/rainbow-delimiters.nvim"
 -- M.event = "User FilePost"
 
 function M.opts()
-	return {
-		scope = { highlight = rainbow_highlight },
-		exclude = { filetypes = { "dashboard", "help", "NvimTree" } },
-	}
+  return {
+    scope = { highlight = rainbow_highlight },
+    exclude = { filetypes = { "dashboard", "help", "NvimTree" } },
+  }
 end
 
 function M.init()
-	local rainbow_delimiters = require("rainbow-delimiters")
+  local rainbow_delimiters = require("rainbow-delimiters")
 
-	vim.g.rainbow_delimiters = {
-		strategy = {
-			[""] = rainbow_delimiters.strategy["global"],
-			vim = rainbow_delimiters.strategy["local"],
-		},
-		query = {
-			[""] = "rainbow-delimiters",
-			lua = "rainbow-blocks",
-		},
-		priority = {
-			[""] = 110,
-			lua = 210,
-		},
-		highlight = rainbow_highlight,
-	}
+  vim.g.rainbow_delimiters = {
+    strategy = {
+      [""] = rainbow_delimiters.strategy["global"],
+      vim = rainbow_delimiters.strategy["local"],
+    },
+    query = {
+      [""] = "rainbow-delimiters",
+      lua = "rainbow-blocks",
+    },
+    priority = {
+      [""] = 110,
+      lua = 210,
+    },
+    highlight = rainbow_highlight,
+  }
 end
 
 function M.config(_, opts)
   local ibl = require("ibl")
-	local hooks = require("ibl.hooks")
+  local hooks = require("ibl.hooks")
 
-	hooks.register(
+  hooks.register(
     hooks.type.HIGHLIGHT_SETUP,
     function()
       vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
@@ -50,9 +50,9 @@ function M.config(_, opts)
       vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
     end
   )
-	ibl.setup(opts)
+  ibl.setup(opts)
 
-	hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+  hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 end
 
 return M
