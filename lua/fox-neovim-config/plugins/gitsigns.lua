@@ -3,7 +3,6 @@ local M = { "lewis6991/gitsigns.nvim" }
 M.event = "User FilePost"
 
 function M.opts()
-  local a = {}
   return {
     signs = {
       add = { text = "┃" },
@@ -34,7 +33,7 @@ function M.opts()
     current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
     current_line_blame_opts = {
       virt_text = true,
-      virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+      virt_text_pos = "right_align", -- 'eol' | 'overlay' | 'right_align'
       delay = 1000,
       ignore_whitespace = false,
       virt_text_priority = 100,
@@ -46,7 +45,6 @@ function M.opts()
     status_formatter = nil, -- Use default
     max_file_length = 40000, -- Disable if file is longer than this (in lines)
     preview_config = {
-      -- Options passed to nvim_open_win
       border = "single",
       style = "minimal",
       relative = "cursor",
@@ -56,19 +54,20 @@ function M.opts()
   }
 end
 
-function M.config(_, opts)
-  require("gitsigns").setup(opts)
-
-  vim.api.nvim_create_autocmd("ColorScheme", {
-    pattern = "*",
-    callback = function()
-      vim.cmd([[
-          hi GitSignsChangeInline gui=reverse
-          hi GitSignsAddInline gui=reverse
-          hi GitSignsDeleteInline gui=reverse
-        ]])
-    end,
-  })
-end
+-- function M.config(_, opts)
+--   require("gitsigns").setup(opts)
+--
+--   vim.api.nvim_create_autocmd("ColorScheme", {
+--     pattern = "*",
+--     callback = function()
+--       vim.cmd([[
+--         hi GitSignsChangeInline gui=reverse
+--         hi GitSignsAddInline gui=reverse
+--         hi GitSignsDeleteInline gui=reverse
+--       ]])
+--     end,
+--   })
+-- end
 
 return M
+

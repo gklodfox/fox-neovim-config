@@ -1,6 +1,6 @@
 local M = { "folke/lsp-colors.nvim" }
 
--- M.event = "User FilePost"
+M.event = "User FilePost"
 
 function M.opts()
   return {

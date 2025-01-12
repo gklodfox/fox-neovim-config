@@ -1,5 +1,6 @@
 local M = { "nvim-treesitter/nvim-treesitter-context" }
 
+M.lazy = true
 function M.opts()
   return {
     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)

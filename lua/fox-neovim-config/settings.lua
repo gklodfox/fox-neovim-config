@@ -1,11 +1,14 @@
 local set_global = vim.g
 local set_opt = vim.opt
+-- Recommended settings
+set_opt.lazyredraw = true -- Redraw only when needed
+set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
 
 -- GLOBALS
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
-set_global.python3_host_prog = vim.loop.os_homedir() .. '/.config/nvim/venv/bin/python3'
+set_global.python3_host_prog = vim.uv.os_homedir() .. '/.config/nvim/venv/bin/python3'
 set_global.node_host_prog = '/usr/bin/neovim-node-host'
 set_global.have_nerd_font = true
 -- NUMBER LINE
@@ -27,11 +30,8 @@ set_opt.list = true
 set_opt.listchars = { trail = '·', nbsp = '␣' }
 set_opt.ignorecase = true
 set_opt.smartcase = true
-set_opt.modelines = 5
-set_opt.modeline = true
 set_opt.showmode = false
 set_opt.path = vim.opt.path + "**"
-set_opt.equalalways = true
 set_o.mouse = "a"
 set_o.smoothscroll = true
 set_o.clipboard = "unnamedplus"
@@ -46,8 +46,8 @@ set_opt.shortmess:append "sI"
 set_o.splitbelow = true
 set_o.splitright = true
 set_o.winheight = 3
-set_o.scrolloff = 9
-set_o.sidescrolloff = 4
+set_o.scrolloff = 8
+set_o.sidescrolloff = 2
 set_o.signcolumn = "yes"
 set_o.colorcolumn = "80"
 -- BACKUP

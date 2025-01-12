@@ -18,16 +18,16 @@ function M.opts()
     "║                                    ║",
     "╚════════════════════════════════════╝",
   }
-
-	return {
+  return {
     theme = "hyper",
     config = {
       header = ascii_art,
       shortcut = {
         { desc = "Plugins", group = "@property", action = "Lazy", key = "p" },
         { desc = " Files", group = "Label", action = "Telescope find_files", key = "f" },
-        { desc = " Apps", group = "DiagnosticHint", action = "Telescope app", key = "a" },
-        { desc = " dotfiles", group = "Number", action = "Telescope dotfiles", key = "d" }
+        { desc = " Grep", group = "Label", action = "Telescope live_grep_args", key = "g" },
+        { desc = " Git files", group = "Label", action = "Telescope git_files", key = "G" },
+        { desc = " Projects", group = "Label", action = "Telescope project", key = "P" }
       }
     }
   }

@@ -2,11 +2,12 @@ local M = { "nvim-telescope/telescope.nvim" }
 
 M.branch = "0.1.x"
 M.cmd = "Telescope"
--- M.event = "VimEnter"
+
 M.dependencies = {
   "nvim-treesitter/nvim-treesitter",
   "nvim-telescope/telescope-file-browser.nvim",
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  -- { "HPRIOR/telescope-gpt", dependencies = {"nvim-telescope/telescope.nvim", "jackMort/ChatGPT.nvim"} },
   "nvim-telescope/telescope-project.nvim",
   "nvim-telescope/telescope-live-grep-args.nvim",
   "nvim-telescope/telescope-frecency.nvim",
@@ -42,7 +43,23 @@ function M.opts()
         override_generic_sorter = true,
         override_file_sorter = true,
         case_mode = "smart_case",
-      }
+      },
+      gpt = {
+        title = "Gpt Actions",
+        commands = {
+          "add_tests",
+          "chat",
+          "docstring",
+          "explain_code",
+          "fix_bugs",
+          "grammar_correction",
+          "interactive",
+          "optimize_code",
+          "summarize",
+          "translate"
+        },
+        theme = require("telescope.themes").get_dropdown{}
+      },
     },
   }
 end
@@ -52,6 +69,7 @@ function M.init()
   vim.keymap.set("n", "<leader>fg",  require("telescope").extensions.live_grep_args.live_grep_args, { desc = "Grep files" } )
   vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "Search buffers" })
   vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags, { desc = "Search help tags" })
+  vim.keymap.set({"v", "i"}, "<leader>G", ":Telescope gpt<CR>", { desc = "GPT" })
 end
 
 function M.config(_, opts)

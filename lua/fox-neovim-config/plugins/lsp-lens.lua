@@ -4,10 +4,9 @@ function M.opts()
   local SymbolKind = vim.lsp.protocol.SymbolKind
 
   return {
-    enable = true,
-    include_declaration = false, -- Reference include declaration
-    sections = { -- Enable / Disable specific request, formatter example looks 'Format Requests'
-      definition = false,
+    include_declaration = false, -- Reference includes declaration
+    sections = { -- Enable / Disable specific requests
+      definition = true,
       references = true,
       implements = true,
       git_authors = true,
@@ -19,3 +18,4 @@ function M.opts()
 end
 
 return M
+

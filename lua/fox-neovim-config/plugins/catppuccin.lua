@@ -32,7 +32,7 @@ function M.opts()
       numbers = { "italic" },
       booleans = { "italic" },
       properties = { "bold" },
-      types = { },
+      types = {},
       operators = { "bold" },
       miscs = {}, -- Uncomment to turn off hard-coded styles
     },
@@ -79,7 +79,7 @@ function M.opts()
       },
       lsp_trouble = true,
       which_key = true,
-      semantic_tokens = false,
+      semantic_tokens = true,
     }
   }
 end

@@ -39,8 +39,12 @@ function M.opts()
   }
 end
 
-function M.config(_, opts)
-  require('which-key').setup(opts)
-end
+-- function M.config(_, opts)
+--   local wk = require('which-key')
+--   local mappings = require('fox-neovim-config.mappings')
+--
+--   wk.register(mappings)
+--
+-- end
 
 return M

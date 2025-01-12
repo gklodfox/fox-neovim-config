@@ -1,4 +1,4 @@
-local M = {	'mfussenegger/nvim-dap-python' }
+local M = {'mfussenegger/nvim-dap-python' }
 
 M.dependencies = "mfussenegger/nvim-dap"
 

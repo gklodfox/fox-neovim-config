@@ -1,5 +1,7 @@
 local M = { "kdheepak/lazygit.nvim" }
 
+M.dependencies = {"nvim-lua/plenary.nvim"}
+M.lazy = true
 M.cmd = {
   "LazyGit",
   "LazyGitConfig",

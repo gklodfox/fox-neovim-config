@@ -8,9 +8,7 @@ M.dependencies = {
 }
 
 function M.opts()
-  return {
-    lang = "python3"
-  }
+  return { lang = "python3" }
 end
 
 return M

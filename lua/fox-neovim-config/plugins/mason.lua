@@ -37,7 +37,6 @@ end
 
 function M.setup(_, opts)
   local mason = require("mason")
-  local lspconfig = require("lspconfig")
   local mason_lspconfig = require("mason-lspconfig")
   local default_servers = get_default_servers()
 
