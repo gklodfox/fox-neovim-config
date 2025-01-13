@@ -199,3 +199,20 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+-- local function organize_imports()
+--   local params = {
+--     command = 'pyright.organizeimports',
+--     arguments = { vim.uri_from_bufnr(0) },
+--   }
+--   vim.lsp.buf.execute_command(params)
+-- end
+--
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   callback = function(ev)
+--     local client = vim.lsp.get_client_by_id(ev.data.client_id)
+--     if client.name == "pyright" then
+--       vim.api.nvim_create_user_command("PyrightOrganizeImports", organize_imports, {desc = 'Organize Imports'})
+--     end
+--   end}
+-- )
+

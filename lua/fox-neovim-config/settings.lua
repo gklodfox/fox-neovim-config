@@ -8,7 +8,7 @@ local set_o = vim.o
 -- GLOBALS
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
-set_global.python3_host_prog = vim.uv.os_homedir() .. '/.config/nvim/venv/bin/python3'
+set_global.python3_host_prog = '/home/fox/.config/nvim/venv/bin/python3'
 set_global.node_host_prog = '/usr/bin/neovim-node-host'
 set_global.have_nerd_font = true
 -- NUMBER LINE
@@ -53,21 +53,21 @@ set_o.colorcolumn = "80"
 -- BACKUP
 set_o.swapfile = false
 set_o.backup = false
-set_o.undodir = os.getenv("HOME") .. "/.nvim/undodir"
+set_o.undodir = "/home/fox/.nvim/undodir"
 set_o.undofile = true
 -- MISC
 set_opt.autochdir = true
 set_opt.cmdheight = 0
 set_opt.isfname:append { '@-@' }
 set_o.termguicolors = true
-set_opt.guicursor = {
-  "n-v:block",
-  "i-c-ci-ve:ver25",
-  "r-cr:hor20",
-  "o:hor50",
-  "i:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
-  "sm:block-blinkwait175-blinkoff150-blinkon175",
-}
+-- set_opt.guicursor = {
+--   "n-v:block",
+--   "i-c-ci-ve:ver25",
+--   "r-cr:hor20",
+--   "o:hor50",
+--   "i:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
+--   "sm:block-blinkwait175-blinkoff150-blinkon175",
+-- }
 -- Local window opt
 
 vim.env.PATH = table.concat({ vim.fn.stdpath "data", "mason", "bin" }, "/") .. ":" .. vim.env.PATH

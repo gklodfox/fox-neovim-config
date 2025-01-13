@@ -1,25 +1,5 @@
 local M = {  "williamboman/mason.nvim" }
 
-local function get_default_servers()
-  return {
-    "lua_ls",
-    "groovyls",
-    "marksman",
-    "pylsp",
-    "jsonls",
-    "bashls",
-    "clangd",
-    "cmake",
-    "diagnosticls",
-    "dockerls",
-    "dotls",
-    "yamlls",
-    "vimls",
-  }
-end
-
-M.dependencies = { "williamboman/mason-lspconfig.nvim" }
-
 function M.opts()
   return {
     ui = {
@@ -35,16 +15,21 @@ function M.opts()
   }
 end
 
-function M.setup(_, opts)
+function M.config(_, opts)
   local mason = require("mason")
-  local mason_lspconfig = require("mason-lspconfig")
-  local default_servers = get_default_servers()
-
   mason.setup(opts)
-  mason_lspconfig.setup({
-    ensure_installed = default_servers,
-    automatic_installation = true,
-  })
+  vim.api.nvim_create_user_command("MasonUpgrade", function()
+    local registry = require("mason-registry")
+    registry.refresh()
+    registry.update()
+    local packages = registry.get_all_packages()
+    for _, pkg in ipairs(packages) do
+      if pkg:is_installed() then
+        pkg:install()
+      end
+    end
+    vim.cmd("doautocmd User MasonUpgradeComplete")
+  end, { force = true })
 end
 
 return M

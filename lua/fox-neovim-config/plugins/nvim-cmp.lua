@@ -1,5 +1,16 @@
+local cmp = require("cmp")
+local function has_words_before()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  if col == 0 then
+    return false
+  end
+  local line_text = vim.api.nvim_get_current_line()
+  return line_text:sub(col, col):match("%s") == nil
+end
+
 local M = { "hrsh7th/nvim-cmp" }
 
+M.event = "VimEnter"
 M.dependencies = {
   "hrsh7th/cmp-buffer",
   "FelipeLema/cmp-async-path",
@@ -10,6 +21,7 @@ M.dependencies = {
   "petertriho/cmp-git",
   "hrsh7th/cmp-cmdline",
   "lukas-reineke/cmp-rg",
+  "lukas-reineke/cmp-under-comparator",
   "hrsh7th/cmp-nvim-lsp-document-symbol",
   "hrsh7th/cmp-nvim-lsp-signature-help",
   "L3MON4D3/LuaSnip",
@@ -18,27 +30,43 @@ M.dependencies = {
   "onsails/lspkind.nvim",
   "doxnit/cmp-luasnip-choice",
   "KadoBOT/cmp-plugins",
+  "yutkat/cmp-mocword",
   "saadparwaiz1/cmp_luasnip",
   "ray-x/cmp-treesitter",
   "williamboman/mason-lspconfig.nvim",
   "chrisgrieser/cmp_yanky",
-  "tzachar/cmp-ai",
+  -- "tzachar/cmp-ai",
   "zjp-CN/nvim-cmp-lsp-rs",
   "quangnguyen30192/cmp-nvim-tags",
   "delphinus/cmp-ctags",
 }
 
-function M.opts()
-  local cmp_status_ok, cmp = pcall(require, "cmp")
-  if not cmp_status_ok then
-    return
-  end
+M.keys = {
+  -- See opts.combo from nvim-cmp-lsp-rs below
+  {
+    "<leader>bc",
+    "<cmd>lua require'cmp_lsp_rs'.combo()<cr>",
+    desc = "(nvim-cmp) switch comparators"
+  },
+}
 
+function M.init()
+  vim.opt.completeopt = {"menu", "menuone", "noselect"}
+end
+
+function M.opts()
+  local types = require("cmp.types")
   local cmp_lsp_rs = require("cmp_lsp_rs")
-  local comparators = cmp_lsp_rs.comparators
-  local compare = require("cmp").config.compare
+  local luasnip = require("luasnip")
 
   return {
+    completion = {
+      completeopt = {"menu", "menuone", "noselect" }
+    },
+    performance = {
+      debounce = 0,
+      throttle = 0,
+    },
     snippet = {
       expand = function(args)
         require("luasnip").lsp_expand(args.body)
@@ -46,116 +74,93 @@ function M.opts()
     },
     sorting = {
       comparators = {
-        compare.exact,
-        compare.score,
-        -- comparators.inherent_import_inscope,
-        comparators.inscope_inherent_import,
-        comparators.sort_by_label_but_underscore_last,
+        cmp.config.compare.offset,
+        cmp.config.compare.exact,
+        cmp.config.compare.score,
+        require("cmp-under-comparator").under,
+        function(entry1, entry2)
+          local kind1 = entry1:get_kind()
+          kind1 = kind1 == types.lsp.CompletionItemKind.Text and 100 or kind1
+          local kind2 = entry2:get_kind()
+          kind2 = kind2 == types.lsp.CompletionItemKind.Text and 100 or kind2
+          if kind1 ~= kind2 then
+            if kind1 == types.lsp.CompletionItemKind.Snippet then
+              return false
+            end
+            if kind2 == types.lsp.CompletionItemKind.Snippet then
+              return true
+            end
+            local diff = kind1 - kind2
+            if diff < 0 then
+              return true
+            elseif diff > 0 then
+              return false
+            end
+          end
+        end,
+        cmp.config.compare.sort_text,
+        cmp.config.compare.length,
+        cmp.config.compare.order,
+        cmp_lsp_rs.comparators.inscope_inherent_import,
+        cmp_lsp_rs.comparators.sort_by_label_but_underscore_last,
       },
     },
     formatting = {
-      fields = { "kind", "abbr", "menu" },
+      -- fields = { "kind", "abbr", "menu" },
       format = require("lspkind").cmp_format({
         with_text = "true", -- show only symbol annotations
-        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         show_labelDetails = true, -- show labelDetails in menu. Disabled by default
         menu = {
           nvim_lsp = "[LSP]",
+          nvim_lua = "[NvLua]",
           luasnip = "[LuaSnip]",
-          luasnip_choice = "[SnipChoice]",
           async_path = "[Path]",
           calc = "[Calc]",
-          git = "[Git]",
           treesitter = "[TS]",
           cmp_lsp_rs = "[CmpRS]",
           nvim_lsp_signature_help = "[LspSig]",
-          nvim_lsp_document_symbol = "[Symbol]",
+          nvim_lsp_document_symbol = "[LspSym]",
           rg = "[Rg]",
           buffer = "[Buffer]",
-          diag_codes = "[DiagCode]",
+          -- diag_codes = "[DiagCode]",
           plugins = "[Plugins]",
           fish = "[Fish]",
           cmp_ai = "[AI]",
           ctags = "[Ctags]",
           tags = "[Tags]",
+          codeium = "[Codeium]",
         },
       }),
     },
-    sources = cmp.config.sources({
-      { name = "nvim_lsp" },
-      { name = "luasnip_choice" },
-      { name = "luasnip" },
-      { name = "async_path" },
-      { name = "calc" },
-      { name = "git" },
-      { name = "treesitter" },
-      { name = "nvim_lsp_signature_help" },
-      { name = "nvim_lsp_document_symbol" },
-      { name = "diag-codes", option = { in_comment = true } },
-      { name = "rg" },
-      {
-        name = "tags",
-        option = {
-          -- this is the default options, change them if you want.
-          -- Delayed time after user input, in milliseconds.
-          complete_defer = 100,
-          -- Max items when searching `taglist`.
-          max_items = 10,
-          -- The number of characters that need to be typed to trigger
-          -- auto-completion.
-          keyword_length = 3,
-          -- Use exact word match when searching `taglist`, for better searching
-          -- performance.
-          exact_match = false,
-          -- Prioritize searching result for current buffer.
-          current_buffer_only = false,
-        },
-      },
-      {
-        name = "ctags",
-        option = {
-          executable = "ctags",
-          trigger_characters = { "." },
-          trigger_characters_ft = {},
-        },
-      },
-      { name = "buffer" },
-      { name = "cmp_yanky" },
-      { name = "plugins" },
-      { name = "cmp_ai" },
-      { name = "fish", option = { fish_path = "/usr/bin/fish" } },
-      { name = "nvim-cmp-lsp-rs" },
-    }),
-    mapping = cmp.mapping.preset.insert({
-      ["<Up>"] = cmp.mapping.select_prev_item(),
-      ["<Down>"] = cmp.mapping.select_next_item(),
-
-      ["<C-Up>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-Down>"] = cmp.mapping.scroll_docs(4),
-
-      ["<C-Space>"] = cmp.mapping.complete(),
-      ["<C-x>"] = cmp.mapping.complete({
-        config = {
-          sources = cmp.config.sources({
-            { name = "cmp_ai" },
-          }),
-        },
-      }),
-      ["<C-e>"] = cmp.mapping.abort(),
-      ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    mapping = {
+      ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+      ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+      ["<Up>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+        else
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Up>", true, true, true), "n", true)
+        end
+      end, { "i" }),
+      ["<Down>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+        else
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Down>", true, true, true), "n", true)
+        end
+      end, { "i" }),
       ["<Tab>"] = cmp.mapping(function(fallback)
-        local luasnip = require("luasnip")
         if cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
         else
           fallback()
         end
       end, { "i", "s" }),
       ["<S-Tab>"] = cmp.mapping(function(fallback)
-        local luasnip = require("luasnip")
         if cmp.visible() then
           cmp.select_prev_item()
         elseif luasnip.jumpable(-1) then
@@ -164,111 +169,119 @@ function M.opts()
           fallback()
         end
       end, { "i", "s" }),
+      ["<C-Down>"] = cmp.mapping(function(fallback)
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<C-Up>"] = cmp.mapping(function(fallback)
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+      -- ["<C-x>"] = cmp.mapping.complete({config = {sources = cmp.config.sources({
+      --   { name = "cmp_ai" },
+      -- })}}),
+      ["<C-q>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
+      ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    },
+    sources = cmp.config.sources({
+      -- { name = "cmp_ai", priority = 100  },
+      { name = "nvim_lsp", priority = 100 },
+      -- { name = "nvim-cmp-lsp-rs", priority = 100  },
+      { name = "luasnip", priority = 85  },
+      -- { name = "luasnip_choice", priority = 90  },
+      { name = "async_path", priority = 95  },
+      { name = "codeium", priority = 70  },
+      { name = "nvim_lua",                priority = 50 },
+      { name = "nvim_lsp_signature_help", priority = 80  },
+      { name = "nvim_lsp_document_symbol", priority = 80  },
+      { name = "plugins", priority = 85  },
+      { name = "fish", priority = 40 , option = { fish_path = "/usr/bin/fish" } },
+    }, {
+      { name = "calc", priority = 50  },
+      -- { name = "git", priority = 65  },
+      -- { name = "diag-codes", priority = 30, option = { in_comment = true } },
+      { name = "rg", priority = 95 },
+      { name = "tags", priority = 60 },
+      { name = "ctags", priority = 60 },
+      { name = "buffer", priority = 75 },
+      { name = "cmp_yanky", priority = 80  },
+      { name = "treesitter", priority = 30  },
     }),
-    confirm_opts = {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
-    },
-    experimental = {
-      ghost_text = true,
-    },
-    window = {
-      completion = cmp.config.window.bordered(),
-      documentation = cmp.config.window.bordered(),
-    },
   }
 end
 
 function M.config(_, opts)
-  local cmp = require("cmp")
-
-  local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-  local cmp_autopairs_handlers = require("nvim-autopairs.completion.handlers")
-  local cmp_lsp_rs = require("cmp_lsp_rs")
-  local comparators = cmp_lsp_rs.comparators
-  local compare = require("cmp").config.compare
-  opts.sorting.comparators = {
-    compare.exact,
-    compare.score,
-    -- comparators.inherent_import_inscope,
-    comparators.inscope_inherent_import,
-    comparators.sort_by_label_but_underscore_last,
-  }
-
-  for _, source in ipairs(opts.sources) do
-    cmp_lsp_rs.filter_out.entry_filter(source)
-  end
-  cmp.event:on(
-    "confirm_done",
-    cmp_autopairs.on_confirm_done({
-      filetypes = {
-        -- "*" is a alias to all filetypes
-        ["*"] = {
-          ["("] = {
-            kind = {
-              cmp.lsp.CompletionItemKind.Function,
-              cmp.lsp.CompletionItemKind.Method,
-            },
-            handler = cmp_autopairs_handlers["*"],
-          },
-        },
-        lua = {
-          ["("] = {
-            kind = {
-              cmp.lsp.CompletionItemKind.Function,
-              cmp.lsp.CompletionItemKind.Method,
-            },
-            ---@param char string
-            ---@param item table item completion
-            ---@param bufnr number buffer number
-            ---@param rules table
-            ---@param commit_character table<string>
-            handler = function(char, item, bufnr, rules, commit_character)
-              -- Your handler function. Inspect with print(vim.inspect{char, item, bufnr, rules, commit_character})
-            end,
-          },
-        },
-        -- Disable for tex
-        tex = false,
+  cmp.setup.filetype({ "gitcommit", "markdown" }, {
+    sources = cmp.config.sources({
+      { name = "codeium",     priority = 70 }, -- For luasnip users.
+      { name = "nvim_lsp",    priority = 100 },
+      -- { name = "nvim_cmp_lsp_rs",    priority = 100 },
+      { name = "luasnip",     priority = 85 }, -- For luasnip users.
+      -- { name = "luasnip_choice", priority = 90  },
+      { name = "nvim_lsp_signature_help", priority = 80  },
+      { name = "rg",          priority = 70 },
+      { name = "async_path",        priority = 100 },
+    }, {
+        { name = "buffer",     priority = 50 },
+        { name = "spell",      priority = 40 },
+        { name = "calc",       priority = 50 },
+        { name = "treesitter", priority = 30 },
+        { name = "mocword",    priority = 60 },
+        -- { name = "git", priority = 65  },
+        { name = "cmp_yanky", priority = 80  },
+        { name = "dictionary", keyword_length = 2, priority = 10 },
+      }),
+  })
+  cmp.setup.cmdline("/", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "nvim_lsp_signature_help" },
+      { name = "nvim_lsp_document_symbol" },
+      { name = "cmdline" },
+      { name = "cmdline_history" },
+      { name = "buffer" },
+    }, {}),
+  })
+  cmp.setup.cmdline(":", {
+    mapping = {
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          fallback()
+        end
+      end, { "c" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          fallback()
+        end
+      end, { "c" }),
+      ["<C-y>"] = {
+        c = cmp.mapping.confirm({ select = false }),
       },
-    })
-  )
-
-  require("luasnip.loaders.from_vscode").lazy_load()
+      ["<C-q>"] = {
+        c = cmp.mapping.abort(),
+      },
+    },
+    sources = cmp.config.sources({ { name = "async_path" } }, { { name = "cmdline" }, { { name = "cmdline_history" } } }),
+  })
+  for _, source in ipairs(opts.sources) do
+    require("cmp_lsp_rs").filter_out.entry_filter(source)
+  end
+  local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+  cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
   cmp.setup(opts)
-
-  require("cmp_git").setup()
-
-  cmp.setup.filetype("gitcommit", {
-    sources = cmp.config.sources({
-      { name = "git" },
-    }, {
-      { name = "buffer" },
-    }),
-  })
-  cmp.setup.cmdline({ "/", "?" }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = "buffer" },
-    },
-  })
-  cmp.setup.cmdline({ "/" }, {
-    sources = cmp.config.sources({
-      { name = "nvim_lsp_document_symbol" },
-    }, {
-      { name = "buffer" },
-    }),
-  })
-  cmp.setup.cmdline({ ":" }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = "async_path" },
-    }, {
-      { name = "cmdline" },
-    }),
-    matching = { disallow_symbol_nonprefix_matching = false },
-  })
+  require("cmp_lsp_rs").setup(opts)
 end
 
 return M

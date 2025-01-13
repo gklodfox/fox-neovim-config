@@ -8,7 +8,7 @@ function M.opts()
     preset = "helix",
     icons = {
       mappings = vim.g.have_nerd_font,
-      keys = vim.g.have_nerd_font and {}
+      -- keys = vim.g.have_nerd_font and {}
     },
     spec = {
       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },

@@ -6,7 +6,7 @@ function M.opts()
       ignore_done_already = true,
       ignore_empty_message = true,
       display = {
-        render_limit = 32,
+        render_limit = 16,
       },
     },
     notification = {
@@ -14,7 +14,7 @@ function M.opts()
       history_size = 8192,
       override_vim_notify = true,
       window = {
-        winblend = 100
+        winblend = 0
       },
     },
     integration = {

@@ -1,5 +1,6 @@
 local M = { "zjp-CN/nvim-cmp-lsp-rs" }
 
+
 function M.opts()
   local compare = require("cmp").config.compare
   local comparators = require("cmp_lsp_rs").comparators
