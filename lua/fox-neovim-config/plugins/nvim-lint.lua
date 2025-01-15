@@ -9,7 +9,7 @@ function M.config(_, opts)
         markdown = {"markdownlint"},
         json = {"jsonlint"},
         python = {"pylint", "pydocstyle"},
-        rust = {"cargo", "clippy"},
+        rust = {"clippy"},
         yaml = {"yamllint"},
         sh = {"shellcheck"},
         proto = {"buf_lint"},
