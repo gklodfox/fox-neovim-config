@@ -22,7 +22,7 @@ set_o.numberwidth = 2
 set_o.expandtab = true
 set_o.shiftwidth = 2
 set_o.tabstop = 2
-set_o.softtabstop = 2
+set_o.softtabstop = 4
 set_o.smartindent = true
 set_opt.breakindent = true
 -- EDITOR
@@ -60,6 +60,7 @@ set_opt.autochdir = true
 set_opt.cmdheight = 0
 set_opt.isfname:append { '@-@' }
 set_o.termguicolors = true
+set_opt.completeopt = {"menu", "menuone", "noselect"}
 -- set_opt.guicursor = {
 --   "n-v:block",
 --   "i-c-ci-ve:ver25",
@@ -68,6 +69,3 @@ set_o.termguicolors = true
 --   "i:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
 --   "sm:block-blinkwait175-blinkoff150-blinkon175",
 -- }
--- Local window opt
-
-vim.env.PATH = table.concat({ vim.fn.stdpath "data", "mason", "bin" }, "/") .. ":" .. vim.env.PATH

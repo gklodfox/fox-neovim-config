@@ -69,7 +69,7 @@ function M.opts()
             icons_enabled = true,
             global_status = true,
             disabled_filetypes = {
-                statusline = {"dashboard", "NvimTree"},
+                statusline = {"dashboard", "NvimTree", "terminal"},
                 winbar = {"dashboard", "NvimTree", "terminal"}
             }
         },
@@ -106,13 +106,25 @@ function M.opts()
             },
             lualine_x = {
                 {
-                    "diagnostic-message",
-                    colors = {
-                        error = "#BF616A",
-                        warn = "#EBCB8B",
-                        info = "#A3BE8C",
-                        hint = "#88C0D0"
-                    }
+                    "lsp_progress",
+                    display_components = {'spinner', 'lsp_client_name', { 'title', 'message' } },
+                    max_length = 1,
+                    -- display_components = {
+                    --     "lsp_client_name", "message", "spinner"
+                    -- },
+                    spinner_symbols = {
+                        "⠂", "⠃", "⠊", "⠒", "⠢", "⢂", "⡂", "⠆",
+                        "⠂", "⠁", "⠉", "⠑", "⠡", "⢁", "⡁", "⠅",
+                        "⠃", "⠁", "⠈", "⠘", "⠨", "⢈", "⡈", "⠌",
+                        "⠊", "⠉", "⠈", "⠐", "⠰", "⢐", "⡐", "⠔",
+                        "⠒", "⠑", "⠘", "⠐", "⠠", "⢠", "⡠", "⠤",
+                        "⠢", "⠡", "⠨", "⠰", "⠠", "⢀", "⣀", "⢄",
+                        "⢂", "⢁", "⢈", "⢐", "⢠", "⢀", "⡀", "⡄",
+                        "⡂", "⡁", "⡈", "⡐", "⡠", "⣀", "⡀", "⠄",
+                        "⠆", "⠅", "⠌", "⠔", "⠤", "⢄", "⡄", "⠄"
+                    },
+                    timer = { progress_enddelay = 500, spinner = 10, lsp_client_name_enddelay = 1000 },
+                    -- timer = {spinner = 10}
                 }
             },
             lualine_y = {
@@ -139,25 +151,13 @@ function M.opts()
             lualine_c = {{get_current_signature}},
             lualine_x = {
                 {
-                    "lsp_progress",
-                    display_components = {'spinner', 'lsp_client_name', { 'title', 'percentage', 'message' } },
-                    max_length = 3,
-                    -- display_components = {
-                    --     "lsp_client_name", "message", "spinner"
-                    -- },
-                    spinner_symbols = {
-                        "⠂", "⠃", "⠊", "⠒", "⠢", "⢂", "⡂", "⠆",
-                        "⠂", "⠁", "⠉", "⠑", "⠡", "⢁", "⡁", "⠅",
-                        "⠃", "⠁", "⠈", "⠘", "⠨", "⢈", "⡈", "⠌",
-                        "⠊", "⠉", "⠈", "⠐", "⠰", "⢐", "⡐", "⠔",
-                        "⠒", "⠑", "⠘", "⠐", "⠠", "⢠", "⡠", "⠤",
-                        "⠢", "⠡", "⠨", "⠰", "⠠", "⢀", "⣀", "⢄",
-                        "⢂", "⢁", "⢈", "⢐", "⢠", "⢀", "⡀", "⡄",
-                        "⡂", "⡁", "⡈", "⡐", "⡠", "⣀", "⡀", "⠄",
-                        "⠆", "⠅", "⠌", "⠔", "⠤", "⢄", "⡄", "⠄"
-                    },
-                    timer = { progress_enddelay = 500, spinner = 10, lsp_client_name_enddelay = 1000 },
-                    -- timer = {spinner = 10}
+                    "diagnostic-message",
+                    colors = {
+                        error = "#BF616A",
+                        warn = "#EBCB8B",
+                        info = "#A3BE8C",
+                        hint = "#88C0D0"
+                    }
                 }
             },
             lualine_y = {},
