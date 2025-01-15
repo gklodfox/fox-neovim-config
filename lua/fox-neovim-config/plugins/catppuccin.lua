@@ -2,6 +2,7 @@ local M = { "catppuccin/nvim" }
 
 M.name = "catppuccin"
 M.priority = 1000
+M.enabled = false
 
 function M.opts()
   return {

@@ -63,9 +63,16 @@ function M.init()
 end
 
 function M.opts()
+    local flow_theme = require("lualine.themes.flow")
+    flow_theme.normal.a = { bg = "#ff007b", fg = "#0d0d0d"}
+    flow_theme.normal.b = { bg = nil, fg = "#ff007b"}
+    flow_theme.normal.c = { bg = nil, fg = "#99004a"}
+    flow_theme.normal.x = { bg = nil, fg = "#99004a"}
+    flow_theme.normal.y = { bg = nil, fg = "#ff007b"}
+    flow_theme.normal.z = { bg = "#ff007b", fg = "#0d0d0d"}
     return {
         options = {
-            theme = "catppuccin",
+            theme = flow_theme,
             icons_enabled = true,
             global_status = true,
             disabled_filetypes = {

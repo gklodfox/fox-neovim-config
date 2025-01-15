@@ -222,6 +222,12 @@ function M.config(_, opts)
                     }
                 }
             })
+        end,
+        ["marksman"] = function()
+            lspconfig["marksman"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities
+            })
         end
     })
 end

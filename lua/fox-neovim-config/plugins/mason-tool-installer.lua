@@ -18,7 +18,7 @@ function M.opts()
             "bash-language-server", 'stylua',
             'shellcheck', 'editorconfig-checker', 'impl', 'json-to-struct',
             'luacheck', 'misspell', 'revive', 'shellcheck', 'shfmt',
-            'staticcheck', 'vint'
+            'staticcheck', 'vint', "marksman", "markdownlint"
         },
         run_on_start = true,
         auto_update = true
