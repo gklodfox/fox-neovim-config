@@ -4,7 +4,7 @@ M.event = {"BufWritePost", "BufReadPost", "InsertLeave"}
 function M.config(_, opts)
     local lint = require("lint")
     lint.linters_by_ft = {
-        lua = {"luacheck"},
+        -- lua = {},
         vim = {"vint"},
         markdown = {"markdownlint"},
         json = {"jsonlint"},

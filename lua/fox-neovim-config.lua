@@ -1,22 +1,41 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+local FoxNvimConfig = {}
+FoxNvimConfig.__index = FoxNvimConfig
+
+setmetatable(FoxNvimConfig, {
+  __call = function(cls)
+    return cls:new()
+  end,
+})
+
+function FoxNvimConfig:new()
+  local self = setmetatable({}, FoxNvimConfig)
+    lazyrepo = "https://github.com/folke/lazy.nvim.git",
+    lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim",
+  return self
 end
 
-vim.opt.rtp:prepend(lazypath)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
 
+function FoxNvimConfig:load_settings()
+  require("fox-neovim-config.settings").setup(self.settings)
+end
+
+function FoxNvimConfig:load_lazy()
+  if not vim.uv.fs_stat(self.lazypath) then
+      require("fox-neovim-config.lazy_nvim").setup(self.lazypath, self.lazyrepo)
+  end
+  vim.opt.rtp:prepend(self.lazypath)
+end
+
+
+function FoxNvimConfig:setup(opts)
+  if opts then
+    for k, v in pairs(opts) do
+      self[k] = v
+    end
+  end
+  self:load_settings()
+  self:load_lazy()
+end
 local lazy_config = require("fox-neovim-config.lazy_nvim")
 
 require("lazy").setup({

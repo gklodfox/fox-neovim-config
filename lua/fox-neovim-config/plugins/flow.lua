@@ -9,7 +9,7 @@ function M.opts()
     opts = {
       theme = {
         style = "dark",
-        contrast = "default",
+        contrast = "hard",
         transparent = true,
       },
       colors = {
@@ -17,7 +17,7 @@ function M.opts()
         fluo = "pink",
       },
       ui = {
-        borders = "inverse",
+        border = "rounded",
       }
     },
   }

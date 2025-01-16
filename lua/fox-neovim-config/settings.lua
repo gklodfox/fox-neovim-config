@@ -1,71 +1,73 @@
-local set_global = vim.g
-local set_opt = vim.opt
--- Recommended settings
-set_opt.lazyredraw = true -- Redraw only when needed
-set_opt.showcmd = true -- Display incomplete commands
-local set_o = vim.o
+local M = {}
 
--- GLOBALS
-set_global.loaded_perl_provider = 0
-set_global.loaded_ruby_provider = 0
-set_global.python3_host_prog = '/home/fox/.config/nvim/venv/bin/python3'
-set_global.node_host_prog = '/usr/bin/neovim-node-host'
-set_global.have_nerd_font = true
--- NUMBER LINE
-set_o.number = true
-set_o.relativenumber = true
-set_o.cursorline = true
-set_o.cursorlineopt = "both"
-set_o.ruler = false
-set_o.numberwidth = 2
--- INDENTS
-set_o.expandtab = true
-set_o.shiftwidth = 2
-set_o.tabstop = 2
-set_o.softtabstop = 4
-set_o.smartindent = true
-set_opt.breakindent = true
--- EDITOR
-set_opt.list = true
-set_opt.listchars = { trail = '·', nbsp = '␣' }
-set_opt.ignorecase = true
-set_opt.smartcase = true
-set_opt.showmode = false
-set_opt.path = vim.opt.path + "**"
-set_o.mouse = "a"
-set_o.smoothscroll = true
-set_o.clipboard = "unnamedplus"
-set_o.title = true
-set_o.inccommand = "split"
-set_o.ttimeoutlen = 0
-set_opt.timeoutlen = 300
-set_o.updatetime = 250
-set_o.wrap = false
-set_opt.whichwrap:append "<>[hl]"
-set_opt.shortmess:append "sI"
-set_o.splitbelow = true
-set_o.splitright = true
-set_o.winheight = 3
-set_o.scrolloff = 8
-set_o.sidescrolloff = 2
-set_o.signcolumn = "yes"
-set_o.colorcolumn = "80"
--- BACKUP
-set_o.swapfile = false
-set_o.backup = false
-set_o.undodir = "/home/fox/.nvim/undodir"
-set_o.undofile = true
--- MISC
-set_opt.autochdir = true
-set_opt.cmdheight = 0
-set_opt.isfname:append { '@-@' }
-set_o.termguicolors = true
-set_opt.completeopt = {"menu", "menuone", "noselect"}
--- set_opt.guicursor = {
---   "n-v:block",
---   "i-c-ci-ve:ver25",
---   "r-cr:hor20",
---   "o:hor50",
---   "i:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
---   "sm:block-blinkwait175-blinkoff150-blinkon175",
--- }
+function M.setup()
+-- Recommended settings
+  vim.opt.lazyredraw = true -- Redraw only when needed
+  vim.opt.showcmd = true -- Display incomplete commands
+  -- GLOBALS
+  vim.g.loaded_perl_provider = 0
+  vim.g.loaded_ruby_provider = 0
+  -- vim.g.python3_host_prog = '/home/fox/.config/nvim/venv/bin/python3'
+  -- vim.g.node_host_prog = '/usr/bin/neovim-node-host'
+  vim.g.have_nerd_font = true
+  -- NUMBER LINE
+  vim.o.number = true
+  vim.o.relativenumber = true
+  vim.o.cursorline = true
+  vim.o.cursorlineopt = "both"
+  vim.o.ruler = false
+  vim.o.numberwidth = 2
+  -- INDENTS
+  vim.o.expandtab = true
+  vim.o.shiftwidth = 2
+  vim.o.tabstop = 2
+  vim.o.softtabstop = 4
+  vim.o.smartindent = true
+  vim.opt.breakindent = true
+  -- EDITOR
+  vim.opt.wildignore = { "*.o", "*~", "*.pyc", "*/.git/*", "*/.hg/*", "*/.svn/*", "__pycache__", "*.log", "*.aux", "*.out", "*.toc" }
+  vim.opt.list = true
+  vim.opt.listchars = { trail = '·', nbsp = '␣' }
+  vim.opt.ignorecase = true
+  vim.opt.smartcase = true
+  vim.opt.showmode = false
+  vim.opt.path = vim.opt.path + "**"
+  vim.o.mouse = "a"
+  vim.o.smoothscroll = true
+  vim.o.clipboard = "unnamedplus"
+  vim.o.title = true
+  vim.o.inccommand = "split"
+  vim.o.ttimeoutlen = 0
+  vim.opt.timeoutlen = 300
+  vim.o.updatetime = 250
+  vim.o.wrap = false
+  vim.opt.whichwrap:append "<>[hl]"
+  vim.opt.shortmess:append "sI"
+  vim.o.splitbelow = true
+  vim.o.splitright = true
+  vim.o.winheight = 3
+  vim.o.scrolloff = 8
+  vim.o.sidescrolloff = 2
+  vim.o.signcolumn = "yes"
+  vim.o.colorcolumn = "80"
+  -- BACKUP
+  vim.o.swapfile = false
+  vim.o.backup = false
+  vim.o.undodir = "/home/fox/.nvim/undodir"
+  vim.o.undofile = true
+  -- MISC
+  vim.opt.autochdir = true
+  vim.opt.cmdheight = 0
+  vim.opt.isfname:append { '@-@' }
+  vim.o.termguicolors = true
+  vim.opt.guicursor = {
+    "n-v:block",
+    "i-c-ci-ve:ver25",
+    "r-cr:hor20",
+    "o:hor50",
+    "i:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
+    "sm:block-blinkwait175-blinkoff150-blinkon175",
+  }
+  end
+
+return M

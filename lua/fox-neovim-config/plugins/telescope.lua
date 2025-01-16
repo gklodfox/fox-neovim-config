@@ -21,7 +21,7 @@ function M.opts()
     return {
         extensions = {
             mappings = {
-                complete = '<Tab>',
+                complete = '<S-Tab>',
                 run_selection = '<C-CR>',
                 run_input = '<CR>'
             },
@@ -107,6 +107,7 @@ function M.config(_, opts)
     local telescope = require("telescope")
 
     telescope.setup(opts)
+    telescope.load_extension('cmdline')
     telescope.load_extension("frecency")
     telescope.load_extension("project")
     telescope.load_extension("live_grep_args")
@@ -114,7 +115,6 @@ function M.config(_, opts)
     telescope.load_extension("fzf")
     telescope.load_extension("gpt")
     telescope.load_extension("ui-select")
-    require("telescope").load_extension('cmdline')
 end
 
 return M
