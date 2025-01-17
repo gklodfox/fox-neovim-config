@@ -148,7 +148,6 @@ function M.config(_, opts)
       --     end
       -- end, {"i", "s"})
     })
-    cm
     cmp.setup.filetype({"gitcommit", "markdown"}, {
         sources = require("cmp").config.sources({
             -- {name = "codeium", priority = 70},
