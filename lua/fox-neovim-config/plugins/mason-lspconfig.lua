@@ -100,17 +100,12 @@ function M.config(_, opts)
         ["lua_ls"] = function()
             lspconfig["lua_ls"].setup({
                 on_init = function(client)
-                    if client.workspace_folders then
-                        local path = client.workspace_folders[1].name
-                        if vim.loop.fs_stat(path .. '/.luarc.json') or
-                            vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-                            return
-                        end
-                    end
-
                     client.config.settings.Lua =
-                        vim.tbl_deep_extend('force', client.config.settings.Lua,
-                                            {
+                        vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                            diagnostics = {
+                                -- Get the language server to recognize the `vim` global
+                                globals = {"vim"}
+                            },
                             runtime = {
                                 -- Tell the language server which version of Lua you're using
                                 -- (most likely LuaJIT in the case of Neovim)
@@ -122,13 +117,14 @@ function M.config(_, opts)
                                     vim.fn
                                         .expand '~/.luarocks/share/lua/5.1/?/init.lua',
                                     '/usr/share/5.1/?.lua',
-                                    '/usr/share/lua/5.1/?/init.lua'
+                                    '/usr/share/lua/5.1/?/init.lua',
+                                    vim.env.VIMRUNTIME
                                 }
                             },
                             -- Make the server aware of Neovim runtime files
                             workspace = {
-                                checkThirdParty = false,
-                                library = {vim.env.VIMRUNTIME}
+                                checkThirdParty = true,
+                                library = vim.api.nvim_get_runtime_file("", true),
                             }
                         })
                 end,
