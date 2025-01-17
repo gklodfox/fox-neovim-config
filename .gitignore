@@ -4,3 +4,4 @@ poetry.lock
 /lua_modules
 /.luarocks
 /*.rockspec
+venv/

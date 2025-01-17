@@ -13,8 +13,9 @@ set_o.fileencoding = "utf-8"
 set_o.syntax = "on"
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
-set_global.python3_host_prog = '/home/fox/.cache/pypoetry/virtualenvs/neovim-venv-8W5n8m1R-py3.13/bin/python'
-set_global.node_host_prog = '/usr/bin/neovim-node-host'
+set_global.loaded_ruby_provider = 1
+set_global.python3_host_prog = '/home/gklodkox/.config/nvim/venv/bin/python3'
+-- set_global.node_host_prog = '/home/gklodkox/node_modules/'
 set_global.have_nerd_font = true
 -- NUMBER LINE
 set_o.number = true
@@ -60,7 +61,7 @@ set_o.signcolumn = "yes"
 -- BACKUP
 set_o.swapfile = false
 set_o.backup = false
-set_o.undodir = "/home/fox/.nvim/undodir"
+set_o.undodir = "/home/gklodkox/.nvim/undodir"
 set_o.undofile = true
 -- MISC
 set_opt.autochdir = true

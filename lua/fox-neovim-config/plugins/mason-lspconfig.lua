@@ -255,7 +255,147 @@ function M.config()
                     capabilities = capabilities
                 })
             end
-        }
+        end,
+        ["lua_ls"] = function()
+            lspconfig["lua_ls"].setup({
+                on_init = function(client)
+                    if client.workspace_folders then
+                        local path = client.workspace_folders[1].name
+                        if vim.uv.fs_stat(path .. '/.luarc.json') or
+                            vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                            return
+                        end
+                    end
+
+                    client.config.settings.Lua =
+                        vim.tbl_deep_extend('force', client.config.settings.Lua,
+                                            {
+                            diagnostics = {
+                                -- Get the language server to recognize the `vim` global
+                                globals = {"vim"}
+                            },
+                            runtime = {
+                                -- Tell the language server which version of Lua you're using
+                                -- (most likely LuaJIT in the case of Neovim)
+                                version = "5.1", -- ,'LuaJIT',
+                                path = {
+                                    -- Make the server aware of Neovim runtime files
+                                    vim.fn.stdpath("config") .. "/init.lua",
+                                    '?.lua', '?/init.lua',
+                                    vim.fn
+                                        .expand '~/.luarocks/share/lua/5.1/?.lua',
+                                    vim.fn
+                                        .expand '~/.luarocks/share/lua/5.1/?/init.lua',
+                                    '/usr/share/5.1/?.lua',
+                                    '/usr/share/lua/5.1/?/init.lua'
+                                }
+                            },
+                            -- Make the server aware of Neovim runtime files
+                            workspace = {
+                                checkThirdParty = true,
+                                library = vim.api
+                                    .nvim_get_runtime_file("", true)
+                            }
+                        })
+                end,
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {Lua = {}}
+            })
+        end,
+        ["pyright"] = function()
+            lspconfig["pyright"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    python = {
+                        analysis = {
+                            autoSearchPaths = true,
+                            diagnosticMode = "openFilesOnly",
+                            useLibraryCodeForTypes = true
+                        }
+                    }
+                }
+            })
+        end,
+        ["pylsp"] = function()
+            local py_path = os.getenv("VIRTUAL_ENV") or vim.g.python3_host_prog
+            lspconfig["pylsp"].setup({
+                capabilities = capabilities,
+                on_attach = on_attach,
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            -- formatter
+                            black = {enabled = true},
+                            pylint = {
+                                enabled = true,
+                                -- executable = "pylint",
+                                args = {"-d C0114,C0115,C0116"}
+                            },
+                            pylsp_mypy = {
+                                enabled = true,
+                                overrides = {
+                                    "--python-executable", py_path, true
+                                },
+                                report_progress = true,
+                                live_mode = true
+                            },
+                            pycodestyle = {
+                                ignore = {"W391"},
+                                maxLineLength = 100
+                            },
+                            isort = {enabled = true}
+                        }
+                    }
+                }
+            })
+        end,
+        ["bashls"] = function()
+            lspconfig["bashls"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    bashIde = {globPattern = "*@(.sh|.inc|.bash|.command)"}
+                }
+            })
+        end,
+        ["gradle_ls"] = function()
+            lspconfig["gradle_ls"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                cmd = { "java", "-jar", "/home/gklodkox/sources/groovy-language-server/build/libs/groovy-language-server-all.jar"},
+                settings = {gradleWrapperEnabled = true},
+            })
+        end,
+        ["rust_analyzer"] = function()
+            lspconfig["rust_analyzer"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                imports = {granularity = {group = "module"}, prefix = "self"},
+                cargo = {buildScripts = {enable = true}},
+                procMacro = {enable = true}
+            })
+        end,
+        ["dockerls"] = function()
+            lspconfig["dockerls"].setup({
+                capabilities = capabilities,
+                on_attach = on_attach,
+                settings = {
+                    docker = {
+                        languageserver = {
+                            formatter = {ignoreMultilineInstructions = true}
+                        }
+                    }
+                }
+            })
+        end,
+        ["marksman"] = function()
+            lspconfig["marksman"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities
+            })
+        end
     })
 end
 

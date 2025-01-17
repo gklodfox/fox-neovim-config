@@ -1,6 +1,7 @@
 local M = {'Exafunction/codeium.nvim'}
 
 M.dependencies = {'nvim-lua/plenary.nvim', "hrsh7th/nvim-cmp"}
+M.enabled = false
 
 function M.opts()
   return {

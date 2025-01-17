@@ -1,5 +1,6 @@
 local M = {"jackMort/ChatGPT.nvim"}
 
+M.enabled = false
 M.dependencies = {
     "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "folke/trouble.nvim", -- optional
     "nvim-telescope/telescope.nvim"
