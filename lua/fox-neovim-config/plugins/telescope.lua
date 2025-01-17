@@ -12,6 +12,7 @@ M.dependencies = {
     {"HPRIOR/telescope-gpt", dependencies = {"jackMort/ChatGPT.nvim"}},
     "nvim-telescope/telescope-project.nvim",
     "nvim-telescope/telescope-live-grep-args.nvim",
+    "smilovanovic/telescope-search-dir-picker.nvim",
     "nvim-telescope/telescope-frecency.nvim",
     "nvim-telescope/telescope-dap.nvim", "debugloop/telescope-undo.nvim"
 }
@@ -107,6 +108,7 @@ function M.config(_, opts)
     local telescope = require("telescope")
 
     telescope.setup(opts)
+    telescope.load_extension('cmdline')
     telescope.load_extension("frecency")
     telescope.load_extension("project")
     telescope.load_extension("live_grep_args")
@@ -114,7 +116,7 @@ function M.config(_, opts)
     telescope.load_extension("fzf")
     telescope.load_extension("gpt")
     telescope.load_extension("ui-select")
-    require("telescope").load_extension('cmdline')
+    telescope.load_extension("search_dir_picker")
 end
 
 return M

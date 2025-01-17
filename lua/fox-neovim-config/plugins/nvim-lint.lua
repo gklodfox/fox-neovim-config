@@ -1,10 +1,11 @@
 local M = {"mfussenegger/nvim-lint"}
 
 M.event = {"BufWritePost", "BufReadPost", "InsertLeave"}
-function M.config(_, opts)
-    local lint = require("lint")
-    lint.linters_by_ft = {
-        lua = {"luacheck"},
+
+function M.opts()
+  return {
+    linters_by_ft = {
+        lua = {"stylua"},
         vim = {"vint"},
         markdown = {"markdownlint"},
         json = {"jsonlint"},
@@ -15,14 +16,20 @@ function M.config(_, opts)
         proto = {"buf_lint"},
         groovy = {"npm-groovy-lint"}
     }
-    local lint_augroup = vim.api.nvim_create_augroup("lint", {clear = true})
+  }
+end
 
-    vim.api.nvim_create_autocmd({"BufEnter", "BufWritePost", "InsertLeave"}, {
+function M.config(_, opts)
+    local lint = require("lint")
+    lint.linters_by_ft = opts.linters_by_ft
+    local lint_augroup = vim.api.nvim_create_augroup("lint", {clear = true})
+    vim.api.nvim_create_autocmd({"BufWritePost"}, {
         group = lint_augroup,
-        callback = function() lint.try_lint() end
+        callback = function() require("lint").try_lint() end
     })
-    vim.keymap.set("n", "<leader>l", function() lint.try_lint() end,
+    vim.keymap.set("n", "<leader>l", function() require("lint").try_lint() end,
                    {desc = "Trigger linting for current file"})
+
 end
 
 return M

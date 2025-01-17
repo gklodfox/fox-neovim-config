@@ -1,14 +1,7 @@
 local venv_path = os.getenv("VIRTUAL_ENV")
 
-local get_key_pressed = function()
-    if vim.opt.iminsert:get() > 0 and vim.b.keymap_name then
-        return ' ' .. vim.b.keymap_name
-    end
-    return ' '
-end
-
 local get_current_signature = function(width)
-    local width = width or 10
+    width = width or 10
     if not pcall(require, 'lsp_signature') then return end
     local sig = require("lsp_signature").status_line(width)
     return sig.label .. "" .. sig.hint
@@ -65,11 +58,17 @@ end
 function M.opts()
     local flow_theme = require("lualine.themes.flow")
     flow_theme.normal.a = { bg = "#ff007b", fg = "#0d0d0d"}
-    flow_theme.normal.b = { bg = nil, fg = "#ff007b"}
-    flow_theme.normal.c = { bg = nil, fg = "#99004a"}
-    flow_theme.normal.x = { bg = nil, fg = "#99004a"}
-    flow_theme.normal.y = { bg = nil, fg = "#ff007b"}
+    flow_theme.normal.b = { bg = "#60002e", fg = "#ff007b"}
+    flow_theme.normal.c = { bg = "#0d0d0d", fg = "#60002e"}
+    flow_theme.normal.x = { bg = "#0d0d0d", fg = "#ff007b"}
+    flow_theme.normal.y = { fg = "#ff007b", bg = "#60002e"}
     flow_theme.normal.z = { bg = "#ff007b", fg = "#0d0d0d"}
+    -- flow_theme.winbar.a = { bg = "#ff007b", fg = "#0d0d0d"}
+    -- flow_theme.winbar.b = { bg = "#60002e", fg = "#ff007b"}
+    -- flow_theme.winbar.c = { bg = "#0d0d0d", fg = "#60002e"}
+    -- flow_theme.winbar.x = { bg = "#0d0d0d", fg = "#ff007b"}
+    -- flow_theme.winbar.y = { fg = "#ff007b", bg = "#60002e"}
+    -- flow_theme.winbar.z = { bg = "#ff007b", fg = "#0d0d0d"}
     return {
         options = {
             theme = flow_theme,
@@ -81,14 +80,14 @@ function M.opts()
             }
         },
         sections = {
-            lualine_a = {{get_key_pressed}},
+            lualine_a = {{get_active_lsp}},
             lualine_b = {
                 {
                     "filetype",
                     icon_only = false,
                     colored = true,
                     icon = {align = "right"}
-                }, {get_active_lsp}
+                }
             },
             lualine_c = {
                 {"diff", source = diff_source, icons_enabled = true}, {

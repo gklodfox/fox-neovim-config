@@ -49,7 +49,7 @@ set_o.winheight = 3
 set_o.scrolloff = 8
 set_o.sidescrolloff = 2
 set_o.signcolumn = "yes"
-set_o.colorcolumn = "80"
+-- set_o.colorcolumn = 
 -- BACKUP
 set_o.swapfile = false
 set_o.backup = false

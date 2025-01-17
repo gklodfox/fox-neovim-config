@@ -1,5 +1,4 @@
 return {
-  defaults = { lazy = false },
   install = { colorscheme = { "flow" } },
   ui = {
     icons = {
