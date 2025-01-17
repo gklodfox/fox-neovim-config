@@ -20,7 +20,7 @@ M.dependencies = {
     "onsails/lspkind.nvim", "doxnit/cmp-luasnip-choice", "KadoBOT/cmp-plugins",
     "yutkat/cmp-mocword", "saadparwaiz1/cmp_luasnip", "ray-x/cmp-treesitter",
     "williamboman/mason-lspconfig.nvim", "chrisgrieser/cmp_yanky",
-    "tzachar/cmp-ai", "zjp-CN/nvim-cmp-lsp-rs",
+    "zjp-CN/nvim-cmp-lsp-rs",
     "quangnguyen30192/cmp-nvim-tags", "delphinus/cmp-ctags"
 }
 
@@ -29,6 +29,11 @@ function M.opts()
     local compare = require("cmp").config.compare
 
     return {
+        completion = {completeopt = "menu,menuone,noinsert"},
+        window = {
+            completion = {border = "rounded", scrollbar = false},
+            documentation = {border = "rounded", scrollbar = false}
+        },
         performance = {debounce = 0, throttle = 0},
         experimental = {
             ghost_text = true,
@@ -55,10 +60,10 @@ function M.opts()
                     buffer = "[Buffer]",
                     plugins = "[Plugins]",
                     fish = "[Fish]",
-                    cmp_ai = "[AI]",
+                    -- cmp_ai = "[AI]",
                     ctags = "[Ctags]",
                     tags = "[Tags]",
-                    codeium = "[Codeium]"
+                    -- codeium = "[Codeium]"
                 }
             })
         },
@@ -75,11 +80,11 @@ function M.opts()
         sources = {
             {name = "nvim_lsp", priority = 100},
             {name = "nvim-cmp-lsp-rs", priority = 100},
-            {name = "cmp_ai", priority = 100},
+            -- {name = "cmp_ai", priority = 100},
             {name = "luasnip", priority = 85, option = { show_autosnippets = true, use_show_condition = true }},
             {name = "luasnip_choice", priority = 90},
             {name = "async_path", priority = 95},
-            {name = "codeium", priority = 70},
+            -- {name = "codeium", priority = 70},
             {name = "nvim_lua", priority = 90},
             {name = "nvim_lsp_signature_help", priority = 80},
             {name = "nvim_lsp_document_symbol", priority = 80},
@@ -118,34 +123,35 @@ end
 function M.config(_, opts)
     local cmp = require("cmp")
 
+    cmp.setup(opts)
     cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({select = true}),
-      ['<Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-              if #cmp.get_entries() == 1 then
-                  cmp.confirm({select = true})
-              else
-                  cmp.select_next_item()
-              end
-          elseif require("luasnip").can_expand_or_advance() then
-              require("luasnip").expand_or_advance()
-          elseif has_words_before() then
-              cmp.complete()
-              if #cmp.get_entries() == 1 then
-                  cmp.confirm({select = true})
-              end
-          else
-              fallback()
-          end
-      end, {"i", "s"})
+      ['<CR>'] = cmp.mapping.confirm({
+        select = false,
+        behavior = cmp.ConfirmBehavior.Replace
+      }),
+      -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+      --     if cmp.visible() then
+      --         if #cmp.get_entries() == 1 then
+      --             cmp.confirm({select = true})
+      --         else
+      --             cmp.select_next_item()
+      --         end
+      --     elseif require("luasnip").can_expand_or_advance() then
+      --         require("luasnip").expand_or_advance()
+      --     elseif has_words_before() then
+      --         cmp.complete()
+      --         if #cmp.get_entries() == 1 then
+      --             cmp.confirm({select = true})
+      --         end
+      --     else
+      --         fallback()
+      --     end
+      -- end, {"i", "s"})
     })
+    cm
     cmp.setup.filetype({"gitcommit", "markdown"}, {
         sources = require("cmp").config.sources({
-            {name = "codeium", priority = 70},
+            -- {name = "codeium", priority = 70},
             {name = "nvim_lsp", priority = 100},
             {name = "cmp_lsp_rs", priority = 100},
             {name = "luasnip", priority = 85},
@@ -162,7 +168,14 @@ function M.config(_, opts)
             {name = "dictionary", keyword_length = 2, priority = 10}
         })
     })
-    cmp.setup.cmdline("/", {
+    cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+            {name = "lsp_signature_help"}, {name = "lsp_document_symbol"},
+            {name = "cmdline"}, {name = "cmdline_history"}, {name = "buffer"}
+        }, {})
+    })
+    cmp.setup.cmdline({"/", "?"}, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
             {name = "lsp_signature_help"}, {name = "lsp_document_symbol"},

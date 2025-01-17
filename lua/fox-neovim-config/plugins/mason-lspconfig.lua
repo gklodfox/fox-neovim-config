@@ -100,8 +100,17 @@ function M.config(_, opts)
         ["lua_ls"] = function()
             lspconfig["lua_ls"].setup({
                 on_init = function(client)
+                    if client.workspace_folders then
+                        local path = client.workspace_folders[1].name
+                        if vim.uv.fs_stat(path .. '/.luarc.json') or
+                            vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                            return
+                        end
+                    end
+
                     client.config.settings.Lua =
-                        vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                        vim.tbl_deep_extend('force', client.config.settings.Lua,
+                                            {
                             diagnostics = {
                                 -- Get the language server to recognize the `vim` global
                                 globals = {"vim"}
@@ -111,20 +120,22 @@ function M.config(_, opts)
                                 -- (most likely LuaJIT in the case of Neovim)
                                 version = "5.1", -- ,'LuaJIT',
                                 path = {
+                                    -- Make the server aware of Neovim runtime files
+                                    vim.fn.stdpath("config") .. "/init.lua",
                                     '?.lua', '?/init.lua',
                                     vim.fn
                                         .expand '~/.luarocks/share/lua/5.1/?.lua',
                                     vim.fn
                                         .expand '~/.luarocks/share/lua/5.1/?/init.lua',
                                     '/usr/share/5.1/?.lua',
-                                    '/usr/share/lua/5.1/?/init.lua',
-                                    vim.env.VIMRUNTIME
+                                    '/usr/share/lua/5.1/?/init.lua'
                                 }
                             },
                             -- Make the server aware of Neovim runtime files
                             workspace = {
                                 checkThirdParty = true,
-                                library = vim.api.nvim_get_runtime_file("", true),
+                                library = vim.api
+                                    .nvim_get_runtime_file("", true)
                             }
                         })
                 end,

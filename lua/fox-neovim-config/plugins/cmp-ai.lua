@@ -1,5 +1,6 @@
 local M = { "tzachar/cmp-ai" }
 
+M.enabled = false
 M.dependencies = { 'nvim-lua/plenary.nvim' }
 M.event = "InsertEnter"
 
