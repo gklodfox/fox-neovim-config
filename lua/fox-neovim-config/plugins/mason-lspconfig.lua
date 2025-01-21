@@ -118,17 +118,17 @@ function M.config(_, opts)
                             runtime = {
                                 -- Tell the language server which version of Lua you're using
                                 -- (most likely LuaJIT in the case of Neovim)
-                                version = "5.1", -- ,'LuaJIT',
+                                version = 'LuaJIT',
                                 path = {
                                     -- Make the server aware of Neovim runtime files
                                     vim.fn.stdpath("config") .. "/init.lua",
                                     '?.lua', '?/init.lua',
-                                    vim.fn
-                                        .expand '~/.luarocks/share/lua/5.1/?.lua',
-                                    vim.fn
-                                        .expand '~/.luarocks/share/lua/5.1/?/init.lua',
-                                    '/usr/share/5.1/?.lua',
-                                    '/usr/share/lua/5.1/?/init.lua'
+                                    -- vim.fn
+                                    --     .expand '~/.luarocks/share/lua/5.1/?.lua',
+                                    -- vim.fn
+                                    --     .expand '~/.luarocks/share/lua/5.1/?/init.lua',
+                                    -- '/usr/share/5.1/?.lua',
+                                    -- '/usr/share/lua/5.1/?/init.lua'
                                 }
                             },
                             -- Make the server aware of Neovim runtime files

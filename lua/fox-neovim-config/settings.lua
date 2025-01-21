@@ -8,7 +8,7 @@ local set_o = vim.o
 -- GLOBALS
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
-set_global.python3_host_prog = '/home/fox/.config/nvim/venv/bin/python3'
+set_global.python3_host_prog = '/home/fox/.cache/pypoetry/virtualenvs/neovim-venv-8W5n8m1R-py3.13/bin/python'
 set_global.node_host_prog = '/usr/bin/neovim-node-host'
 set_global.have_nerd_font = true
 -- NUMBER LINE
@@ -49,7 +49,7 @@ set_o.winheight = 3
 set_o.scrolloff = 8
 set_o.sidescrolloff = 2
 set_o.signcolumn = "yes"
--- set_o.colorcolumn = 
+-- set_o.colorcolumn =
 -- BACKUP
 set_o.swapfile = false
 set_o.backup = false
