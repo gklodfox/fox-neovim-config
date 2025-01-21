@@ -14,14 +14,14 @@ function M.opts()
       centralize_selection = true,
       float = {
         enable = true,
-        quit_on_focus_lost = true,
+        quit_on_focus_loss = true,
         open_win_config = {
           relative = "editor",
           border = "rounded",
-          width = 70,
-          height = 30,
+          width = 12,
+          height = 3,
           row = 1,
-          col = 1,
+          col = vim.opt.columns:get()-12,
         }
       }
     },
