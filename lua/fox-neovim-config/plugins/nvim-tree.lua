@@ -5,6 +5,7 @@ M.cmd = { "NvimTreeToggle", "NvimTreeFocus" }
 function M.opts()
   return {
     respect_buf_cwd = true,
+    hijack_cursor = true,
     sort = {
       sorter = "case_sensitive",
     },
@@ -18,10 +19,141 @@ function M.opts()
         open_win_config = {
           relative = "editor",
           border = "rounded",
-          width = 12,
-          height = 3,
+          width = 69,
+          height = 100,
           row = 1,
-          col = vim.opt.columns:get()-12,
+          col = math.floor(vim.opt.columns:get() * 0.6667),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
       }
     },

@@ -180,7 +180,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("auto_close_win", { clear = true }),
   desc = "Quit Nvim if we have only one window, and its filetype match our pattern",
   callback = function(_)
-    local quit_filetypes = {'qf', 'NvimTree', 'trouble'}
+    local quit_filetypes = {'qf', 'NvimTree', 'trouble', 'Outline'}
 
     local should_quit = true
     local tabwins = vim.api.nvim_tabpage_list_wins(0)

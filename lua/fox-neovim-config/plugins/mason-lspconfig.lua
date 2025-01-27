@@ -45,6 +45,7 @@ end
 
 function M.init()
     local group_name = "vimrc_mason_lspconfig"
+    vim.filetype.add({pattern = {['.*/*.asasm'] = "asasm"}})
     vim.api.nvim_create_augroup(group_name, {clear = true})
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -67,8 +68,8 @@ function M.config(_, opts)
     local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp
                                                                           .protocol
                                                                           .make_client_capabilities())
-    require("mason-lspconfig").setup(opts)
-
+    -- require("mason-lspconfig").setup(opts)
+    --
     local configs = require("lspconfig.configs")
     local lspconfig = require("lspconfig")
     if not configs.fish_lsp then
@@ -88,154 +89,168 @@ function M.config(_, opts)
         end,
         capabilities = capabilities
     })
-    require("mason-lspconfig").setup_handlers({
-        function(server_name)
-            if server_name ~= "fish_lsp" then
-                lspconfig[server_name].setup({
+    require("mason-lspconfig").setup({
+        handlers = {
+            function(server_name)
+                if server_name ~= "fish_lsp" then
+                    lspconfig[server_name].setup({
+                        capabilities = capabilities,
+                        on_attach = on_attach
+                    })
+                end
+            end,
+            ["lua_ls"] = function()
+                require("lspconfig").lua_ls.setup({
+                    on_init = function(client)
+                        if client.workspace_folders then
+                            local path = client.workspace_folders[1].name
+                            if vim.uv.fs_stat(path .. '/.luarc.json') or
+                                vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                                return
+                            end
+                        end
+
+                        client.config.settings.Lua =
+                            vim.tbl_deep_extend('force',
+                                                client.config.settings.Lua, {
+                                diagnostics = {
+                                    -- Get the language server to recognize the `vim` global
+                                    globals = {"vim"}
+                                },
+                                runtime = {
+                                    -- Tell the language server which version of Lua you're using
+                                    -- (most likely LuaJIT in the case of Neovim)
+                                    version = 'LuaJIT',
+                                    path = {
+                                        -- Make the server aware of Neovim runtime files
+                                        vim.fn.stdpath("config") .. "/init.lua",
+                                        '?.lua', '?/init.lua'
+                                        -- vim.fn
+                                        --     .expand '~/.luarocks/share/lua/5.1/?.lua',
+                                        -- vim.fn
+                                        --     .expand '~/.luarocks/share/lua/5.1/?/init.lua',
+                                        -- '/usr/share/5.1/?.lua',
+                                        -- '/usr/share/lua/5.1/?/init.lua'
+                                    }
+                                },
+                                -- Make the server aware of Neovim runtime files
+                                workspace = {
+                                    checkThirdParty = true,
+                                    library = vim.api.nvim_get_runtime_file("",
+                                                                            true)
+                                }
+                            })
+                    end,
+                    on_attach = on_attach,
                     capabilities = capabilities,
-                    on_attach = on_attach
+                    settings = {Lua = {}}
+                })
+            end,
+            ["pyright"] = function()
+                require("lspconfig").pyright.setup({
+                    on_attach = on_attach,
+                    capabilities = capabilities,
+                    settings = {
+                        python = {
+                            analysis = {
+                                autoSearchPaths = true,
+                                diagnosticMode = "openFilesOnly",
+                                useLibraryCodeForTypes = true
+                            }
+                        }
+                    }
+                })
+            end,
+            ["pylsp"] = function()
+                local py_path = os.getenv("VIRTUAL_ENV") or
+                                    vim.g.python3_host_prog
+                require("lspconfig").pylsp.setup({
+                    capabilities = capabilities,
+                    on_attach = on_attach,
+                    settings = {
+                        pylsp = {
+                            plugins = {
+                                -- formatter
+                                black = {enabled = true},
+                                pylint = {
+                                    enabled = true,
+                                    -- executable = "pylint",
+                                    args = {"-d C0114,C0115,C0116"}
+                                },
+                                pylsp_mypy = {
+                                    enabled = true,
+                                    overrides = {
+                                        "--python-executable", py_path, true
+                                    },
+                                    report_progress = true,
+                                    live_mode = true
+                                },
+                                pycodestyle = {
+                                    ignore = {"W391"},
+                                    maxLineLength = 100
+                                },
+                                isort = {enabled = true}
+                            }
+                        }
+                    }
+                })
+            end,
+            ["bashls"] = function()
+                require("lspconfig").bashls.setup({
+                    on_attach = on_attach,
+                    capabilities = capabilities,
+                    settings = {
+                        bashIde = {globPattern = "*@(.sh|.inc|.bash|.command)"}
+                    }
+                })
+            end,
+            ["gradle_ls"] = function()
+                require("lspconfig").gradle_ls.setup({
+                    on_attach = on_attach,
+                    capabilities = capabilities,
+                    settings = {gradleWrapperEnabled = true}
+                })
+            end,
+            ["rust_analyzer"] = function()
+                require("lspconfig").rust_analyzer.setup({
+                    on_attach = on_attach,
+                    capabilities = capabilities,
+                    imports = {
+                        granularity = {group = "module"},
+                        prefix = "self"
+                    },
+                    cargo = {buildScripts = {enable = true}},
+                    procMacro = {enable = true}
+                })
+            end,
+            ["dockerls"] = function()
+                require("lspconfig").dockerls.setup({
+                    capabilities = capabilities,
+                    on_attach = on_attach,
+                    settings = {
+                        docker = {
+                            languageserver = {
+                                formatter = {ignoreMultilineInstructions = true}
+                            }
+                        }
+                    }
+                })
+            end,
+            ["marksman"] = function()
+                require("lspconfig").marksman.setup({
+                    on_attach = on_attach,
+                    capabilities = capabilities
+                })
+            end,
+            ["asm_lsp"] = function()
+                require("lspconfig").asm_lsp.setup({
+                    cmd = {"asm-lsp"},
+                    filetypes = {"asm", "s", "S", "vmasm", "asasm", "abc"},
+                    on_attach = on_attach,
+                    capabilities = capabilities
                 })
             end
-        end,
-        ["lua_ls"] = function()
-            lspconfig["lua_ls"].setup({
-                on_init = function(client)
-                    if client.workspace_folders then
-                        local path = client.workspace_folders[1].name
-                        if vim.uv.fs_stat(path .. '/.luarc.json') or
-                            vim.uv.fs_stat(path .. '/.luarc.jsonc') then
-                            return
-                        end
-                    end
-
-                    client.config.settings.Lua =
-                        vim.tbl_deep_extend('force', client.config.settings.Lua,
-                                            {
-                            diagnostics = {
-                                -- Get the language server to recognize the `vim` global
-                                globals = {"vim"}
-                            },
-                            runtime = {
-                                -- Tell the language server which version of Lua you're using
-                                -- (most likely LuaJIT in the case of Neovim)
-                                version = 'LuaJIT',
-                                path = {
-                                    -- Make the server aware of Neovim runtime files
-                                    vim.fn.stdpath("config") .. "/init.lua",
-                                    '?.lua', '?/init.lua',
-                                    -- vim.fn
-                                    --     .expand '~/.luarocks/share/lua/5.1/?.lua',
-                                    -- vim.fn
-                                    --     .expand '~/.luarocks/share/lua/5.1/?/init.lua',
-                                    -- '/usr/share/5.1/?.lua',
-                                    -- '/usr/share/lua/5.1/?/init.lua'
-                                }
-                            },
-                            -- Make the server aware of Neovim runtime files
-                            workspace = {
-                                checkThirdParty = true,
-                                library = vim.api
-                                    .nvim_get_runtime_file("", true)
-                            }
-                        })
-                end,
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = {Lua = {}}
-            })
-        end,
-        ["pyright"] = function()
-            lspconfig["pyright"].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = {
-                    python = {
-                        analysis = {
-                            autoSearchPaths = true,
-                            diagnosticMode = "openFilesOnly",
-                            useLibraryCodeForTypes = true
-                        }
-                    }
-                }
-            })
-        end,
-        ["pylsp"] = function()
-            local py_path = os.getenv("VIRTUAL_ENV") or vim.g.python3_host_prog
-            lspconfig["pylsp"].setup({
-                capabilities = capabilities,
-                on_attach = on_attach,
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            -- formatter
-                            black = {enabled = true},
-                            pylint = {
-                                enabled = true,
-                                -- executable = "pylint",
-                                args = {"-d C0114,C0115,C0116"}
-                            },
-                            pylsp_mypy = {
-                                enabled = true,
-                                overrides = {
-                                    "--python-executable", py_path, true
-                                },
-                                report_progress = true,
-                                live_mode = true
-                            },
-                            pycodestyle = {
-                                ignore = {"W391"},
-                                maxLineLength = 100
-                            },
-                            isort = {enabled = true}
-                        }
-                    }
-                }
-            })
-        end,
-        ["bashls"] = function()
-            lspconfig["bashls"].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = {
-                    bashIde = {globPattern = "*@(.sh|.inc|.bash|.command)"}
-                }
-            })
-        end,
-        ["gradle_ls"] = function()
-            lspconfig["gradle_ls"].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = {gradleWrapperEnabled = true}
-            })
-        end,
-        ["rust_analyzer"] = function()
-            lspconfig["rust_analyzer"].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                imports = {granularity = {group = "module"}, prefix = "self"},
-                cargo = {buildScripts = {enable = true}},
-                procMacro = {enable = true}
-            })
-        end,
-        ["dockerls"] = function()
-            lspconfig["dockerls"].setup({
-                capabilities = capabilities,
-                on_attach = on_attach,
-                settings = {
-                    docker = {
-                        languageserver = {
-                            formatter = {ignoreMultilineInstructions = true}
-                        }
-                    }
-                }
-            })
-        end,
-        ["marksman"] = function()
-            lspconfig["marksman"].setup({
-                on_attach = on_attach,
-                capabilities = capabilities
-            })
-        end
+        }
     })
 end
 
