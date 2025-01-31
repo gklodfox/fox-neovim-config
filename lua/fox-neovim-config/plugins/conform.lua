@@ -5,7 +5,7 @@ function M.opts()
     local python_formatters = {"isort", "black"}
     local rust_formatters = {"rustfmt"}
     local yaml_formatters = {"yamlfmt"}
-    local all_formatters = {"codespell"}
+    local all_formatters = {}
     local on_save_formatters = {}
 
     return {
