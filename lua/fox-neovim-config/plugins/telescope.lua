@@ -36,9 +36,10 @@ function M.opts()
                 case_mode = "smart_case"
             },
             project = {
-                base_dirs = {'~/repositories', '~/work', '~/repositories/forks'},
-                hidden_files = false, -- default: false
-                sync_with_nvim_tree = false, -- default false
+                project = { display_type = "full" },
+                base_dirs = {'~/repositories', {path = '~/work', max_depth = 4}, '~/repositories/forks', '.config'},
+                hidden_files = true, -- default: false
+                sync_with_nvim_tree = true, -- default false
                 theme = "dropdown",
                 on_project_selected = function(prompt_bufnr)
                     local harpoon = require("harpoon")
