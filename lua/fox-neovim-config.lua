@@ -27,7 +27,7 @@ local lazy_config = require("fox-neovim-config.lazy_nvim")
 load("fox-neovim-config.settings")
 load("fox-neovim-config.autocmds")
 vim.schedule(function()
-    load("fox-neovim-config.mappings")
+    load("fox-neovim-config.keymaps")
 end)
 
 require("lazy").setup({

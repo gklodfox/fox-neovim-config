@@ -42,9 +42,15 @@ function M.opts()
                 sync_with_nvim_tree = true, -- default false
                 theme = "dropdown",
                 on_project_selected = function(prompt_bufnr)
+                    local harpoon = require("harpoon")
+                    local extensions = require("harpoon.extensions")
+                    harpoon.setup({})
+                    harpoon:extend(extensions.builtins.command_on_nav("foo bar"));
+                    harpoon:extend(extensions.builtins.navigate_with_number());
                     -- Do anything you want in here. For example:
                     project_actions.change_working_directory(prompt_bufnr, false)
-                    -- require("harpoon.ui").nav_file(1)
+                    require("harpoon.extensions").builtins.navigate_with_number(1)
+                    vim.cmd(":NvimTreeToggle<CR>")
                 end,
                 -- mappings = {
                 --     n = {

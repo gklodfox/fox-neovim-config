@@ -46,15 +46,6 @@ M.dependencies = {
     'arkav/lualine-lsp-progress'
 }
 
-function M.init()
-    vim.keymap.set("n", "gb", function()
-        vim.cmd("LualineBuffersJump! " .. vim.v.count)
-    end, {desc = "Jump to the buffer"})
-
-    vim.keymap.set("n", "gB", "<cmd>LualineBuffersJump $<CR>",
-                   {desc = "Jump to the last buffer"})
-end
-
 function M.opts()
     local flow_theme = require("lualine.themes.flow")
     flow_theme.normal.a = { bg = "#ff007b", fg = "#0d0d0d"}
@@ -113,7 +104,7 @@ function M.opts()
             lualine_x = {
                 {
                     "lsp_progress",
-                    display_components = {'spinner', 'lsp_client_name', { 'title', 'message' } },
+                    display_components = {'lsp_client_name', { 'title', 'message' }, 'spinner' },
                     max_length = 1,
                     -- display_components = {
                     --     "lsp_client_name", "message", "spinner"
@@ -145,7 +136,7 @@ function M.opts()
                     "filename",
                     file_status = true,
                     newfile_status = false,
-                    path = 3,
+                    path = 4,
                     symbols = {
                         readonly = "[R]",
                         modified = "[~]",
