@@ -124,13 +124,13 @@ function M.config(_, opts)
                                     path = {
                                         -- Make the server aware of Neovim runtime files
                                         vim.fn.stdpath("config") .. "/init.lua",
-                                        '?.lua', '?/init.lua'
-                                        -- vim.fn
-                                        --     .expand '~/.luarocks/share/lua/5.1/?.lua',
-                                        -- vim.fn
-                                        --     .expand '~/.luarocks/share/lua/5.1/?/init.lua',
-                                        -- '/usr/share/5.1/?.lua',
-                                        -- '/usr/share/lua/5.1/?/init.lua'
+                                        '?.lua', '?/init.lua',
+                                        vim.fn
+                                            .expand '~/.luarocks/share/lua/5.1/?.lua',
+                                        vim.fn
+                                            .expand '~/.luarocks/share/lua/5.1/?/init.lua',
+                                        '/usr/share/5.1/?.lua',
+                                        '/usr/share/lua/5.1/?/init.lua'
                                     }
                                 },
                                 -- Make the server aware of Neovim runtime files

@@ -1,0 +1,6 @@
+--- # Begin 
+base: lua51
+lua_version: 5.1
+globals:
+  vim:
+    any: true

@@ -1,3 +1,5 @@
+local wk = require("which-key")
+
 vim.keymap.set("n", "gb", function()
     vim.cmd("LualineBuffersJump! " .. vim.v.count)
 end, {desc = "Jump to buffer"})
@@ -35,3 +37,20 @@ vim.keymap.set("n", "<C-s>", function() require('harpoon'):list():select(4) end)
 -- Toggle previous & next buffers stored within require('harpoon') list
 vim.keymap.set("n", "<C-S-P>", function() require('harpoon'):list():prev() end)
 vim.keymap.set("n", "<C-S-N>", function() require('harpoon'):list():next() end)
+
+wk.add({
+  mode = { "n", "v" },
+  { "<leader>pc", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+  { "<leader>pe", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+  { "<leader>pg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+  { "<leader>pt", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
+  { "<leader>pk", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
+  { "<leader>pd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+  { "<leader>pa", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+  { "<leader>po", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+  { "<leader>ps", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+  { "<leader>pf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+  { "<leader>px", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
+  { "<leader>pr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
+  { "<leader>pl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" }
+})

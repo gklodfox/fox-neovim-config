@@ -19,8 +19,8 @@ function M.opts()
     },
     enable_cmp_source = true,
     virtual_text = {
-      enabled = true,
-      text = "🤖",
+      enabled = false,
+      text = "",
       highlight = "Comment",
       manual = false,
       filetypes = {},
@@ -33,7 +33,7 @@ function M.opts()
       -- desired.
       virtual_text_priority = 65535,
       -- Set to false to disable all key bindings for managing completions.
-      map_keys = true,
+      map_keys = false,
       -- The key to press when hitting the accept keybinding but no completion is showing.
       -- Defaults to \t normally or <c-n> when a popup is showing.
       accept_fallback = nil,
