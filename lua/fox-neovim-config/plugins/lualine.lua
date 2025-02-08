@@ -43,23 +43,17 @@ local M = {"nvim-lualine/lualine.nvim"}
 
 M.dependencies = {
     "nvim-tree/nvim-web-devicons", "Isrothy/lualine-diagnostic-message",
-    'arkav/lualine-lsp-progress'
+    'arkav/lualine-lsp-progress', "echasnovski/mini.icons"
 }
 
 function M.opts()
     local flow_theme = require("lualine.themes.flow")
-    flow_theme.normal.a = { bg = "#ff007b", fg = "#0d0d0d"}
+    flow_theme.normal.a = { bg = "#ff007b", fg = "#000000"}
     flow_theme.normal.b = { bg = "#60002e", fg = "#ff007b"}
-    flow_theme.normal.c = { bg = "#0d0d0d", fg = "#60002e"}
-    flow_theme.normal.x = { bg = "#0d0d0d", fg = "#ff007b"}
+    flow_theme.normal.c = { bg = nil, fg = "#60002e"}
+    flow_theme.normal.x = { bg = nil, fg = "#ff007b"}
     flow_theme.normal.y = { fg = "#ff007b", bg = "#60002e"}
-    flow_theme.normal.z = { bg = "#ff007b", fg = "#0d0d0d"}
-    -- flow_theme.winbar.a = { bg = "#ff007b", fg = "#0d0d0d"}
-    -- flow_theme.winbar.b = { bg = "#60002e", fg = "#ff007b"}
-    -- flow_theme.winbar.c = { bg = "#0d0d0d", fg = "#60002e"}
-    -- flow_theme.winbar.x = { bg = "#0d0d0d", fg = "#ff007b"}
-    -- flow_theme.winbar.y = { fg = "#ff007b", bg = "#60002e"}
-    -- flow_theme.winbar.z = { bg = "#ff007b", fg = "#0d0d0d"}
+    flow_theme.normal.z = { bg = "#ff007b", fg = "#000000"}
     return {
         options = {
             theme = flow_theme,
@@ -136,7 +130,7 @@ function M.opts()
                     "filename",
                     file_status = true,
                     newfile_status = false,
-                    path = 4,
+                    path = 1,
                     symbols = {
                         readonly = "[R]",
                         modified = "[~]",

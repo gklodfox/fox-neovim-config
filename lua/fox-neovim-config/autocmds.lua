@@ -23,14 +23,14 @@ vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = {"*"},
-  callback = function()
-    local view = vim.fn.winsaveview()
-    vim.cmd [[%s:\s\+$::e]]
-    vim.fn.winrestview(view) -- restore cached window view
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+--   pattern = {"*"},
+--   callback = function()
+--     local view = vim.fn.winsaveview()
+--     vim.cmd [[%s:\s\+$::e]]
+--     vim.fn.winrestview(view) -- restore cached window view
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd({ "BufRead" }, {
   pattern = "*",

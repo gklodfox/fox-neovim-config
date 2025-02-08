@@ -42,9 +42,9 @@ function M.opts()
           -- Accept the current completion.
           accept = "<Tab>",
           -- Accept the next word.
-          accept_word = false,
+          accept_word = "<M-Tab>",
           -- Accept the next line.
-          accept_line = false,
+          accept_line = "<C-Tab",
           -- Clear the virtual text.
           clear = false,
           -- Cycle to the next completion.

@@ -1,12 +1,12 @@
 local M = { "tzachar/cmp-ai" }
 
-M.enabled = false
 M.dependencies = { 'nvim-lua/plenary.nvim' }
 M.event = "InsertEnter"
+M.enabled = false
 
 function M.opts()
   return {
-    max_lines = 1000,
+    max_lines = 10000,
     provider = 'OpenAI',
     provider_options = {
       model = 'gpt-4',

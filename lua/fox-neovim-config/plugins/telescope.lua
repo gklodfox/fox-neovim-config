@@ -23,8 +23,8 @@ function M.opts()
         extensions = {
             mappings = {
                 complete = '<Tab>',
-                run_selection = '<C-CR>',
-                run_input = '<CR>'
+                -- run_selection = '<C-CR>',
+                -- run_input = '<CR>'
             },
             cmdline = {
                 -- Adjust telescope picker size and layout
@@ -37,8 +37,9 @@ function M.opts()
                 case_mode = "smart_case"
             },
             project = {
-                base_dirs = {'~/Dotfiles', '~/Code'},
-                hidden_files = false, -- default: false
+                project = {display_type = "full"},
+                base_dirs = {'~/Dotfiles', {'~/Code', max_depth = 3}},
+                hidden_files = true, -- default: false
                 sync_with_nvim_tree = true, -- default false
                 theme = "dropdown",
                 on_project_selected = function(prompt_bufnr)
@@ -49,41 +50,43 @@ function M.opts()
                     harpoon:extend(extensions.builtins.navigate_with_number());
                     -- Do anything you want in here. For example:
                     project_actions.change_working_directory(prompt_bufnr, false)
-                    require("harpoon.extensions").builtins.navigate_with_number(1)
+                    require("harpoon.extensions").builtins.navigate_with_number(
+                        1)
                     vim.cmd(":NvimTreeToggle<CR>")
                 end,
-                -- mappings = {
-                --     n = {
-                --         ['d'] = project_actions.delete_project,
-                --         ['r'] = project_actions.rename_project,
-                --         ['c'] = project_actions.add_project,
-                --         ['C'] = project_actions.add_project_cwd,
-                --         ['f'] = project_actions.find_project_files,
-                --         ['b'] = project_actions.browse_project_files,
-                --         ['s'] = project_actions.search_in_project_files,
-                --         ['R'] = project_actions.recent_project_files,
-                --         ['w'] = project_actions.change_working_directory,
-                --         ['o'] = project_actions.next_cd_scope
-                --     },
-                --     i = {
-                --         ['<c-d>'] = project_actions.delete_project,
-                --         ['<c-v>'] = project_actions.rename_project,
-                --         ['<c-a>'] = project_actions.add_project,
-                --         ['<c-A>'] = project_actions.add_project_cwd,
-                --         ['<c-f>'] = project_actions.find_project_files,
-                --         ['<c-b>'] = project_actions.browse_project_files,
-                --         ['<c-s>'] = project_actions.search_in_project_files,
-                --         ['<c-r>'] = project_actions.recent_project_files,
-                --         ['<c-l>'] = project_actions.change_working_directory,
-                --         ['<c-o>'] = project_actions.next_cd_scope,
-                --         ['<c-w>'] = project_actions.change_workspace
-                --     }
-                -- }
+                mappings = {
+                    n = {
+                        ['d'] = project_actions.delete_project,
+                        ['r'] = project_actions.rename_project,
+                        ['c'] = project_actions.add_project,
+                        ['C'] = project_actions.add_project_cwd,
+                        ['f'] = project_actions.find_project_files,
+                        ['b'] = project_actions.browse_project_files,
+                        ['s'] = project_actions.search_in_project_files,
+                        ['R'] = project_actions.recent_project_files,
+                        ['w'] = project_actions.change_working_directory,
+                        ['o'] = project_actions.next_cd_scope
+                    },
+                    i = {
+                        ['<c-d>'] = project_actions.delete_project,
+                        ['<c-v>'] = project_actions.rename_project,
+                        ['<c-a>'] = project_actions.add_project,
+                        ['<c-A>'] = project_actions.add_project_cwd,
+                        ['<c-f>'] = project_actions.find_project_files,
+                        ['<c-b>'] = project_actions.browse_project_files,
+                        ['<c-s>'] = project_actions.search_in_project_files,
+                        ['<c-r>'] = project_actions.recent_project_files,
+                        ['<c-l>'] = project_actions.change_working_directory,
+                        ['<c-o>'] = project_actions.next_cd_scope,
+                        ['<c-w>'] = project_actions.change_workspace
+                    }
+                }
             },
             frecency = {
                 db_root = vim.fn.stdpath("state"),
                 ignore_patterns = {
-                    "*.git/*", "*/tmp/*", "*/node_modules/*", "term://*", "*/doc/*"
+                    "*.git/*", "*/tmp/*", "*/node_modules/*", "term://*",
+                    "*/doc/*"
                 }
             },
             gpt = {
@@ -114,15 +117,15 @@ function M.config(_, opts)
     local telescope = require("telescope")
 
     telescope.setup(opts)
-    telescope.load_extension('cmdline')
-    telescope.load_extension("frecency")
-    telescope.load_extension("project")
-    telescope.load_extension("live_grep_args")
-    telescope.load_extension("dap")
-    telescope.load_extension("fzf")
-    telescope.load_extension("gpt")
-    telescope.load_extension("ui-select")
-    telescope.load_extension("search_dir_picker")
+    require("telescope").load_extension("frecency")
+    require("telescope").load_extension("project")
+    require("telescope").load_extension("live_grep_args")
+    require("telescope").load_extension("dap")
+    require("telescope").load_extension("fzf")
+    require("telescope").load_extension("gpt")
+    require("telescope").load_extension("ui-select")
+    require("telescope").load_extension("search_dir_picker")
+    require("telescope").load_extension('cmdline')
 end
 
 return M

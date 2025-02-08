@@ -1,7 +1,6 @@
 return {
-  { "OXY2DEV/helpview.nvim", lazy = true },
-  { "nvim-lua/plenary.nvim", lazy = true },
-  { "nvim-tree/nvim-web-devicons", lazy = true },
-  { 'echasnovski/mini.icons', version = false, lazy = true },
-  { "MunifTanjim/nui.nvim", lazy = true },
+  { "nvim-lua/plenary.nvim"},
+  { "nvim-tree/nvim-web-devicons"},
+  { 'echasnovski/mini.icons', version = false, lazy=true, config = function() require('mini.icons').setup() require('mini.icons').tweak_lsp_kind() end},
+  { "MunifTanjim/nui.nvim"},
 }
