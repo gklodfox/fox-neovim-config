@@ -101,49 +101,24 @@ function M.config(_, opts)
             end,
             ["lua_ls"] = function()
                 require("lspconfig").lua_ls.setup({
-                    on_init = function(client)
-                        if client.workspace_folders then
-                            local path = client.workspace_folders[1].name
-                            if vim.uv.fs_stat(path .. '/selene.toml') or
-                                vim.uv.fs_stat(path .. '/selene.toml') then
-                                return
-                            end
-                        end
-
-                        client.config.settings.Lua =
-                            vim.tbl_deep_extend('force',
-                                                client.config.settings.Lua, {
-                                diagnostics = {
-                                    -- Get the language server to recognize the `vim` global
-                                    globals = {"vim"}
+                    settings = {
+                        Lua = {
+                            runtime = {
+                                -- Tell the language server which version of Lua you're using
+                                -- (most likely LuaJIT in the case of Neovim)
+                                version = 'LuaJIT'
+                            },
+                            diagnostics = {globals = {'vim', 'require'}},
+                            workspace = {
+                                checkThirdParty = false,
+                                library = {
+                                    vim.env.VIMRUNTIME, "${3rd}/luv/library",
+                                    "${3rd}/busted/library"
                                 },
-                                runtime = {
-                                    -- Tell the language server which version of Lua you're using
-                                    -- (most likely LuaJIT in the case of Neovim)
-                                    version = 'LuaJIT',
-                                    path = {
-                                        -- Make the server aware of Neovim runtime files
-                                        vim.fn.stdpath("config") .. "/init.lua",
-                                        '?.lua', '?/init.lua',
-                                        -- vim.fn
-                                        --     .expand '~/.luarocks/share/lua/5.1/?.lua',
-                                        -- vim.fn
-                                        --     .expand '~/.luarocks/share/lua/5.1/?/init.lua',
-                                        -- '/usr/share/5.1/?.lua',
-                                        -- '/usr/share/lua/5.1/?/init.lua'
-                                    }
-                                },
-                                -- Make the server aware of Neovim runtime files
-                                workspace = {
-                                    checkThirdParty = true,
-                                    library = vim.api.nvim_get_runtime_file("",
-                                                                            true)
-                                }
-                            })
-                    end,
-                    on_attach = on_attach,
-                    capabilities = capabilities,
-                    settings = {Lua = {}}
+                                telemetry = {enable = false}
+                            }
+                        }
+                    }
                 })
             end,
             ["pyright"] = function()

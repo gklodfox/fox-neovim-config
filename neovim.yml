@@ -1,4 +1,4 @@
----  # neovim selene config
+---
 base: lua51
 
 globals:

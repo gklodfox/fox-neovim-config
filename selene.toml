@@ -1,4 +1,4 @@
-std = "neovim"
+std = "lua51+neovim"
 
 [rules]
 mixed_table = "allow"
