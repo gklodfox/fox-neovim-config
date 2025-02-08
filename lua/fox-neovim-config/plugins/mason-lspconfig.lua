@@ -44,6 +44,23 @@ local on_attach = function(_, bufnr)
 end
 
 function M.init()
+    local signs = {
+        {name = "DiagnosticSignError", text = "✘'"},
+        {name = "DiagnosticSignWarn", text = "▲"},
+        {name = "DiagnosticSignHint", text = "⚑"},
+        {name = "DiagnosticSignInfo", text = ""}
+    }
+    vim.diagnostic.config({
+        virtual_text = true,
+        signs = {active = signs},
+        update_in_insert = true,
+        underline = true,
+        severity_sort = true
+    })
+    for _, sign in ipairs(signs) do
+        vim.fn.sign_define(sign.name,
+                           {texthl = sign.name, text = sign.text, numhl = ""})
+    end
     local group_name = "vimrc_mason_lspconfig"
     vim.filetype.add({pattern = {['.*/*.asasm'] = "asasm"}})
     vim.api.nvim_create_augroup(group_name, {clear = true})
@@ -60,6 +77,7 @@ function M.init()
     })
 end
 function M.config(_, opts)
+    require("neodev").setup({})
     -- vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     --                                              vim.lsp.handlers.hover,
     --                                              {border = 'rounded'})
@@ -108,12 +126,13 @@ function M.config(_, opts)
                                 -- (most likely LuaJIT in the case of Neovim)
                                 version = 'LuaJIT'
                             },
-                            diagnostics = {globals = {'vim', 'require'}},
+                            hint = { enable = true },
+                            diagnostics = {globals = {'vim'}},
                             workspace = {
-                                checkThirdParty = false,
+                                checkThirdParty = true,
                                 library = {
                                     vim.env.VIMRUNTIME, "${3rd}/luv/library",
-                                    "${3rd}/busted/library"
+                                    "${3rd}/busted/library", "${3rd}/luassert/library",
                                 },
                                 telemetry = {enable = false}
                             }

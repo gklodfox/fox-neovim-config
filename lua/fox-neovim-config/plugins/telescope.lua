@@ -7,7 +7,7 @@ M.lazy = false
 M.dependencies = {
     "nvim-treesitter/nvim-treesitter", 'jonarrien/telescope-cmdline.nvim',
     "nvim-telescope/telescope-file-browser.nvim",
-    "nvim-telescope/telescope-ui-select.nvim",
+    -- "nvim-telescope/telescope-ui-select.nvim",
     {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
     {"HPRIOR/telescope-gpt", dependencies = {"jackMort/ChatGPT.nvim"}},
     "nvim-telescope/telescope-project.nvim",
@@ -123,7 +123,7 @@ function M.config(_, opts)
     require("telescope").load_extension("dap")
     require("telescope").load_extension("fzf")
     require("telescope").load_extension("gpt")
-    require("telescope").load_extension("ui-select")
+    -- require("telescope").load_extension("ui-select")
     require("telescope").load_extension("search_dir_picker")
     require("telescope").load_extension('cmdline')
 end

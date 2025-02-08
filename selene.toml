@@ -2,3 +2,4 @@ std = "lua51+neovim"
 
 [rules]
 mixed_table = "allow"
+undefined_variable = "allow"

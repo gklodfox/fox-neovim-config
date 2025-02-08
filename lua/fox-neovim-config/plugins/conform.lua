@@ -1,7 +1,5 @@
 local M = {"stevearc/conform.nvim"}
 
-M.event = "User FilePost"
-
 function M.opts()
     local lua_formatters = {"lua-format"}
     local python_formatters = {"isort", "black"}
