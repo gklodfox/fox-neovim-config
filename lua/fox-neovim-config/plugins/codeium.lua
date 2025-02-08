@@ -19,15 +19,15 @@ function M.opts()
     },
     enable_cmp_source = true,
     virtual_text = {
-      enabled = false,
-      text = "",
+      enabled = true,
+      text = "...",
       highlight = "Comment",
       manual = false,
       filetypes = {},
       -- Whether to enable virtual text of not for filetypes not specifically listed above.
       default_filetype_enabled = true,
       -- How long to wait (in ms) before requesting completions after typing stops.
-      idle_delay = 75,
+      idle_delay = 100,
       -- Priority of the virtual text. This usually ensures that the completions appear on top of
       -- other plugins that also add virtual text, such as LSP inlay hints, but can be modified if
       -- desired.
@@ -36,7 +36,7 @@ function M.opts()
       map_keys = false,
       -- The key to press when hitting the accept keybinding but no completion is showing.
       -- Defaults to \t normally or <c-n> when a popup is showing.
-      accept_fallback = nil,
+      accept_fallback = "<C-Space>",
       -- Key bindings for managing completions in virtual text mode.
       key_bindings = {
           -- Accept the current completion.
