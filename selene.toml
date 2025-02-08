@@ -1,5 +1,5 @@
 std = "lua51+neovim"
 
-[rules]
+[lints]
 mixed_table = "allow"
 undefined_variable = "allow"

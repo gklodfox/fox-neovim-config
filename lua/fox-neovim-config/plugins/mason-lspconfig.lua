@@ -124,15 +124,16 @@ function M.config(_, opts)
                             runtime = {
                                 -- Tell the language server which version of Lua you're using
                                 -- (most likely LuaJIT in the case of Neovim)
-                                version = 'LuaJIT'
+                                version = '5.1'
                             },
-                            hint = { enable = true },
+                            -- hint = { enable = true },
                             diagnostics = {globals = {'vim'}},
                             workspace = {
                                 checkThirdParty = true,
                                 library = {
                                     vim.env.VIMRUNTIME, "${3rd}/luv/library",
                                     "${3rd}/busted/library", "${3rd}/luassert/library",
+                                    vim.api.nvim_get_runtime_file("", true)
                                 },
                                 telemetry = {enable = false}
                             }
