@@ -104,8 +104,8 @@ function M.config(_, opts)
                     on_init = function(client)
                         if client.workspace_folders then
                             local path = client.workspace_folders[1].name
-                            if vim.uv.fs_stat(path .. '/.luarc.json') or
-                                vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                            if vim.uv.fs_stat(path .. '/selene.toml') or
+                                vim.uv.fs_stat(path .. '/selene.toml') then
                                 return
                             end
                         end
@@ -125,12 +125,12 @@ function M.config(_, opts)
                                         -- Make the server aware of Neovim runtime files
                                         vim.fn.stdpath("config") .. "/init.lua",
                                         '?.lua', '?/init.lua',
-                                        vim.fn
-                                            .expand '~/.luarocks/share/lua/5.1/?.lua',
-                                        vim.fn
-                                            .expand '~/.luarocks/share/lua/5.1/?/init.lua',
-                                        '/usr/share/5.1/?.lua',
-                                        '/usr/share/lua/5.1/?/init.lua'
+                                        -- vim.fn
+                                        --     .expand '~/.luarocks/share/lua/5.1/?.lua',
+                                        -- vim.fn
+                                        --     .expand '~/.luarocks/share/lua/5.1/?/init.lua',
+                                        -- '/usr/share/5.1/?.lua',
+                                        -- '/usr/share/lua/5.1/?/init.lua'
                                     }
                                 },
                                 -- Make the server aware of Neovim runtime files
