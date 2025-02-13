@@ -5,7 +5,7 @@ M.event = {"BufWritePost", "BufReadPost", "InsertLeave"}
 function M.opts()
   return {
     linters_by_ft = {
-        lua = {"selene"},
+        lua = {},
         vim = {"vint"},
         markdown = {"markdownlint"},
         json = {"jsonlint"},

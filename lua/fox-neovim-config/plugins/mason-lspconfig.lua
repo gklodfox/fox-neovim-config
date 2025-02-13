@@ -5,44 +5,6 @@ M.dependencies = {
     "simrat39/rust-tools.nvim"
 }
 
-local on_attach = function(_, bufnr)
-    require("lsp_signature").on_attach({
-        bind = true,
-        handler_opts = {border = "rounded"}
-    })
-
-    local opts = {noremap = true, silent = true}
-
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gD",
-                                "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gd",
-                                "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gi",
-                                "<cmd>lua vim.lsp.buf.implementation()<CR>",
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>sh",
-                                "<cmd>lua vim.lsp.buf.signature_help()<CR>",
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wa",
-                                "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>",
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wr",
-                                "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>",
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wl",
-                                "<cmd>lua function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end()<CR>",
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>D",
-                                "<cmd>lua vim.lsp.buf.type_definition()<CR>",
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ra",
-                                "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca",
-                                "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gr",
-                                "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-end
-
 function M.init()
     local signs = {
         {name = "DiagnosticSignError", text = "✘'"},
@@ -61,87 +23,120 @@ function M.init()
         vim.fn.sign_define(sign.name,
                            {texthl = sign.name, text = sign.text, numhl = ""})
     end
-    local group_name = "vimrc_mason_lspconfig"
     vim.filetype.add({pattern = {['.*/*.asasm'] = "asasm"}})
-    vim.api.nvim_create_augroup(group_name, {clear = true})
-
-    vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-            local bufnr = args.buf
-            local client = vim.lsp.get_client_by_id(args.data.client_id)
-            if client and client.supports_method("textDocument/inlayHint") then
-                vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
-            end
-        end,
-        group = group_name
-    })
 end
-function M.config(_, opts)
-    require("neodev").setup({})
-    -- vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-    --                                              vim.lsp.handlers.hover,
-    --                                              {border = 'rounded'})
-    -- vim.lsp.handlers['textDocument/signatureHelp'] =
-    --     vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'rounded'})
-    local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp
-                                                                          .protocol
-                                                                          .make_client_capabilities())
-    -- require("mason-lspconfig").setup(opts)
-    --
-    local configs = require("lspconfig.configs")
-    local lspconfig = require("lspconfig")
-    if not configs.fish_lsp then
-        configs.fish_lsp = {
-            default_config = {
-                cmd = {"fish-lsp", "start"},
-                filetypes = {"fish"},
-                root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
-                settings = {}
-            }
-        }
-    end
-    lspconfig.fish_lsp.setup({
-        on_attach = function(client, bufnr)
-            client.server_capabilities.signatureHelpProvider = false
-            if on_attach(client, bufnr) then on_attach(client, bufnr) end
-        end,
-        capabilities = capabilities
+function M.config()
+    -- require("neodev").setup({})
+    local capabilities = require('lspconfig').util.default_config
+
+      -- Add cmp_nvim_lsp capabilities settings to lspconfig
+      -- This should be executed before you configure any language server
+      capabilities.capabilities = vim.tbl_deep_extend(
+        'force',
+        capabilities.capabilities,
+        require('cmp_nvim_lsp').default_capabilities()
+      )
+
+      -- LspAttach is where you enable features that only work
+      -- if there is a language server active in the file
+      vim.api.nvim_create_autocmd('LspAttach', {
+        desc = 'LSP actions',
+        callback = function(event)
+          local opts = {buffer = event.buf}
+
+          vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+          vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+          vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+          vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+          vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+          vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+          vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+          vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+          vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+          vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+          local bufnr = event.buf
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if client and client.supports_method("textDocument/inlayHint") then
+              vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+          end
+          require("lsp_signature").on_attach({
+              bind = true,
+              handler_opts = {border = "rounded"}
+          })
+      end,
     })
+    -- local configs = require("lspconfig.configs")
+    -- local lspconfig = require("lspconfig")
+    -- if not configs.fish_lsp then
+    --     configs.fish_lsp = {
+    --         default_config = {
+    --             cmd = {"fish-lsp", "start"},
+    --             filetypes = {"fish"},
+    --             root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
+    --             settings = {}
+    --         }
+    --     }
+    -- end
+    -- lspconfig.fish_lsp.setup({
+    --     on_attach = function(client, bufnr)
+    --         client.server_capabilities.signatureHelpProvider = false
+    --         if on_attach(client, bufnr) then on_attach(client, bufnr) end
+    --     end,
+    --     capabilities = capabilities
+    -- })
+    require("mason").setup({})
     require("mason-lspconfig").setup({
         handlers = {
             function(server_name)
-                if server_name ~= "fish_lsp" then
-                    lspconfig[server_name].setup({
-                        capabilities = capabilities,
-                        on_attach = on_attach
-                    })
-                end
+                require("lspconfig")[server_name].setup({
+                    capabilities = capabilities,
+                })
             end,
             ["lua_ls"] = function()
                 require("lspconfig").lua_ls.setup({
-                    settings = {
-                        Lua = {
+                    settings = {Lua = {telemetry = {enable = false}}},
+                    on_init = function(client)
+                        local join = vim.fs.joinpath
+                        local path = client.workspace_folders[1].name
+
+                        -- Don't do anything if there is project local config
+                        if vim.uv.fs_stat(join(path, '.luarc.json')) or
+                            vim.uv.fs_stat(join(path, '.luarc.jsonc')) then
+                            return
+                        end
+
+                        -- Apply neovim specific settings
+                        local runtime_path = vim.split(package.path, ';')
+                        table.insert(runtime_path, join('lua', '?.lua'))
+                        table.insert(runtime_path, join('lua', '?', 'init.lua'))
+
+                        local nvim_settings = {
                             runtime = {
                                 -- Tell the language server which version of Lua you're using
-                                -- (most likely LuaJIT in the case of Neovim)
-                                version = '5.1'
+                                version = 'LuaJIT',
+                                path = runtime_path
                             },
-                            hint = { enable = true },
-                            diagnostics = {globals = {'vim'}},
+                            diagnostics = {
+                                -- Get the language server to recognize the `vim` global
+                                globals = {'vim'}
+                            },
                             workspace = {
-                                checkThirdParty = false,
+                                checkThirdParty = true,
                                 library = {
-                                    vim.api.nvim_get_runtime_file("", true)
-                                },
-                                telemetry = {enable = false}
+                                    -- Make the server aware of Neovim runtime files
+                                    vim.env.VIMRUNTIME, vim.fn.stdpath('config'), "${3rd}/luv/library"
+                                }
                             }
                         }
-                    }
+                        client.config.settings.Lua =
+                            vim.tbl_deep_extend('force',
+                                                client.config.settings.Lua,
+                                                nvim_settings)
+                    end
                 })
             end,
             ["pyright"] = function()
                 require("lspconfig").pyright.setup({
-                    on_attach = on_attach,
                     capabilities = capabilities,
                     settings = {
                         python = {
@@ -159,7 +154,6 @@ function M.config(_, opts)
                                     vim.g.python3_host_prog
                 require("lspconfig").pylsp.setup({
                     capabilities = capabilities,
-                    on_attach = on_attach,
                     settings = {
                         pylsp = {
                             plugins = {
@@ -190,7 +184,6 @@ function M.config(_, opts)
             end,
             ["bashls"] = function()
                 require("lspconfig").bashls.setup({
-                    on_attach = on_attach,
                     capabilities = capabilities,
                     settings = {
                         bashIde = {globPattern = "*@(.sh|.inc|.bash|.command)"}
@@ -199,14 +192,12 @@ function M.config(_, opts)
             end,
             ["gradle_ls"] = function()
                 require("lspconfig").gradle_ls.setup({
-                    on_attach = on_attach,
                     capabilities = capabilities,
                     settings = {gradleWrapperEnabled = true}
                 })
             end,
             ["rust_analyzer"] = function()
                 require("lspconfig").rust_analyzer.setup({
-                    on_attach = on_attach,
                     capabilities = capabilities,
                     imports = {
                         granularity = {group = "module"},
@@ -219,7 +210,6 @@ function M.config(_, opts)
             ["dockerls"] = function()
                 require("lspconfig").dockerls.setup({
                     capabilities = capabilities,
-                    on_attach = on_attach,
                     settings = {
                         docker = {
                             languageserver = {
@@ -229,17 +219,10 @@ function M.config(_, opts)
                     }
                 })
             end,
-            ["marksman"] = function()
-                require("lspconfig").marksman.setup({
-                    on_attach = on_attach,
-                    capabilities = capabilities
-                })
-            end,
             ["asm_lsp"] = function()
                 require("lspconfig").asm_lsp.setup({
                     cmd = {"asm-lsp"},
                     filetypes = {"asm", "s", "S", "vmasm", "asasm", "abc"},
-                    on_attach = on_attach,
                     capabilities = capabilities
                 })
             end

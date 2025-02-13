@@ -2,7 +2,7 @@ local M = { "KadoBOT/cmp-plugins" }
 
 function M.opts()
   return {
-    files = { "/home/fox/.config/nvim/lua/fox-neovim-config/plugins/" }
+    files = { ".*\\.lua" }
   }
 end
 

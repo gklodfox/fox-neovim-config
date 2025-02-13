@@ -1,4 +1,7 @@
+vim.api.nvim_create_user_command('ReloadConfig', 'source $MYVIMRC', {})
+
 vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
+
   group = vim.api.nvim_create_augroup("NvFilePost", { clear = true }),
   callback = function(args)
     local file = vim.api.nvim_buf_get_name(args.buf)

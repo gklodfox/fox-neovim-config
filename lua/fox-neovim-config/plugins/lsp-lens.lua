@@ -4,7 +4,7 @@ function M.opts()
   local SymbolKind = vim.lsp.protocol.SymbolKind
 
   return {
-    include_declaration = false, -- Reference includes declaration
+    include_declaration = true, -- Reference includes declaration
     sections = { -- Enable / Disable specific requests
       definition = true,
       references = true,
