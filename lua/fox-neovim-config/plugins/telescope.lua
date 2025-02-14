@@ -1,12 +1,12 @@
 local M = {"nvim-telescope/telescope.nvim"}
 
-M.branch = "0.1.x"
+-- M.branch = "0.1.x"
 M.cmd = "Telescope"
 
 M.dependencies = {
     "nvim-treesitter/nvim-treesitter", 'jonarrien/telescope-cmdline.nvim',
     "nvim-telescope/telescope-file-browser.nvim",
-    -- "nvim-telescope/telescope-ui-select.nvim",
+    "nvim-telescope/telescope-ui-select.nvim",
     {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
     {"HPRIOR/telescope-gpt", dependencies = {"jackMort/ChatGPT.nvim"}},
     "nvim-telescope/telescope-project.nvim",
@@ -104,16 +104,17 @@ end
 function M.config(_, opts)
     local telescope = require("telescope")
 
-    telescope.setup(opts)
-    require("telescope").load_extension("frecency")
-    require("telescope").load_extension("project")
-    require("telescope").load_extension("live_grep_args")
-    require("telescope").load_extension("dap")
-    require("telescope").load_extension("fzf")
-    require("telescope").load_extension("gpt")
-    -- require("telescope").load_extension("ui-select")
-    require("telescope").load_extension("search_dir_picker")
-    require("telescope").load_extension('cmdline')
+    telescope.load_extension("frecency")
+    telescope.load_extension("project")
+    telescope.load_extension("live_grep_args")
+    telescope.load_extension("dap")
+    telescope.load_extension("fzf")
+    telescope.load_extension("gpt")
+    telescope.load_extension("ui-select")
+    telescope.load_extension("search_dir_picker")
+    telescope.load_extension('cmdline')
+
+    require("telescope").setup(opts)
 end
 
 return M

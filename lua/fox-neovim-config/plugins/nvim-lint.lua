@@ -5,16 +5,22 @@ local M = {"mfussenegger/nvim-lint"}
 function M.opts()
   return {
     linters_by_ft = {
-        lua = {},
+        lua = {"luacheck"},
+        make = {"checkmake"},
+        cmake = {"cmakelint"},
         vim = {"vint"},
         markdown = {"markdownlint"},
         json = {"jsonlint"},
-        python = {"mypy", "pylint", "flake8", "pycodestyle"},
-        rust = {"clippy"},
+        python = {"mypy", "pylint", "flake8", "pycodestyle", "pydocstyle", "ruff", "pyproject-flake8"},
+        rust = {"bacon"},
         yaml = {"yamllint"},
         sh = {"shellcheck"},
         proto = {"buf_lint"},
-        groovy = {"npm-groovy-lint"}
+        gitcommit = {"commitlint"},
+        gitignore = {"gitlint"},
+        html = {"htmlhint"},
+        groovy = {"npm-groovy-lint"},
+        text = {"textlint"}
     }
   }
 end

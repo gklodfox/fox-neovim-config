@@ -32,7 +32,7 @@ set_o.softtabstop = 2
 -- EDITOR
 set_win.conceallevel = 3
 set_opt.list = true
-set_opt.listchars = { trail = '·', nbsp = '␣', eol = '' }
+set_opt.listchars = { trail = '·', nbsp = '␣'}
 
 set_opt.ignorecase = true
 set_opt.smartcase = true
@@ -68,14 +68,3 @@ set_opt.cmdheight = 0
 set_opt.isfname:append { '@-@' }
 set_o.wildmenu = true
 set_opt.wildignore:append{"node_modules/*", ".git/*", "venv/*", "__pycache__/*", ".pytest_cache/*", "*/doc/*", "tmp/*", "*.md"}
-
--- set_o.termguicolors = true
--- set_opt.completeopt = {"menu", "menuone", "noselect"}
--- set_opt.guicursor = {
---   "n-v:block",
---   "i-c-ci-ve:ver25",
---   "r-cr:hor20",
---   "o:hor50",
---   "i:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
---   "sm:block-blinkwait175-blinkoff150-blinkon175",
--- }
