@@ -67,7 +67,7 @@ set_opt.autochdir = true
 set_opt.cmdheight = 0
 set_opt.isfname:append { '@-@' }
 set_o.wildmenu = true
-set_opt.wildignore = {"*/node_modules/*", "*/.git/*", "*/venv/*", "*/__pycache__/*", "*/.pytest_cache/*", "*/doc/*", "*/tmp/*"}
+set_opt.wildignore:append{"node_modules/*", ".git/*", "venv/*", "__pycache__/*", ".pytest_cache/*", "*/doc/*", "tmp/*", "*.md"}
 
 -- set_o.termguicolors = true
 -- set_opt.completeopt = {"menu", "menuone", "noselect"}

@@ -40,8 +40,15 @@ vim.keymap.set("n", "<C-S-N>", function() require('harpoon'):list():next() end)
 
 wk.add({
   mode = { "n", "v" },
-  { "<leader>pc", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
-  { "<leader>pe", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+  cond = function()
+    if pcall(require, "chatgpt") then 
+      return true
+    end
+    return false
+  end,
+  { "<leader>p", group = "ChatGPT", icon = "󱙺" },
+  { "<leader>pc", "<cmd>ChatGPT<CR>", desc = "ChatGPT", icon = "󱙺" },
+  { "<leader>pe", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction"},
   { "<leader>pg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
   { "<leader>pt", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
   { "<leader>pk", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
@@ -53,4 +60,19 @@ wk.add({
   { "<leader>px", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
   { "<leader>pr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
   { "<leader>pl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" }
+})
+
+wk.add({
+  mode = { "n" },
+  cond = function()
+    if pcall(require, "telescope") then 
+      return true
+    end
+    return false
+  end,
+  { "<leader>f", group = "Find...", icon = "󰍉"},
+  { "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", desc = "Find files in CWD" },
+  { "<leader>fg", "<cmd>Telescope grep_string<CR>", desc = "Grep files in CWD" },
+  { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Find buffer" },
+  { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Find help tags" },
 })

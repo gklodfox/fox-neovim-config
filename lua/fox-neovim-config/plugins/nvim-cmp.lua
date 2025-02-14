@@ -7,12 +7,22 @@ M.dependencies = {
     "hrsh7th/cmp-nvim-lsp-document-symbol",
     "hrsh7th/cmp-nvim-lsp-signature-help", "L3MON4D3/LuaSnip",
     "rafamadriz/friendly-snippets", "onsails/lspkind.nvim",
-    "doxnit/cmp-luasnip-choice", "KadoBOT/cmp-plugins",
-    "saadparwaiz1/cmp_luasnip", "ray-x/cmp-treesitter", "windwp/nvim-autopairs",
+    "doxnit/cmp-luasnip-choice", "saadparwaiz1/cmp_luasnip",
+    "ray-x/cmp-treesitter", "windwp/nvim-autopairs",
     "williamboman/mason-lspconfig.nvim", {
         "garymjr/nvim-snippets",
         opts = {friendly_snippets = true},
         dependencies = {"rafamadriz/friendly-snippets"}
+    }, {
+        "KadoBOT/cmp-plugins",
+        config = function()
+            require("cmp-plugins").setup({
+                files = {
+                    ".*\\.lua",
+                    "$HOME/.config/nvim/lua/fox-neovim-config/plugins/.*\\.lua"
+                }
+            })
+        end
     }
 }
 M.event = "InsertEnter"
@@ -27,12 +37,16 @@ function M.opts()
 
     local npairs = require("nvim-autopairs.completion.cmp")
 
-    cmp.event:on("confirm_done",npairs.on_confirm_done())
+    cmp.event:on("confirm_done", npairs.on_confirm_done())
 
     return {
         auto_brackets = {
             "python", "lua", "rust", "fish", "sh", "bash", "json", "markdown",
             "yaml", "toml", "html", "css"
+        },
+        window = {
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
         },
         completion = {
             completeopt = "menu,menuone,noinsert" ..
@@ -49,33 +63,34 @@ function M.opts()
             ["<C-Right>"] = cmp.mapping.complete(),
             ['<C-Left>'] = cmp.mapping.abort(),
             ["<CR>"] = cmp.mapping.confirm(select_opts),
-            ["<S-CR>"] = cmp.mapping.confirm(select_opts), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-            -- ['<Tab>'] = function(fallback)
-            --     if cmp.visible() then
-            --         cmp.select_next_item()
-            --     else
-            --         fallback()
-            --     end
-            -- end
+            ["<S-CR>"] = cmp.mapping.confirm(select_opts) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
+        -- local cmp = require("cmp") 
+        -- print(vim.inspect(cmp.lsp.CompletionItemKind))
         formatting = {
+            fields = {"menu", "abbr", "kind"},
             format = function(entry, item)
-                local icons = LazyVim.config.icons.kinds
-                if icons[item.kind] then
-                    item.kind = icons[item.kind] .. item.kind
+                local icons = {}
+                for _, kind in ipairs(cmp.lsp.CompletionItemKind) do
+                  icons[kind] = require("mini.icons").get("lsp", kind)
                 end
+                item.kind = icons[item.kind] .. " " .. item.kind
 
-                local widths = {
-                    abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
-                    menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30
-                }
-
-                for key, width in pairs(widths) do
-                    if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
-                        item[key] =
-                            vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
-                    end
-                end
+                item.menu = ({
+                    buffer = "[Buffer]",
+                    render_markdown = "[MD]",
+                    luasnip = "[Luasnip]",
+                    nvim_lua = "[Lua]",
+                    codeium = "[Codeium]",
+                    async_path = "[Async Path]",
+                    path = "[Path]",
+                    nvim_lsp_signature_help = "[Signature]",
+                    nvim_lsp_document_symbol = "[Symbol]",
+                    calc = "[Calc]",
+                    plugins = "[Plugins]",
+                    rg = "[Ripgrep]",
+                    treesitter = "[Treesitter]",
+                })[entry.source.name]
 
                 return item
             end
@@ -85,7 +100,7 @@ function M.opts()
             {name = "async_path"}, {name = "path"}, {name = "nvim_lua"},
             {name = "nvim_lsp_signature_help"}, {name = "snippets"},
             {name = "nvim_lsp_document_symbol"}, {name = "plugins"},
-            {name = "calc"}, {name = "rg"}, {name = "treesitter"}
+            {name = "calc"}, {name = "rg"}, {name = "treesitter"}, {name = "plugins"}
         }, {{name = "buffer"}}),
         experimental = {
             ghost_text = vim.g.ai_cmp and {hl_group = "CmpGhostText"} or false

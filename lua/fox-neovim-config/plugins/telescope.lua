@@ -2,7 +2,6 @@ local M = {"nvim-telescope/telescope.nvim"}
 
 M.branch = "0.1.x"
 M.cmd = "Telescope"
-M.lazy = false
 
 M.dependencies = {
     "nvim-treesitter/nvim-treesitter", 'jonarrien/telescope-cmdline.nvim',
@@ -22,7 +21,7 @@ function M.opts()
     return {
         extensions = {
             mappings = {
-                complete = '<Tab>',
+                complete = '<C-Space>',
                 -- run_selection = '<C-CR>',
                 -- run_input = '<CR>'
             },
@@ -38,7 +37,7 @@ function M.opts()
             },
             project = {
                 project = {display_type = "full"},
-                base_dirs = {'~/Dotfiles', {'~/Code', max_depth = 3}},
+                base_dirs = {{'~/Dotfiles', max_depth = 6}, {'~/Code', max_depth = 5}},
                 hidden_files = true, -- default: false
                 sync_with_nvim_tree = true, -- default false
                 theme = "dropdown",
@@ -100,17 +99,6 @@ function M.opts()
             }
         }
     }
-end
-
-function M.init()
-    vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files,
-                   {desc = "Find files"})
-    vim.keymap.set("n", "<leader>fg", require("telescope").extensions
-                       .live_grep_args.live_grep_args, {desc = "Grep files"})
-    vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers,
-                   {desc = "Search buffers"})
-    vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags,
-                   {desc = "Search help tags"})
 end
 
 function M.config(_, opts)
