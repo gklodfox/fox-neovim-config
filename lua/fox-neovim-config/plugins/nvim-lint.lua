@@ -11,16 +11,16 @@ function M.opts()
         vim = {"vint"},
         markdown = {"markdownlint"},
         json = {"jsonlint"},
-        python = {"mypy", "pylint", "flake8", "pycodestyle", "pydocstyle", "ruff", "pyproject-flake8"},
-        rust = {"bacon"},
+        python = {"pylint", "flake8", "pydocstyle", "ruff"},
+        rust = {},
         yaml = {"yamllint"},
         sh = {"shellcheck"},
         proto = {"buf_lint"},
-        gitcommit = {"commitlint"},
-        gitignore = {"gitlint"},
+        gitcommit = {},
+        gitignore = {},
         html = {"htmlhint"},
-        groovy = {"npm-groovy-lint"},
-        text = {"textlint"}
+        groovy = {},
+        text = {}
     }
   }
 end
