@@ -13,9 +13,8 @@ set_o.fileencoding = "utf-8"
 set_o.syntax = "on"
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
-set_global.loaded_ruby_provider = 1
 set_global.python3_host_prog = '/home/gklodkox/.config/nvim/venv/bin/python3'
--- set_global.node_host_prog = '/home/gklodkox/node_modules/'
+set_global.node_host_prog = '/usr/sbin/neovim-node-host'
 set_global.have_nerd_font = true
 -- NUMBER LINE
 set_o.number = true
