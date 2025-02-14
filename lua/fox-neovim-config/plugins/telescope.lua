@@ -8,7 +8,7 @@ M.dependencies = {
     "nvim-telescope/telescope-file-browser.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
     {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
-    -- {"HPRIOR/telescope-gpt", dependencies = {"jackMort/ChatGPT.nvim"}},
+    {"HPRIOR/telescope-gpt", dependencies = {"jackMort/ChatGPT.nvim"}},
     "nvim-telescope/telescope-project.nvim",
     "nvim-telescope/telescope-live-grep-args.nvim",
     "smilovanovic/telescope-search-dir-picker.nvim",
@@ -109,7 +109,7 @@ function M.config(_, opts)
     telescope.load_extension("live_grep_args")
     telescope.load_extension("dap")
     telescope.load_extension("fzf")
-    -- telescope.load_extension("gpt")
+    telescope.load_extension("gpt")
     telescope.load_extension("ui-select")
     telescope.load_extension("search_dir_picker")
     telescope.load_extension('cmdline')

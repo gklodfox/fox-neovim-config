@@ -1,12 +1,3 @@
-local function sync_all()
-  vim.cmd("Lazy sync")
-  vim.cmd("MasonUpdate")
-  vim.cmd("MasonToolsUpdateSync")
-  vim.cmd("TSUpdateSync")
-end
-
-vim.api.nvim_create_user_command("UP", sync_all(), {})
-
 vim.api.nvim_create_user_command("ReloadConfig", "source $MYVIMRC", {})
 
 vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
