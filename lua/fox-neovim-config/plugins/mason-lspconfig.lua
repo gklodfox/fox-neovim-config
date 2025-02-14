@@ -2,7 +2,7 @@ local M = {"williamboman/mason-lspconfig.nvim"}
 
 M.dependencies = {
     "hrsh7th/cmp-nvim-lsp", "neovim/nvim-lspconfig", "ray-x/lsp_signature.nvim",
-    "simrat39/rust-tools.nvim"
+    "simrat39/rust-tools.nvim", "WhoIsSethDaniel/mason-tool-installer.nvim"
 }
 
 function M.init()
@@ -73,27 +73,30 @@ function M.config()
             })
         end
     })
+    require("mason-tool-installer").setup({
+      auto_update = true,
+      run_on_start = true,
+      start_delay = 3000,
+      integrations = {
+        ['mason-lspconfig'] = true,
+        ['mason-null-ls'] = false,
+        ['mason-nvim-dap'] = true,
+      },
+      ensure_installed = {
+        "textlsp", "ast_grep", "ruff", "ast_grep",
+        "asm_lsp", "bashls", "cmake", "diagnosticls", "dockerls",
+        "eslint", "gradle_ls", "lua_ls", "pylsp", "marksman", "pyright",
+        "rust_analyzer", "vimls", "yamlls", "clangd", "grammarly",
+        "groovyls", "html", "jsonls", "taplo", "markdown_oxide",
+        "flake8", "gitlint", "htmlhint",  "commitlint","luacheck", "markdownlint", "markdownlint-cli2", "mypy",
+        "pyflakes", "pylint", "pyproject-flake8", "shellcheck", "yamllint", "autopep8", "black", "autoflake",
+        "prettierd", "luaformatter", "stylua", "beautysh", "fixjson", "htmlbeautifier",
+        "mdformat", "xmlformatter", "yamlfix", "yamlfmt", "textlint", "pydocstyle", "npm-groovy-lint", "vint",
+        "jsonlint", "cpplint", "codespell", "checkmake", "cmakelint", "shellcheck"
+      },
+    })
     require("mason").setup({})
     require("mason-lspconfig").setup({
-        ensure_installed = {
-            "textlint", "pydocstyle", "npm-groovy-lint", "vint", "jsonlint",
-            "cpplint", "ast_grep", "checkmake", "cmakelint", "codespell",
-            "commitlint", "flake8", "gitlint", "htmlhint", "luacheck",
-            "markdownlint", "markdownlint-cli2", "mypy", "pyflakes", "pylint",
-            "pyproject-flake8", "ruff", "shellcheck", "yamllint", "ast-grep",
-            "asm-lsp", "bash-language-server", "cmake-language-server",
-            "diagnostic-languageserver", "dockerfile-language-server",
-            "eslint-lsp", "gradle-language-server", "lua-language-server",
-            "marksman", "pyright", "python-lsp-server", "ruff", "ruff-lsp",
-            "rust-analyzer", "vim-language-server", "yaml-language-server",
-            "clangd", "django-template-lsp", "grammarly-languageserver",
-            "groovy-language-server", "html-lsp", "json-lsp", "taplo",
-            "autopep8", "black", "autoflake", "prettierd", "luaformatter",
-            "luaformatter", "stylua", "beautysh", "clang_format", "fixjson",
-            "htmlbeautifier", "markdown-toc", "mdformat", "xmlformatter", "yamlfix",
-            "yamlfmt"
-        },
-        automatic_installation = true,
         handlers = {
             function(server_name)
                 require("lspconfig")[server_name].setup({
@@ -128,16 +131,12 @@ function M.config()
                             runtime = {
                                 -- Tell the language server which version of Lua you're using
                                 -- (most likely LuaJIT in the case of Neovim)
-                                version = "5.1", -- ,'LuaJIT',
+                                version = "LuaJIT", -- ,'LuaJIT',
                                 path = {
                                     -- Make the server aware of Neovim runtime files
                                     vim.fn.stdpath("config") .. "/init.lua",
                                     '?.lua', '?/init.lua',
-                                    vim.fn
-                                        .expand '~/.luarocks/share/lua/5.1/?.lua',
-                                    vim.fn
-                                        .expand '~/.luarocks/share/lua/5.1/?/init.lua',
-                                    '/usr/share/5.1/?.lua',
+                                    '/usr/share/luajit-2.1/jit/?.lua',
                                     '/usr/share/lua/5.1/?/init.lua'
                                 }
                             },

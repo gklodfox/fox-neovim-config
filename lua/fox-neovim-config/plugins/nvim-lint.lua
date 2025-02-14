@@ -11,7 +11,7 @@ function M.opts()
         vim = {"vint"},
         markdown = {"markdownlint"},
         json = {"jsonlint"},
-        python = {"mypy", "pylint", "flake8", "pycodestyle", "pydocstyle", "ruff", "pyproject-flake8"},
+        python = {"mypy", "pylint", "flake8", "pycodestyle", "pydocstyle", "ruff"},
         rust = {"bacon"},
         yaml = {"yamllint"},
         sh = {"shellcheck"},

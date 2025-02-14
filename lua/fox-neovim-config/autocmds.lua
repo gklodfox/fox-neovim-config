@@ -1,4 +1,26 @@
-vim.api.nvim_create_user_command('ReloadConfig', 'source $MYVIMRC', {})
+local mason_group = vim.api.nvim_create_augroup("MasonUP", { clear = true })
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "MasonToolsStartingInstall",
+  group = mason_group,
+  callback = function()
+    vim.schedule(function()
+      print("mason-tool-installer is starting")
+    end)
+  end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "MasonToolsUpdateCompleted",
+  group = mason_group,
+  callback = function(e)
+    vim.schedule(function()
+      print(vim.inspect(e.data)) -- print the table that lists the programs that were installed
+    end)
+  end,
+})
+
+vim.api.nvim_create_user_command("ReloadConfig", "source $MYVIMRC", {})
 
 vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
 
@@ -13,7 +35,7 @@ vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
 
     if file ~= "" and buftype ~= "nofile" and vim.g.ui_entered then
       vim.api.nvim_exec_autocmds("User", { pattern = "FilePost", modeline = false })
-      vim.api.nvim_del_augroup_by_name "NvFilePost"
+      vim.api.nvim_del_augroup_by_name("NvFilePost")
 
       vim.schedule(function()
         vim.api.nvim_exec_autocmds("FileType", {})
@@ -25,15 +47,6 @@ vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
     end
   end,
 })
-
--- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
---   pattern = {"*"},
---   callback = function()
---     local view = vim.fn.winsaveview()
---     vim.cmd [[%s:\s\+$::e]]
---     vim.fn.winrestview(view) -- restore cached window view
---   end,
--- })
 
 vim.api.nvim_create_autocmd({ "BufRead" }, {
   pattern = "*",
@@ -154,8 +167,9 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.schedule(function()
         local status, result = pcall(vim.api.nvim_win_set_cursor, 0, mark_pos)
         if not status then
-          vim.api.nvim_err_writeln(string.format("Failed to resume cursor position. Context %s, error: %s",
-          vim.inspect(ev), result))
+          vim.api.nvim_err_writeln(
+            string.format("Failed to resume cursor position. Context %s, error: %s", vim.inspect(ev), result)
+          )
         end
       end)
       -- the following two ways also seem to work,
@@ -167,7 +181,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 local number_toggle_group = vim.api.nvim_create_augroup("numbertoggle", { clear = true })
-vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
+vim.api.nvim_create_autocmd({
+  "BufEnter",
+  "FocusGained",
+  "InsertLeave",
+  "WinEnter",
+}, {
   pattern = "*",
   group = number_toggle_group,
   desc = "togger line number",
@@ -183,14 +202,14 @@ vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("auto_close_win", { clear = true }),
   desc = "Quit Nvim if we have only one window, and its filetype match our pattern",
   callback = function(_)
-    local quit_filetypes = {'qf', 'NvimTree', 'trouble', 'Outline'}
+    local quit_filetypes = { "qf", "NvimTree", "trouble", "Outline" }
 
     local should_quit = true
     local tabwins = vim.api.nvim_tabpage_list_wins(0)
 
     for _, win in pairs(tabwins) do
       local buf = vim.api.nvim_win_get_buf(win)
-      local bf = vim.fn.getbufvar(buf, '&filetype')
+      local bf = vim.fn.getbufvar(buf, "&filetype")
 
       if vim.fn.index(quit_filetypes, bf) == -1 then
         should_quit = false
@@ -200,5 +219,5 @@ vim.api.nvim_create_autocmd("BufEnter", {
     if should_quit then
       vim.cmd("qall")
     end
-  end
+  end,
 })
