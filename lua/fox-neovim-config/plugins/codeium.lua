@@ -5,7 +5,6 @@ M.enabled = false
 
 function M.opts()
   return {
-    config_path = "/home/fox/Dotfiles/.config/codeium.token",
     workspace_root = {
       use_lsp = true,
       find_root = nil,
