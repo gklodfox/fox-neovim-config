@@ -4,6 +4,7 @@ local set_opt = vim.opt
 set_opt.lazyredraw = true -- Redraw only when needed
 set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
+local set_win = vim.wo
 
 -- GLOBALS
 vim.scriptencoding = "utf-8"
@@ -27,12 +28,12 @@ set_o.autoindent = true
 set_o.expandtab = true
 set_o.shiftwidth = 2
 set_o.tabstop = 2
-set_o.softtabstop = 4
-set_o.smartindent = true
-set_opt.breakindent = true
+set_o.softtabstop = 2
 -- EDITOR
+set_win.conceallevel = 3
 set_opt.list = true
-set_opt.listchars = { trail = '·', nbsp = '␣' }
+set_opt.listchars = { trail = '·', nbsp = '␣', eol = '' }
+
 set_opt.ignorecase = true
 set_opt.smartcase = true
 set_opt.showmode = false
@@ -65,7 +66,10 @@ set_o.undofile = true
 set_opt.autochdir = true
 set_opt.cmdheight = 0
 set_opt.isfname:append { '@-@' }
-set_o.termguicolors = true
+set_o.wildmenu = true
+set_opt.wildignore = {"*/node_modules/*", "*/.git/*", "*/venv/*", "*/__pycache__/*", "*/.pytest_cache/*", "*/doc/*", "*/tmp/*"}
+
+-- set_o.termguicolors = true
 -- set_opt.completeopt = {"menu", "menuone", "noselect"}
 -- set_opt.guicursor = {
 --   "n-v:block",

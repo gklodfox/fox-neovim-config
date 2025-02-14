@@ -8,7 +8,7 @@ function M.opts()
     preset = "helix",
     icons = {
       mappings = vim.g.have_nerd_font,
-      -- keys = vim.g.have_nerd_font and {}
+      keys = vim.g.have_nerd_font and {}
     },
     spec = {
       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
@@ -38,13 +38,5 @@ function M.opts()
     },
   }
 end
-
--- function M.config(_, opts)
---   local wk = require('which-key')
---   local mappings = require('fox-neovim-config.mappings')
---
---   wk.register(mappings)
---
--- end
 
 return M

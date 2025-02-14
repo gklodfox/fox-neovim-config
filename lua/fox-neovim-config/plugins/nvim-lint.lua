@@ -1,7 +1,7 @@
 local M = {"mfussenegger/nvim-lint"}
 
-M.event = {"BufWritePost", "BufReadPost", "InsertLeave"}
-
+-- M.event = {"BufWritePost", "BufReadPost", "InsertLeave"}
+--
 function M.opts()
   return {
     linters_by_ft = {
