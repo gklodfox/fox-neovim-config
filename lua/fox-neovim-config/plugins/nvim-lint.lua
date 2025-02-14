@@ -5,7 +5,7 @@ local M = {"mfussenegger/nvim-lint"}
 function M.opts()
   return {
     linters_by_ft = {
-        lua = {"luacheck"},
+        lua = {},
         make = {"checkmake"},
         cmake = {"cmakelint"},
         vim = {"vint"},
