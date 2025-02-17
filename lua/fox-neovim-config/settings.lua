@@ -15,7 +15,6 @@ set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
 set_global.python3_host_prog = '/home/fox/.cache/pypoetry/virtualenvs/neovim-venv-8W5n8m1R-py3.13/bin/python'
 set_global.node_host_prog = '/usr/bin/neovim-node-host'
-set_global.have_nerd_font = true
 -- NUMBER LINE
 set_o.number = true
 set_o.relativenumber = true
@@ -24,6 +23,7 @@ set_o.cursorlineopt = "both"
 set_o.ruler = false
 set_o.numberwidth = 2
 -- INDENTS
+set_opt.breakindent = true
 set_o.autoindent = true
 set_o.expandtab = true
 set_o.shiftwidth = 2
@@ -40,15 +40,15 @@ set_opt.showmode = false
 set_opt.path = vim.opt.path + "**"
 set_o.mouse = "a"
 set_o.smoothscroll = true
-set_o.clipboard = "unnamedplus"
+-- set_o.clipboard = "unnamedplus"
 set_o.title = true
 set_o.inccommand = "split"
 set_o.ttimeoutlen = 0
 set_opt.timeoutlen = 300
 set_o.updatetime = 250
 set_o.wrap = false
-set_opt.whichwrap:append "<>[hl]"
-set_opt.shortmess:append "sI"
+-- set_opt.whichwrap:append "<>[hl]"
+-- set_opt.shortmess:append "sI"
 set_o.splitbelow = true
 set_o.hidden = true
 set_o.splitright = true
@@ -66,5 +66,5 @@ set_o.undofile = true
 set_opt.autochdir = true
 set_opt.cmdheight = 0
 set_opt.isfname:append { '@-@' }
-set_o.wildmenu = true
-set_opt.wildignore:append{"node_modules/*", ".git/*", "venv/*", "__pycache__/*", ".pytest_cache/*", "*/doc/*", "tmp/*", "*.md"}
+-- set_o.wildmenu = true
+-- set_opt.wildignore:append{"node_modules/*", ".git/*", "venv/*", "__pycache__/*", ".pytest_cache/*", "*/doc/*",".*/doc", "tmp/*", "*.md"}

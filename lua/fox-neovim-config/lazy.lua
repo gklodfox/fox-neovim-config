@@ -14,9 +14,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = " "
-vim.opt.termguicolors = true
-
 require("lazy").setup({
   root = vim.fn.stdpath("data") .. "/lazy",
   ui = {

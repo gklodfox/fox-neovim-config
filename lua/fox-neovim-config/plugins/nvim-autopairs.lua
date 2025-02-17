@@ -35,9 +35,9 @@ function M.opts()
         map_c_w = false -- map <c-w> to delete a pair if possible
     }
 end
---
--- function M.config(_, opts)
---   require("nvim-autopairs").setup(opts)
--- end
+
+function M.config(_, opts)
+  require("nvim-autopairs").setup(opts)
+end
 
 return M

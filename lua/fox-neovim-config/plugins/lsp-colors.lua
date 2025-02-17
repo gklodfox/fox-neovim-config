@@ -1,7 +1,5 @@
 local M = { "folke/lsp-colors.nvim" }
 
-M.event = "User FilePost"
-
 function M.opts()
   return {
     Error = "#FF10F0",
@@ -9,6 +7,10 @@ function M.opts()
     Hint = "#1BAEFA",
     Information = "#5BCEFA",
   }
+end
+
+function M.config(_, opts)
+  require("lsp-colors").setup(opts)
 end
 
 return M

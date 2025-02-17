@@ -1,6 +1,5 @@
 local M = { "OXY2DEV/helpview.nvim" }
 
-M.lazy = false
 M.dependencies = { "echasnovski/mini.icons" }
 
 function M.opts()
@@ -9,6 +8,10 @@ function M.opts()
       icon_provider = "mini"
     }
   }
+end
+
+function M.config(_, opts)
+  require("helpview").setup(opts)
 end
 
 return M

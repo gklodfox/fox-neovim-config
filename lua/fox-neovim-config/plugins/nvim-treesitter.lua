@@ -13,7 +13,7 @@ function M.opts()
         ensure_installed = {
             "vimdoc", "c", "lua", "luadoc", "luap", "printf", "regex", "toml",
             "xml", "rust", "jsonc", "bash", "vim", "query", "markdown",
-            "groovy", "markdown_inline", "python", "cpp", "fish", "dap_repl",
+            "groovy", "markdown_inline", "python", "cpp", "fish",
             "json", "yaml", "gitignore", "bash", "diff", "html"
 
         }

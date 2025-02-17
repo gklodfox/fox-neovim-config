@@ -1,7 +1,7 @@
 local M = { "folke/which-key.nvim" }
 
-M.event = "VeryLazy"
-
+-- M.event = "VeryLazy"
+--
 function M.opts()
   return {
     delay = 0,
@@ -11,10 +11,11 @@ function M.opts()
       keys = vim.g.have_nerd_font and {}
     },
     spec = {
-      { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+      { '<leader>c', group = '[c]ode', icon = "",  mode = { 'n', 'x' } },
+      { '<leader>p', group = 'ChatG[p]T', icon = "󱙺",  mode = { 'n', 'v' } },
       { '<leader>d', group = '[D]elete' },
       { '<leader>r', group = '[R]ename' },
-      { '<leader>f', group = '[F]ind' },
+      { '<leader>f', group = '[F]ind', icon = "󰍉"},
       { '<leader>w', group = '[W]orkspace' },
       { '<leader>t', group = '[T]oggle' },
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
@@ -37,6 +38,10 @@ function M.opts()
       },
     },
   }
+end
+
+function M.config(_, opts)
+  require("which-key").setup(opts)
 end
 
 return M

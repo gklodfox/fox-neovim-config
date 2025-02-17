@@ -1,7 +1,5 @@
 local M = { "lewis6991/gitsigns.nvim" }
 
-M.event = "User FilePost"
-
 function M.opts()
   return {
     signs = {
@@ -54,20 +52,20 @@ function M.opts()
   }
 end
 
--- function M.config(_, opts)
---   require("gitsigns").setup(opts)
---
---   vim.api.nvim_create_autocmd("ColorScheme", {
---     pattern = "*",
---     callback = function()
---       vim.cmd([[
---         hi GitSignsChangeInline gui=reverse
---         hi GitSignsAddInline gui=reverse
---         hi GitSignsDeleteInline gui=reverse
---       ]])
---     end,
---   })
--- end
+function M.config(_, opts)
+  require("gitsigns").setup(opts)
+
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    pattern = "*",
+    callback = function()
+      vim.cmd([[
+        hi GitSignsChangeInline gui=reverse bg=yellow
+        hi GitSignsAddInline gui=reverse bg=green
+        hi GitSignsDeleteInline gui=reverse bg=red
+      ]])
+    end,
+  })
+end
 
 return M
 

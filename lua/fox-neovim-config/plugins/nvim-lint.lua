@@ -20,7 +20,7 @@ function M.opts()
         gitignore = {},
         html = {"htmlhint"},
         groovy = {},
-        text = {}
+        text = {"codespell"},
     }
   }
 end

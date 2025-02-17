@@ -16,4 +16,8 @@ function M.opts()
   }
 end
 
+function M.config(_, opts)
+  require("treesitter-context").setup(opts)
+end
+
 return M

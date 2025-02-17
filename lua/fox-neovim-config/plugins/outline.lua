@@ -1,11 +1,9 @@
 local M = { "hedyhli/outline.nvim" }
 
-M.event = "VeryLazy"
 M.dependencies = {
   "epheien/outline-treesitter-provider.nvim",
   "msr1k/outline-asciidoc-provider.nvim",
   "onsails/lspkind.nvim",
-  -- Your setup opts here (leave empty to use defaults)
 }
 
 function M.opts()

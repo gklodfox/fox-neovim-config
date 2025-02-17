@@ -1,10 +1,12 @@
 local M = {"stevearc/conform.nvim"}
 
 function M.opts()
-    local lua_formatters = {"lua-format"}
-    local python_formatters = {"isort", "black"}
+    local lua_formatters = {"stylua"}
+    local python_formatters = {"isort", "black", "autopep8", "autoflake"}
     local rust_formatters = {"rustfmt"}
-    local yaml_formatters = {"yamlfmt"}
+    local yaml_formatters = {"yamlfmt", "yamlfix"}
+    local json_formatters = {"fixjson"}
+    local sh_formatters = {"shellcheck", "shfmt"}
     local all_formatters = {"codespell"}
     local on_save_formatters = {}
 
@@ -14,6 +16,8 @@ function M.opts()
             python = python_formatters,
             rust = rust_formatters,
             yaml = yaml_formatters,
+            json = json_formatters,
+            sh = sh_formatters,
             ["*"] = all_formatters,
             ["_"] = on_save_formatters
         },

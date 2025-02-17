@@ -1,5 +1,7 @@
 local M = { "martineausimon/nvim-lilypond-suite" }
 
+M.enabled = false
+
 function M.opts()
   return {
     lilypond = {
@@ -80,7 +82,7 @@ function M.opts()
           height = "1",
           border_style = "single",
           winhighlight = "Normal:Normal,FloatBorder:Normal",
-          soundfont_path = "/home/fox/Documents/soundfonts/Yamaha C5 Grand-v2.4.sf2",
+          soundfont_path = "/home/fox/Documents/soundfonts/YamahaC5Grand-v2.4.sf2",
           midi_synth = "fluidsynth",
           fluidsynth_flags = nil,
           timidity_flags = nil,

@@ -23,7 +23,7 @@ function M.opts()
       shortcut = {
         { desc = "Plugins", group = "@property", action = "Lazy", key = "p" },
         { desc = " Files", group = "Label", action = "Telescope find_files hidden=true", key = "f" },
-        { desc = " Grep", group = "Label", action = "Telescope live_grep", key = "g" },
+        { desc = " Grep", group = "Label", action = "Telescope live_grep_args", key = "g" },
         { desc = " Git files", group = "Label", action = "Telescope git_files", key = "G" },
         { desc = " Projects", group = "Label", action = "Telescope project", key = "P" }
       }

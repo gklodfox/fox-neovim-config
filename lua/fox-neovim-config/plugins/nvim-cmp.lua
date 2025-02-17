@@ -42,14 +42,8 @@ function M.opts()
   vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
   local cmp = require("cmp")
   local luasnip = require("luasnip")
-  local defaults = require("cmp.config.default")()
   local insert_opts = { behavior = cmp.SelectBehavior.Insert }
   local select_opts = { behavior = cmp.SelectBehavior.Replace, select = true }
-  local auto_select = true
-
-  local npairs = require("nvim-autopairs.completion.cmp")
-
-  cmp.event:on("confirm_done", npairs.on_confirm_done())
 
   return {
     auto_brackets = {
@@ -71,9 +65,9 @@ function M.opts()
       documentation = cmp.config.window.bordered(),
     },
     completion = {
-      completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
+      completeopt = "menu,menuone,noinsert"
     },
-    preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
+    -- preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
@@ -113,13 +107,17 @@ function M.opts()
         return item
       end,
     },
-    sources = cmp.config.sources({
+    sources = require("cmp").config.sources({
+      { name = "lazydev", group_index = 0 },
       { name = "nvim_lsp" },
       { name = "render-markdown" },
       { name = "luasnip" },
       { name = "async_path" },
       { name = "path" },
       { name = "nvim_lua" },
+      { name = "codeium" },
+      { name = "cmp_ai" },
+      { name = "luasnip_choice" },
       { name = "nvim_lsp_signature_help" },
       { name = "snippets" },
       { name = "nvim_lsp_document_symbol" },
@@ -132,8 +130,30 @@ function M.opts()
     experimental = {
       ghost_text = vim.g.ai_cmp and { hl_group = "CmpGhostText" } or false,
     },
-    sorting = defaults.sorting,
   }
+end
+
+function M.config(_, opts)
+  local cmp = require("cmp")
+
+  cmp.setup(opts)
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+  --
+  -- -- `:` cmdline setup.
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    }),
+    matching = { disallow_symbol_nonprefix_matching = false }
+  })
 end
 
 return M

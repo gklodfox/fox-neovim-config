@@ -5,24 +5,9 @@ M.dependencies = {'nvim-lua/plenary.nvim', "hrsh7th/nvim-cmp"}
 function M.opts()
   return {
     config_path = "/home/fox/Dotfiles/.config/codeium.token",
-    workspace_root = {
-      use_lsp = true,
-      find_root = nil,
-      paths = {
-        ".bzr",
-        ".git",
-        ".hg",
-        ".svn",
-        "_FOSSIL_",
-        "package.json",
-      }
-    },
     enable_cmp_source = true,
     virtual_text = {
         enabled = true,
-
-        -- These are the defaults
-
         -- Set to true if you never want completions to be shown automatically.
         manual = false,
         -- A mapping of filetype to true or false, to enable virtual text.
@@ -30,7 +15,7 @@ function M.opts()
         -- Whether to enable virtual text of not for filetypes not specifically listed above.
         default_filetype_enabled = true,
         -- How long to wait (in ms) before requesting completions after typing stops.
-        idle_delay = 150,
+        idle_delay = 75,
         -- Priority of the virtual text. This usually ensures that the completions appear on top of
         -- other plugins that also add virtual text, such as LSP inlay hints, but can be modified if
         -- desired.
@@ -43,11 +28,11 @@ function M.opts()
         -- Key bindings for managing completions in virtual text mode.
         key_bindings = {
             -- Accept the current completion.
-            accept = "<C-Tab>",
+            accept = "<M-Tab>",
             -- Accept the next word.
-            accept_word = "<Tab>",
+            accept_word = false,
             -- Accept the next line.
-            accept_line = false,
+            accept_line = "<Tab>",
             -- Clear the virtual text.
             clear = false,
             -- Cycle to the next completion.

@@ -62,4 +62,8 @@ function M.opts()
   }
 end
 
+function M.config(_, opts)
+  require("trouble").setup(opts)
+end
+
 return M

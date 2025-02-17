@@ -22,5 +22,8 @@ function M.opts()
         end
     }
 end
+function M.config(_, opts)
+    require("transparent").setup(opts)
+end
 
 return M

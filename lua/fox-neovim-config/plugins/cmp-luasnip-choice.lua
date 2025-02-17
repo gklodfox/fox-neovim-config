@@ -8,4 +8,8 @@ function M.opts()
   }
 end
 
+function M.config(_, opts)
+  require("cmp_luasnip_choice").setup(opts)
+end
+
 return M

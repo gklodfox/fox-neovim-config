@@ -1,7 +1,6 @@
 local M = { "kdheepak/lazygit.nvim" }
 
 M.dependencies = {"nvim-lua/plenary.nvim"}
-M.lazy = true
 M.cmd = {
   "LazyGit",
   "LazyGitConfig",
@@ -9,7 +8,6 @@ M.cmd = {
   "LazyGitFilter",
   "LazyGitFilterCurrentFile",
 }
-
 M.keys = {
   { "<leader>g", "<cmd>LazyGit<cr>", desc = "LazyGit" }
 }

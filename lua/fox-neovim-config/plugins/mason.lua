@@ -11,7 +11,7 @@ function M.opts()
       }
     },
     log_level = vim.log.levels.INFO,
-    max_concurrent_installers = 4,
+    max_concurrent_installers = 8,
   }
 end
 

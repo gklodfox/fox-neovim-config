@@ -166,4 +166,8 @@ function M.opts()
   }
 end
 
+function M.config(_, opts)
+  require("nvim-tree").setup(opts)
+end
+
 return M
