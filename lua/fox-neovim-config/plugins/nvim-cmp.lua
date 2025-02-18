@@ -136,7 +136,8 @@ function M.opts()
       { name = "rg"},
       { name = "treesitter" },
       { name = "plugins" },
-    }, { { name = "buffer" } }),
+      { name = "buffer" },
+    }, {}),
     experimental = {
       ghost_text = vim.g.ai_cmp and { hl_group = "CmpGhostText" } or false,
     },
