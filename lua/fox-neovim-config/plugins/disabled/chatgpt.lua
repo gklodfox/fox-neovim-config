@@ -4,6 +4,7 @@ M.dependencies = {
     "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "folke/trouble.nvim", -- optional
     "nvim-telescope/telescope.nvim"
 }
+M.enabled = false
 
 function M.opts()
     return {

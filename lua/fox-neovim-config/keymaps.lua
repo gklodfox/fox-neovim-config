@@ -53,29 +53,29 @@ vim.keymap.set("n", "<C-S-N>", function()
   require("harpoon"):list():next()
 end)
 
-wk.add({
-  mode = { "n", "v" },
-  cond = function()
-    if pcall(require, "chatgpt") then
-      return true
-    end
-    return false
-  end,
-  { "<leader>pc", "<cmd>ChatGPT<CR>", desc = "ChatGPT", icon = "󱙺" },
-  { "<leader>pe", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
-  { "<leader>pg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
-  { "<leader>pt", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
-  { "<leader>pk", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
-  { "<leader>pd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
-  { "<leader>pa", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
-  { "<leader>po", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
-  { "<leader>ps", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
-  { "<leader>pf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
-  { "<leader>px", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
-  { "<leader>pr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
-  { "<leader>pl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" },
-})
-
+-- wk.add({
+--   mode = { "n", "v" },
+--   cond = function()
+--     if pcall(require, "chatgpt") then
+--       return true
+--     end
+--     return false
+--   end,
+--   { "<leader>pc", "<cmd>ChatGPT<CR>", desc = "ChatGPT", icon = "󱙺" },
+--   { "<leader>pe", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+--   { "<leader>pg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+--   { "<leader>pt", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
+--   { "<leader>pk", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
+--   { "<leader>pd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+--   { "<leader>pa", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+--   { "<leader>po", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+--   { "<leader>ps", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+--   { "<leader>pf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+--   { "<leader>px", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
+-- --   { "<leader>pr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
+-- --   { "<leader>pl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" },
+-- -- })
+--
 wk.add({
   mode = { "n" },
   cond = function()
@@ -84,8 +84,9 @@ wk.add({
     end
     return false
   end,
-  { "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", desc = "Find files in CWD" },
-  { "<leader>fg", "<cmd>Telescope grep_string<CR>", desc = "Grep files in CWD" },
+  { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "Find files in CWD" },
+  { "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "Grep files in CWD" },
+  { "<leader>fg", "<cmd>Telescope live_grep_args<CR>", desc = "[args] Grep files in CWD" },
   { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Find buffer" },
   { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Find help tags" },
 })

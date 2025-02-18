@@ -18,6 +18,7 @@ M.dependencies = {
   "doxnit/cmp-luasnip-choice",
   "saadparwaiz1/cmp_luasnip",
   "ray-x/cmp-treesitter",
+  "tzachar/cmp-ai",
   "windwp/nvim-autopairs",
   "williamboman/mason-lspconfig.nvim",
   {
@@ -39,11 +40,9 @@ M.dependencies = {
 }
 M.event = "InsertEnter"
 function M.opts()
-  vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
   local cmp = require("cmp")
   local luasnip = require("luasnip")
-  local insert_opts = { behavior = cmp.SelectBehavior.Insert }
-  local select_opts = { behavior = cmp.SelectBehavior.Replace, select = true }
+  local insert_opts = { behavior = cmp.SelectBehavior.Insert, select = true }
 
   return {
     auto_brackets = {
@@ -65,9 +64,9 @@ function M.opts()
       documentation = cmp.config.window.bordered(),
     },
     completion = {
-      completeopt = "menu,menuone,noinsert"
+      completeopt = "menu,menuone,noinsert",
     },
-    -- preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
+    preselect = {select = true} and cmp.PreselectMode.Item or cmp.PreselectMode.None,
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
@@ -78,11 +77,20 @@ function M.opts()
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<Down>"] = cmp.mapping.select_next_item(insert_opts),
       ["<Up>"] = cmp.mapping.select_prev_item(insert_opts),
-      ["<C-Right>"] = cmp.mapping.complete(),
-      ["<C-Left>"] = cmp.mapping.abort(),
-      ["<CR>"] = cmp.mapping.confirm(select_opts),
-      ["<S-CR>"] = cmp.mapping.confirm(select_opts), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      ["<C-Space>"] = cmp.mapping.complete({}),
     }),
+    --   ["<C-x>"] = cmp.mapping(
+    --     cmp.mapping.complete({
+    --       config = {
+    --         sources = cmp.config.sources({
+    --           { name = "cmp_ai" },
+    --         }),
+    --       },
+    --     }),
+    --     { "i" }
+    --   ),
+    -- }),
     formatting = {
       fields = { "menu", "abbr", "kind" },
       format = function(entry, item)
@@ -93,7 +101,8 @@ function M.opts()
           render_markdown = "[MD]",
           luasnip = "[Luasnip]",
           nvim_lua = "[Lua]",
-          codeium = "[Codeium]",
+          -- cmp_ai = "[Ai]",
+          -- codeium = "[Codeium]",
           async_path = "[Async Path]",
           path = "[Path]",
           nvim_lsp_signature_help = "[Signature]",
@@ -115,15 +124,16 @@ function M.opts()
       { name = "async_path" },
       { name = "path" },
       { name = "nvim_lua" },
-      { name = "codeium" },
-      { name = "cmp_ai" },
+      -- { name = "codeium" },
+      -- { name = "cmp_ai" },
       { name = "luasnip_choice" },
       { name = "nvim_lsp_signature_help" },
       { name = "snippets" },
       { name = "nvim_lsp_document_symbol" },
       { name = "plugins" },
+      { name = "cmp_ai" },
       { name = "calc" },
-      { name = "rg", keyword_length = 6 },
+      { name = "rg"},
       { name = "treesitter" },
       { name = "plugins" },
     }, { { name = "buffer" } }),
@@ -134,26 +144,25 @@ function M.opts()
 end
 
 function M.config(_, opts)
-  local cmp = require("cmp")
+  require("cmp").setup(opts)
 
-  cmp.setup(opts)
-  cmp.setup.cmdline('/', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'buffer' }
-    }
-  })
-  --
-  -- -- `:` cmdline setup.
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    }),
-    matching = { disallow_symbol_nonprefix_matching = false }
-  })
+  -- cmp.setup.cmdline("/", {
+  --   mapping = cmp.mapping.preset.cmdline(),
+  --   sources = {
+  --     { name = "buffer" },
+  --   },
+  -- })
+  -- --
+  -- -- -- `:` cmdline setup.
+  -- cmp.setup.cmdline(":", {
+  --   mapping = cmp.mapping.preset.cmdline(),
+  --   sources = cmp.config.sources({
+  --     { name = "path" },
+  --   }, {
+  --     { name = "cmdline" },
+  --   }),
+  --   matching = { disallow_symbol_nonprefix_matching = false },
+  -- })
 end
 
 return M
