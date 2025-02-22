@@ -9,18 +9,18 @@ M.dependencies = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
   "rshkarin/mason-nvim-lint",
   "zapling/mason-conform.nvim",
-  {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    "folke/lazydev.nvim",
-    ft = "lua",
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
-    },
-  },
+  -- {
+  --   -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+  --   -- used for completion, annotations and signatures of Neovim apis
+  --   "folke/lazydev.nvim",
+  --   ft = "lua",
+  --   opts = {
+  --     library = {
+  --       -- Load luvit types when the `vim.uv` word is found
+  --       { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+  --     },
+  --   },
+  -- },
 }
 
 function M.init()
@@ -198,7 +198,7 @@ function M.opts()
           scan_cmake_in_package = true, -- default is true
         },
       },
-      diagnosticls = {},
+      -- diagnosticls = {},
       dockerls = {},
       html = {},
       grammarly = {},
@@ -232,7 +232,7 @@ function M.config(_, opts)
       "asm_lsp",
       "bashls",
       "neocmake",
-      "diagnosticls",
+      -- "diagnosticls",
       "dockerls",
       "gradle_ls",
       "lua_ls",
