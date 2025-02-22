@@ -41,74 +41,6 @@ function M.init()
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
   end
   vim.filetype.add({ pattern = { [".*/*.asasm"] = "asasm" } })
-end
-
-function M.config(_, opts)
-  -- require("neodev").setup({})
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- Add cmp_nvim_lsp capabilities settings to lspconfig
-  -- This should be executed before you configure any language server
-  capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-  local servers = {
-    asm_lsp = {},
-    lua_ls = {
-      settings = {
-        Lua = {
-          completion = {
-            callSnippet = "Replace",
-          },
-          diagnostics = { disable = { "missing-fields" } },
-        },
-      },
-    },
-    pylsp = {
-      settings = {
-        pylsp = {
-          plugins = {
-            -- formatter
-            black = { enabled = true },
-            pylint = {
-              enabled = true,
-              -- executable = "pylint",
-              args = { "-d C0114,C0115,C0116" },
-            },
-            pylsp_mypy = {
-              enabled = true,
-              report_progress = true,
-              live_mode = true,
-            },
-            pycodestyle = {
-              ignore = { "W391" },
-              maxLineLength = 100,
-            },
-            isort = { enabled = true },
-          },
-        },
-      },
-    },
-    bashls = {
-      settings = {
-        bashIde = { globPattern = "*@(.sh|.inc|.bash|.command)" },
-      },
-    },
-    gradle_ls = {},
-    rust_analyzer = {},
-    marksman = {},
-    clangd = {},
-    cmake = {},
-    diagnosticls = {},
-    dockerls = {},
-    html = {},
-    grammarly = {},
-    jsonls = {},
-    yamlls = {},
-    markdown_oxide = {},
-    ruff = {},
-    taplo = {},
-    textlsp = {},
-    vimls = {},
-  }
   vim.api.nvim_create_autocmd("LspAttach", {
     desc = "LSP actions",
     callback = function(event)
@@ -135,6 +67,82 @@ function M.config(_, opts)
       })
     end,
   })
+end
+
+function M.opts()
+  return {
+    servers = {
+      asm_lsp = {},
+      lua_ls = {
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+            },
+            diagnostics = { disable = { "missing-fields" } },
+          },
+        },
+      },
+      pylsp = {
+        settings = {
+          pylsp = {
+            plugins = {
+              -- formatter
+              black = { enabled = true },
+              pylint = {
+                enabled = true,
+                -- executable = "pylint",
+                args = { "-d C0114,C0115,C0116" },
+              },
+              pylsp_mypy = {
+                enabled = true,
+                report_progress = true,
+                live_mode = true,
+              },
+              pycodestyle = {
+                ignore = { "W391" },
+                maxLineLength = 100,
+              },
+              isort = { enabled = true },
+            },
+          },
+        },
+      },
+      bashls = {
+        settings = {
+          bashIde = { globPattern = "*@(.sh|.inc|.bash|.command)" },
+        },
+      },
+      gradle_ls = {},
+      rust_analyzer = {},
+      marksman = {},
+      clangd = {
+        cmd = {
+          "clangd",
+          "--offset-encoding=utf-16"
+        }
+      },
+      cmake = {},
+      diagnosticls = {},
+      dockerls = {},
+      html = {},
+      grammarly = {},
+      jsonls = {},
+      yamlls = {},
+      markdown_oxide = {},
+      ruff = {},
+      taplo = {},
+      textlsp = {},
+      vimls = {},
+    },
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
+  }
+end
+
+function M.config(_, opts)
+  -- require("neodev").setup({})
+  local capabilities = vim.tbl_deep_extend("force", opts.capabilities, require("cmp_nvim_lsp").default_capabilities())
+
   require("mason-tool-installer").setup({
     auto_update = true,
     run_on_start = true,
@@ -182,15 +190,14 @@ function M.config(_, opts)
       "textlsp",
     },
   })
-  require("mason").setup({})
-  require("mason-lspconfig").setup({
-    handlers = {
-      function(server_name)
-        local server = servers[server_name] or {}
-        server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-        require("lspconfig")[server_name].setup(server)
-      end,
-    },
+  require("mason").setup()
+  require("mason-lspconfig").setup()
+  require("mason-lspconfig").setup_handlers({
+    function(server_name)
+      local server = opts.servers[server_name] or {}
+      server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+      require("lspconfig")[server_name].setup(server)
+    end,
   })
   require("mason-conform").setup({
     ensure_installed = {
