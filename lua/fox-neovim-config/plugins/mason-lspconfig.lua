@@ -74,12 +74,62 @@ function M.opts()
     servers = {
       asm_lsp = {},
       lua_ls = {
-        settings = {
-          Lua = {
+        on_init = function(client)
+          if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if
+              path ~= vim.fn.stdpath("config")
+              and (vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc"))
+            then
+              return
+            end
+          end
+
+          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = "LuaJIT",
+            },
             completion = {
               callSnippet = "Replace",
             },
-            diagnostics = { disable = { "missing-fields" } },
+            -- diagnostics = { disable = { "missing-fields" } },
+            -- Make the server aware of Neovim runtime files
+            workspace = {
+              checkThirdParty = true,
+              library = vim.tbl_extend(
+                "keep",
+                { "/home/fox/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/template" },
+                vim.api.nvim_get_runtime_file("", true)
+              ),
+            },
+          })
+        end,
+      },
+      basics_ls = {
+        settings = {
+          buffer = {
+            enable = true,
+            minCompletionLength = 4,
+          },
+          path = {
+            enable = true,
+          },
+          snippet = {
+            enable = false,
+            sources = {},
+          },
+        },
+      },
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "openFilesOnly",
+              useLibraryCodeForTypes = true,
+            },
           },
         },
       },
@@ -117,12 +167,37 @@ function M.opts()
       rust_analyzer = {},
       marksman = {},
       clangd = {
-        cmd = {
-          "clangd",
-          "--offset-encoding=utf-16"
-        }
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+        cmd = { "clangd" },
+        capabilities = {
+          offsetEncoding = { "utf-16" },
+          textDocument = {
+            completion = {
+              editsNearCursor = true,
+            },
+          },
+        },
+        init_options = {
+          fallbackFlags = { "-std=c++17" },
+        },
       },
-      cmake = {},
+      neocmake = {
+        cmd = { "neocmakelsp", "--stdio" },
+        filetypes = { "cmake" },
+        root_dir = function(fname)
+          return require("lspconfig").util.find_git_ancestor(fname)
+        end,
+        single_file_support = true, -- suggested
+        init_options = {
+          format = {
+            enable = true,
+          },
+          lint = {
+            enable = true,
+          },
+          scan_cmake_in_package = true, -- default is true
+        },
+      },
       diagnosticls = {},
       dockerls = {},
       html = {},
@@ -156,14 +231,14 @@ function M.config(_, opts)
       "ast_grep",
       "asm_lsp",
       "bashls",
-      "cmake",
+      "neocmake",
       "diagnosticls",
       "dockerls",
       "gradle_ls",
       "lua_ls",
       "pylsp",
       "marksman",
-      -- "pyright",
+      "basedpyright",
       "rust_analyzer",
       "vimls",
       "yamlls",
@@ -204,8 +279,10 @@ function M.config(_, opts)
       "autoflake",
       "autopep8",
       "black",
+      "ruff_format",
       "isort",
       "cmake_format",
+      "clang-format",
       "prettier",
       "shellcheck",
       "shfmt",

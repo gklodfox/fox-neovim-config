@@ -1,16 +1,16 @@
 local set_global = vim.g
 local set_opt = vim.opt
 -- Recommended settings
-set_opt.lazyredraw = true -- Redraw only when needed
 set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
 local set_win = vim.wo
 
 -- GLOBALS
+vim.showtabline = 0
 vim.scriptencoding = "utf-8"
 set_o.encoding = "utf-8"
 set_o.fileencoding = "utf-8"
-set_o.syntax = "on"
+-- set_o.syntax = "on"
 set_global.ruby_host_prog = '/home/fox/.local/share/gem/ruby/3.3.0/bin/neovim-ruby-host'
 set_global.perl_host_prog = '/usr/bin/perl'
 set_global.python3_host_prog = '/home/fox/.cache/pypoetry/virtualenvs/neovim-venv-8W5n8m1R-py3.13/bin/python'
