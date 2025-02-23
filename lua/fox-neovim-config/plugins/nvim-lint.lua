@@ -5,6 +5,7 @@ M.event = { "BufNewFile", "BufReadPre" }
 function M.opts()
   return {
     linters_by_ft = {
+      tex = {},
       lua = { "luacheck" },
       make = { "checkmake" },
       cmake = { "cmakelint" },

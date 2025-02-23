@@ -8,8 +8,9 @@ function M.opts()
   local lua_formatters = { "stylua" }
   local clangd_formatters = { "clang-format" }
   local cmake_formatters = { "cmake_format" }
+  local tex_formatters = { "bibtex-tidy", "latexindent" }
   local python_formatters = {
-        "ruff_format"
+    "ruff_format",
     --   else
     --     return { "isort", "black" }
     --   end
@@ -19,11 +20,12 @@ function M.opts()
   local yaml_formatters = { "yamlfmt", "yamlfix" }
   local json_formatters = { "fixjson" }
   local sh_formatters = { "shellcheck", "shfmt" }
-  local all_formatters = { "codespell", "ast-grep" }
-  local on_save_formatters = {}
+  local all_formatters = { "codespell" }
+  local on_save_formatters = { "codespell" }
 
   return {
     formatters_by_ft = {
+      tex = tex_formatters,
       cmake = cmake_formatters,
       clangd = clangd_formatters,
       lua = lua_formatters,
@@ -47,7 +49,7 @@ function M.config(_, opts)
     conform.format({
       lsp_fallback = true,
       async = false,
-      timeout_ms = 500,
+      timeout_ms = 1500,
     })
   end, { desc = "Format current file or range" })
 end

@@ -1,20 +1,31 @@
 local M = { "nvim-treesitter/nvim-treesitter" }
 
-M.build = ":TSInstall dap_repl"
 M.dependencies = {
   "windwp/nvim-ts-autotag",
   "nvim-treesitter/nvim-treesitter-textobjects",
   "RRethy/nvim-treesitter-textsubjects",
   "LiadOz/nvim-dap-repl-highlights",
 }
--- function M.build()
-  -- require("nvim-treesitter.install").update({ with_sync = true })()
-  -- require("nvim-treesitter.install").install({ "dap_repl" })
--- end
+M.event = { "BufReadPost", "BufWritePost", "BufNewFile", "VeryLazy" }
+M.cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" }
+M.keys = {
+  { "<c-space>", desc = "Increment Selection" },
+  { "<bs>", desc = "Decrement Selection", mode = "x" },
+}
+M.opts_extend = { "ensure_installed" }
+M.lazy = vim.fn.argc(-1) == 0
 
-function M.init()
-  vim.wo.foldmethod = 'expr'
-  vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+function M.build()
+  require("nvim-treesitter.install").update({ with_sync = true })()
+end
+
+function M.init(plugin)
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+  vim.o.foldlevel = 2
+
+  require("lazy.core.loader").add_to_rtp(plugin)
+  require("nvim-treesitter.query_predicates")
 end
 
 function M.opts()
@@ -29,6 +40,7 @@ function M.opts()
       "regex",
       "toml",
       "xml",
+      "latex",
       "rust",
       "jsonc",
       "bash",
@@ -51,10 +63,10 @@ function M.opts()
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = "<C-S-space>",
-        node_incremental = "<C-S-Space>",
+        init_selection = "<C-space>",
+        node_incremental = "<C-Space>",
         scope_incremental = false,
-        node_decremental = "<S-bs>",
+        node_decremental = "<bs>",
       },
     },
     context_commentstring = { enable = true, enable_autocmd = true },
@@ -132,6 +144,7 @@ function M.opts()
     },
     highlight = {
       enable = true,
+      disable = { "latex" },
       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
       -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
       -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -139,13 +152,12 @@ function M.opts()
       additional_vim_regex_highlighting = false,
     },
     indent = {
-      enable = true
-    }
+      enable = true,
+    },
   }
 end
 function M.config(_, opts)
-  local configs = require("nvim-treesitter.configs")
-  configs.setup(opts)
+  require("nvim-treesitter.configs").setup(opts)
 end
 
 return M

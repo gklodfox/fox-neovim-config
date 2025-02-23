@@ -209,6 +209,56 @@ function M.opts()
       taplo = {},
       textlsp = {},
       vimls = {},
+      ltex = {
+        settings = {
+          ltex = {
+            enabled = {
+              "bibtex",
+              "gitcommit",
+              "markdown",
+              "org",
+              "tex",
+              "restructuredtext",
+              "rsweave",
+              "latex",
+              "quarto",
+              "rmd",
+              "context",
+              "html",
+              "xhtml",
+              "mail",
+              -- "plaintext",
+            },
+            -- language = "en-GB",
+          },
+        },
+      },
+      texlab = {
+        settings = {
+          texlab = {
+            bibtexFormatter = "texlab",
+            build = {
+              args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+              executable = "latexmk",
+              forwardSearchAfter = false,
+              onSave = true,
+            },
+            chktex = {
+              onEdit = true,
+              onOpenAndSave = true,
+            },
+            diagnosticsDelay = 300,
+            formatterLineLength = 80,
+            forwardSearch = {
+              args = {},
+            },
+            latexFormatter = "latexindent",
+            latexindent = {
+              modifyLineBreaks = false,
+            },
+          },
+        },
+      },
     },
     capabilities = vim.lsp.protocol.make_client_capabilities(),
   }
@@ -228,12 +278,14 @@ function M.config(_, opts)
       ["mason-nvim-dap"] = true,
     },
     ensure_installed = {
-      "ast_grep",
+      -- "ast_grep",
       "asm_lsp",
       "bashls",
       "neocmake",
       -- "diagnosticls",
       "dockerls",
+      "ltex",
+      "texlab",
       "gradle_ls",
       "lua_ls",
       "pylsp",
@@ -276,6 +328,8 @@ function M.config(_, opts)
   })
   require("mason-conform").setup({
     ensure_installed = {
+      "latexindent",
+      "bibtex-tidy",
       "autoflake",
       "autopep8",
       "black",
@@ -295,7 +349,7 @@ function M.config(_, opts)
   })
   require("mason-nvim-lint").setup({
     ensure_installed = {
-      "ast-grep",
+      -- "ast-grep",
       "checkmake",
       "cmakelang",
       "cmakelint",
@@ -325,7 +379,7 @@ function M.config(_, opts)
       "npm-groovy-lint",
       "bacon",
       "commitlint",
-      "textlint",
+      "digestif",
     },
     automatic_installation = true,
     quiet_mode = false,
