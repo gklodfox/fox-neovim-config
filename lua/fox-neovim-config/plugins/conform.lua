@@ -6,16 +6,14 @@ end
 
 function M.opts()
   local lua_formatters = { "stylua" }
-  local clang_formatters = { "clang-format" }
+  local clangd_formatters = { "clang-format" }
   local cmake_formatters = { "cmake_format" }
   local python_formatters = {
-    function(bufnr)
-      if require("conform").get_formatter_info("ruff_format", bufnr).available then
-        return { "ruff_format" }
-      else
-        return { "isort", "black" }
-      end
-    end,
+        "ruff_format"
+    --   else
+    --     return { "isort", "black" }
+    --   end
+    -- end,
   }
   local rust_formatters = { "rustfmt" }
   local yaml_formatters = { "yamlfmt", "yamlfix" }
@@ -27,7 +25,7 @@ function M.opts()
   return {
     formatters_by_ft = {
       cmake = cmake_formatters,
-      clang = clang_formatters,
+      clangd = clangd_formatters,
       lua = lua_formatters,
       python = python_formatters,
       rust = rust_formatters,

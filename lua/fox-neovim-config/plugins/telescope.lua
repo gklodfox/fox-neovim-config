@@ -43,7 +43,7 @@ function M.opts()
   return {
     pickers = {
       find_files = {
-        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
         mappings = {
           n = {
             ["cd"] = function(prompt_bufnr)
@@ -70,6 +70,9 @@ function M.opts()
           "rg",
           "--color=never",
           "--no-heading",
+          "--hidden",
+          "--glob",
+          "!**/.git/*",
           "--with-filename",
           "--line-number",
           "--column",
@@ -356,6 +359,7 @@ end
 function M.config(_, opts)
   local enabled_extensions =
     { "fzf", "ui-select", "frecency", "project", "live_grep_args", "search_dir_picker", "cmdline" }
+
   telescope.setup(opts)
 
   for _, extension in ipairs(enabled_extensions) do
