@@ -99,6 +99,6 @@ require("which-key").add({
     end
     return false
   end,
-  { "gb", "<cmd>LualineBuffersJump! " .. vim.v.count, desc = "Go to buffer" },
+  { "gb", "<cmd>LualineBuffersJump! " .. vim.v.count .. "<CR>", desc = "Go to buffer" },
   { "gB", "<cmd>LualineBuffersJump! $<CR>", desc = "Go to last buffer" },
 })

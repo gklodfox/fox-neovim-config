@@ -6,6 +6,7 @@ M.dependencies = {
   "hrsh7th/cmp-nvim-lua",
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-calc",
+  "micangl/cmp-vimtex",
   "mtoohey31/cmp-fish",
   "petertriho/cmp-git",
   "hrsh7th/cmp-cmdline",
@@ -151,6 +152,7 @@ function M.opts()
       { name = "snippets" },
       { name = "nvim_lsp_document_symbol" },
       { name = "plugins" },
+      -- { name = "vimtex" },
       { name = "cmp_ai" },
       { name = "calc" },
       { name = "rg" },
@@ -177,7 +179,30 @@ function M.opts()
 end
 
 function M.config(_, opts)
-  require("cmp").setup(opts)
+  local cmp = require("cmp")
+  cmp.setup(opts)
+  cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
+  })
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "path", option = { trailing_slash = true } },
+    }, {
+      { name = "cmdline", option = { treat_trailing_slash = false } },
+    }),
+    matching = { disallow_symbol_nonprefix_matching = false },
+  })
+  cmp.setup.filetype("tex", {
+    sources = {
+      { name = "vimtex" },
+      { name = "luasnip" },
+      { name = "buffer" },
+    },
+  })
 
   -- cmp.setup.cmdline("/", {
   --   mapping = cmp.mapping.preset.cmdline(),

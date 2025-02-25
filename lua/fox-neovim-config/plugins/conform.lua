@@ -8,7 +8,7 @@ function M.opts()
   local lua_formatters = { "stylua" }
   local clangd_formatters = { "clang-format" }
   local cmake_formatters = { "cmake_format" }
-  local tex_formatters = { "bibtex-tidy", "latexindent" }
+  local tex_formatters = { "bibtex-tidy" }
   local python_formatters = {
     "ruff_format",
     --   else

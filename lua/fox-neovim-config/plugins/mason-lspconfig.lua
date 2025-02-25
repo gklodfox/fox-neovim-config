@@ -9,18 +9,6 @@ M.dependencies = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
   "rshkarin/mason-nvim-lint",
   "zapling/mason-conform.nvim",
-  -- {
-  --   -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-  --   -- used for completion, annotations and signatures of Neovim apis
-  --   "folke/lazydev.nvim",
-  --   ft = "lua",
-  --   opts = {
-  --     library = {
-  --       -- Load luvit types when the `vim.uv` word is found
-  --       { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-  --     },
-  --   },
-  -- },
 }
 
 function M.init()
@@ -201,38 +189,14 @@ function M.opts()
       -- diagnosticls = {},
       dockerls = {},
       html = {},
-      grammarly = {},
+      -- grammarly = {},
       jsonls = {},
       yamlls = {},
       markdown_oxide = {},
       ruff = {},
       taplo = {},
-      textlsp = {},
+      -- textlsp = {},
       vimls = {},
-      ltex = {
-        settings = {
-          ltex = {
-            enabled = {
-              "bibtex",
-              "gitcommit",
-              "markdown",
-              "org",
-              "tex",
-              "restructuredtext",
-              "rsweave",
-              "latex",
-              "quarto",
-              "rmd",
-              "context",
-              "html",
-              "xhtml",
-              "mail",
-              -- "plaintext",
-            },
-            -- language = "en-GB",
-          },
-        },
-      },
       texlab = {
         settings = {
           texlab = {
@@ -252,10 +216,10 @@ function M.opts()
             forwardSearch = {
               args = {},
             },
-            latexFormatter = "latexindent",
-            latexindent = {
-              modifyLineBreaks = false,
-            },
+            -- latexFormatter = "latexindent",
+            -- latexindent = {
+            --   modifyLineBreaks = false,
+            -- },
           },
         },
       },
@@ -284,7 +248,6 @@ function M.config(_, opts)
       "neocmake",
       -- "diagnosticls",
       "dockerls",
-      "ltex",
       "texlab",
       "gradle_ls",
       "lua_ls",
@@ -295,7 +258,7 @@ function M.config(_, opts)
       "vimls",
       "yamlls",
       "clangd",
-      "grammarly",
+      -- "grammarly",
       -- "groovyls",
       "html",
       "jsonls",
@@ -314,7 +277,7 @@ function M.config(_, opts)
       "xmlformatter",
       "yamlfix",
       "yamlfmt",
-      "textlsp",
+      -- "textlsp",
     },
   })
   require("mason").setup()
@@ -328,7 +291,7 @@ function M.config(_, opts)
   })
   require("mason-conform").setup({
     ensure_installed = {
-      "latexindent",
+      -- "latexindent",
       "bibtex-tidy",
       "autoflake",
       "autopep8",
