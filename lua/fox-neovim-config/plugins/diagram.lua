@@ -1,6 +1,7 @@
 local M = { "3rd/diagram.nvim" }
 
 M.dependencies = "3rd/image.nvim"
+M.enabled = false
 
 function M.opts()
   return {
