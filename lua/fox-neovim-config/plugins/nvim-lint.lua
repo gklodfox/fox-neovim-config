@@ -9,10 +9,11 @@ function M.opts()
       lua = { "luacheck" },
       make = { "checkmake" },
       cmake = { "cmakelint" },
+      cpp = { "cpplint" },
       vim = { "vint" },
       markdown = { "markdownlint" },
       json = { "jsonlint" },
-      python = { "pylint", "flake8", "pydocstyle", "ruff" },
+      python = { "pylint", "flake8", "ruff", "mypy" },
       rust = {},
       yaml = { "yamllint" },
       sh = { "shellcheck" },
@@ -21,7 +22,7 @@ function M.opts()
       gitignore = {},
       html = { "htmlhint" },
       groovy = {},
-      text = { "codespell" },
+      text = { "codespell", "eslint_d" },
     },
   }
 end

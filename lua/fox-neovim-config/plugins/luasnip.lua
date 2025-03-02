@@ -1,6 +1,6 @@
 local M = { "L3MON4D3/LuaSnip" }
 
-M.build = "make install_jsregex"
+M.build = "make install_jsregexp"
 M.event = "InsertEnter"
 
 function M.config()

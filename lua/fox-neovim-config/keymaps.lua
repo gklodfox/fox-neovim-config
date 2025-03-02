@@ -88,6 +88,8 @@ require("which-key").add({
   { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Find help tags" },
   { "<leader>fc", "<cmd>Telescope command_history<CR>", desc = "Search command history" },
   { "<leader>fo", "<cmd>Telescope vim_options<CR>", desc = "Lookup values of neovim settings" },
+  { "<leader>fp", "<cmd>NeovimProjectDiscover<CR>", desc = "Find project" },
+  { "Q", "<cmd>Telescope cmdline<CR>", desc = "Cmdline", noremap = true },
 })
 
 -- nvim-lualine/lualine.nvim

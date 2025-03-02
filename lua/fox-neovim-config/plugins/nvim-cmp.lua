@@ -43,32 +43,31 @@ M.event = "InsertEnter"
 function M.opts()
   local cmp = require("cmp")
   local luasnip = require("luasnip")
-  local lspkind = require("lspkind")
   local insert_opts = { behavior = cmp.SelectBehavior.Insert, select = true }
 
   return {
-    auto_brackets = {
-      "python",
-      "lua",
-      "rust",
-      "fish",
-      "sh",
-      "bash",
-      "json",
-      "markdown",
-      "yaml",
-      "toml",
-      "html",
-      "css",
-    },
+    -- auto_brackets = {
+    --   "python",
+    --   "lua",
+    --   "rust",
+    --   "fish",
+    --   "sh",
+    --   "bash",
+    --   "json",
+    --   "markdown",
+    --   "yaml",
+    --   "toml",
+    --   "html",
+    --   "css",
+    -- },
     window = {
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
     completion = {
-      completeopt = "menu,menuone,noinsert",
+      completeopt = "menu,menuone,noselect",
     },
-    preselect = { select = true } and cmp.PreselectMode.Item or cmp.PreselectMode.None,
+    preselect = cmp.PreselectMode.Item,
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
@@ -94,50 +93,34 @@ function M.opts()
     --   ),
     -- }),
     formatting = {
-      format = lspkind.cmp_format({
-        mode = "symbol", -- show only symbol annotations
-        maxwidth = {
-          -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-          -- can also be a function to dynamically calculate max width such as
-          -- menu = function() return math.floor(0.45 * vim.o.columns) end,
-          menu = 50, -- leading text (labelDetails)
-          abbr = 50, -- actual suggestion item
-        },
-        ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-        show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+      fields = { "menu", "abbr", "kind" },
+      format = function(entry, item)
+        item.kind = require("mini.icons").get("lsp", item.kind) .. " " .. item.kind
 
-        -- The function below will be called before any actual modifications from lspkind
-        -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-        before = function(entry, vim_item)
-          -- ...
-          return vim_item
-        end,
-      }),
-      -- fields = { "menu", "abbr", "kind" },
-      -- format = function(entry, item)
-      --   item.kind = require("mini.icons").get("lsp", item.kind) .. " " .. item.kind
-      --
-      --   item.menu = ({
-      --     buffer = "[Buffer]",
-      --     render_markdown = "[MD]",
-      --     luasnip = "[Luasnip]",
-      --     nvim_lua = "[Lua]",
-      --     -- cmp_ai = "[Ai]",
-      --     -- codeium = "[Codeium]",
-      --     async_path = "[Async Path]",
-      --     path = "[Path]",
-      --     nvim_lsp_signature_help = "[Signature]",
-      --     nvim_lsp_document_symbol = "[Symbol]",
-      --     calc = "[Calc]",
-      --     plugins = "[Plugins]",
-      --     rg = "[Ripgrep]",
-      --     treesitter = "[Treesitter]",
-      --   })[entry.source.name]
-      --
-      --   return item
-      -- end,
+        item.menu = ({
+          buffer = "[Buffer]",
+          lazydev = "[LazyDev]",
+          render_markdown = "[MD]",
+          luasnip = "[Luasnip]",
+          nvim_lua = "[Lua]",
+          nvim_lsp = "[Lsp]",
+          -- cmp_ai = "[Ai]",
+          -- codeium = "[Codeium]",
+          async_path = "[Async Path]",
+          path = "[Path]",
+          nvim_lsp_signature_help = "[Signature]",
+          nvim_lsp_document_symbol = "[Symbol]",
+          calc = "[Calc]",
+          snippets = "[Snppets]",
+          plugins = "[Plugins]",
+          rg = "[Ripgrep]",
+          treesitter = "[Treesitter]",
+        })[entry.source.name]
+
+        return item
+      end,
     },
-    sources = require("cmp").config.sources({
+    sources = cmp.config.sources({
       { name = "lazydev", group_index = 0 },
       { name = "nvim_lsp" },
       { name = "render-markdown" },
@@ -153,15 +136,16 @@ function M.opts()
       { name = "nvim_lsp_document_symbol" },
       { name = "plugins" },
       -- { name = "vimtex" },
-      { name = "cmp_ai" },
+      -- { name = "cmp_ai" },
       { name = "calc" },
-      { name = "rg" },
+      { name = "rg", keyword_length = 3 },
       { name = "treesitter" },
       { name = "plugins" },
+      { name = "fish" },
       { name = "buffer" },
     }, {}),
     experimental = {
-      ghost_text = vim.g.ai_cmp and { hl_group = "CmpGhostText" } or false,
+      ghost_text = true,
     },
     sorting = {
       comparators = {
@@ -187,12 +171,20 @@ function M.config(_, opts)
       { name = "buffer" },
     },
   })
+  cmp.setup.filetype("gitcommit", {
+    sources = cmp.config.sources({
+      { name = "git" },
+    }, {
+      { name = "buffer" },
+    }),
+  })
+  require("cmp_git").setup()
   cmp.setup.cmdline(":", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-      { name = "path", option = { trailing_slash = true } },
+      { name = "path" },
     }, {
-      { name = "cmdline", option = { treat_trailing_slash = false } },
+      { name = "cmdline" },
     }),
     matching = { disallow_symbol_nonprefix_matching = false },
   })
@@ -203,24 +195,6 @@ function M.config(_, opts)
       { name = "buffer" },
     },
   })
-
-  -- cmp.setup.cmdline("/", {
-  --   mapping = cmp.mapping.preset.cmdline(),
-  --   sources = {
-  --     { name = "buffer" },
-  --   },
-  -- })
-  -- --
-  -- -- -- `:` cmdline setup.
-  -- cmp.setup.cmdline(":", {
-  --   mapping = cmp.mapping.preset.cmdline(),
-  --   sources = cmp.config.sources({
-  --     { name = "path" },
-  --   }, {
-  --     { name = "cmdline" },
-  --   }),
-  --   matching = { disallow_symbol_nonprefix_matching = false },
-  -- })
 end
 
 return M

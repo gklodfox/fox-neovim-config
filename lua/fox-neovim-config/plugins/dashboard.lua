@@ -25,7 +25,7 @@ function M.opts()
         { desc = " Files", group = "Label", action = "Telescope find_files hidden=true", key = "f" },
         { desc = " Grep", group = "Label", action = "Telescope live_grep_args", key = "g" },
         { desc = " Git files", group = "Label", action = "Telescope git_files", key = "G" },
-        { desc = " Projects", group = "Label", action = "Telescope project", key = "P" }
+        { desc = " Projects", group = "Label", action = "NeovimProjectDiscover", key = "P" },
       }
     }
   }
