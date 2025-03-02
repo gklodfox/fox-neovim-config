@@ -88,4 +88,5 @@ require("lazy").setup({
   },
 })
 
+require("current-theme")
 -- "vim.cmd("colorscheme flow")

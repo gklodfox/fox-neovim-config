@@ -5,12 +5,16 @@ M.cmd = "Telescope"
 
 M.dependencies = {
   "nvim-lua/plenary.nvim",
+  { "andrew-george/telescope-themes" },
   "nvim-treesitter/nvim-treesitter",
   "jonarrien/telescope-cmdline.nvim",
   "nvim-telescope/telescope-live-grep-args.nvim",
   "nvim-telescope/telescope-file-browser.nvim",
   "nvim-telescope/telescope-ui-select.nvim",
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
+  },
   "MunifTanjim/nui.nvim",
   -- {"HPRIOR/telescope-gpt", dependencies = {"jackMort/ChatGPT.nvim"}},
   -- "nvim-telescope/telescope-project.nvim",
@@ -66,6 +70,54 @@ function M.opts()
       },
     },
     extensions = {
+      themes = {
+        -- you can add regular telescope config
+        -- that you want to apply on this picker only
+        layout_config = {
+          horizontal = {
+            width = 0.8,
+            height = 0.7,
+          },
+        },
+
+        -- extension specific config
+
+        -- (boolean) -> show/hide previewer window
+        enable_previewer = true,
+
+        -- (boolean) -> enable/disable live preview
+        enable_live_preview = false,
+
+        -- (table)
+        -- (boolean) ignore -> toggle ignore light themes
+        -- (list) keywords -> list of keywords that would identify as light theme
+        light_themes = {
+          ignore = true,
+          keywords = { "light", "day", "frappe" },
+        },
+
+        -- (table)
+        -- (boolean) ignore -> toggle ignore dark themes
+        -- (list) keywords -> list of keywords that would identify as dark theme
+        dark_themes = {
+          ignore = false,
+          keywords = { "dark", "night", "black" },
+        },
+
+        persist = {
+          -- enable persisting last theme choice
+          enabled = true,
+
+          -- override path to file that execute colorscheme command
+          path = vim.fn.stdpath("config") .. "/lua/colorscheme.lua",
+        },
+        mappings = {
+          -- for people used to other mappings
+          down = "<C-n>",
+          up = "<C-p>",
+          accept = "<C-y>",
+        },
+      },
       live_grep_args = {
         auto_quoting = true,
         mappings = { -- extend mappings
@@ -139,7 +191,7 @@ function M.config(_, opts)
   require("telescope").setup(opts)
 
   local enabled_extensions =
-    { "fzf", "ui-select", "frecency", "conduct", "live_grep_args", "search_dir_picker", "cmdline" }
+    { "themes", "fzf", "ui-select", "frecency", "conduct", "live_grep_args", "search_dir_picker", "cmdline" }
 
   for _, extension in ipairs(enabled_extensions) do
     pcall(require("telescope").load_extension, extension)

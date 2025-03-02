@@ -1,6 +1,7 @@
 local M = { "doxnit/cmp-luasnip-choice" }
 
 M.dependencies = { "L3MON4D3/LuaSnip" }
+M.enabled = false
 
 function M.opts()
   return {

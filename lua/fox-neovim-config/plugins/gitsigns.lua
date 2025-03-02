@@ -59,9 +59,9 @@ function M.config(_, opts)
     pattern = "*",
     callback = function()
       vim.cmd([[
-        hi GitSignsChangeInline gui=reverse bg=yellow
-        hi GitSignsAddInline gui=reverse bg=green
-        hi GitSignsDeleteInline gui=reverse bg=red
+        hi GitSignsChangeInline gui=reverse
+        hi GitSignsAddInline gui=reverse
+        hi GitSignsDeleteInline gui=reverse
       ]])
     end,
   })
