@@ -3,7 +3,7 @@ local M = { "coffebar/neovim-project" }
 function M.opts()
   return {
     projects = { -- define project roots
- "~/Code/CPP/*", "~/Code/fish/*", "~/Code/groovy/*", "~/Code/latex/*", "~/Code/lua/*", "~/Code/python/*", "~/Code/rust/*", "~/.config/*/*",
+ "~/.config/**/*", "~/repositories/**/*", "~/work/**/*"
     },
     -- Path to store history and sessions
     datapath = vim.fn.stdpath("data"), -- ~/.local/share/nvim/
