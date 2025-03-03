@@ -1,13 +1,25 @@
 local M = { "coffebar/neovim-project" }
 
 function M.opts()
-  return {
-    projects = { -- define project roots
+  local projects = {}
+  if os.getenv("USER") == "gklodkox" then
+    projects = {
       "~/.config/*",
       "~/repositories/*",
       "~/repositories/forks/*",
       "~/work/DCAP/repos/*",
-    },
+    }
+  elseif os.getenv("USER") == "fox" then
+    projects = {
+      "~/.config/*",
+      "~/Sources/*",
+      "~/Code/**/*",
+    }
+  else
+    projects = { "~/.config/*" }
+  end
+  return {
+    projects = projects,
     -- Path to store history and sessions
     datapath = vim.fn.stdpath("data"), -- ~/.local/share/nvim/
     -- Load the most recent session on startup if not in the project directory
@@ -41,11 +53,8 @@ function M.opts()
         "toggleterm",
       },
     },
-    -- Picker to use for project selection
-    -- Options: "telescope", "fzf-lua"
-    -- Fallback to builtin select ui if the specified picker is not available
     picker = {
-      type = "telescope", -- or "fzf-lua"
+      type = "fzf-lua",
       opts = {
         -- picker-specific options
       },
@@ -58,9 +67,9 @@ end
 M.dependencies = {
   { "nvim-lua/plenary.nvim" },
   -- optional picker
-  { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
+  -- { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
   -- optional picker
-  -- { "ibhagwan/fzf-lua" },
+  { "ibhagwan/fzf-lua" },
   { "Shatur/neovim-session-manager" },
 }
 M.lazy = false

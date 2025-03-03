@@ -33,7 +33,7 @@ M.dependencies = {
       require("cmp-plugins").setup({
         files = {
           ".*\\.lua",
-          "$HOME/.config/nvim/lua/fox-neovim-config/plugins/.*\\.lua",
+          vim.fn.expand('~') .. "/.config/nvim/lua/fox-neovim-config/plugins/.*\\.lua",
         },
       })
     end,

@@ -4,7 +4,7 @@ M.build = ":TSUpdate html"
 M.event = "VimEnter"
 
 M.dependencies = {
-  "nvim-telescope/telescope.nvim",
+  -- "nvim-telescope/telescope.nvim",
   "nvim-lua/plenary.nvim",
   "MunifTanjim/nui.nvim",
 }

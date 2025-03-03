@@ -4,7 +4,7 @@ M.cmd = { "NvimTreeToggle", "NvimTreeFocus" }
 
 function M.opts()
   return {
-    respect_buf_cwd = false,
+    respect_buf_cwd = true,
     hijack_cursor = true,
     sort = {
       sorter = "case_sensitive",

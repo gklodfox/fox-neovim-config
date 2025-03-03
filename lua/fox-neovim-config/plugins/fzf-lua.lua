@@ -6,12 +6,13 @@ function M.config()
   require("fzf-lua").setup({
     {"telescope","fzf-native"},
     defaults = { file_icons = "mini" },
-    winopts = { preview = { default = "bat", wrap = true, hidden = false } },
+    winopts = { row = 1, col = 0, preview = { default = "bat", wrap = true, hidden = false } },
     files = {
-      previewer = "bat", -- cmd            = "rg --files",
+      previewer = "bat", 
+      cmd = "rg --files",
       find_opts = [[-type f -not -path '*/\.git/*']],
-      rg_opts = [[--color=never --hidden --files -g "!.git"]],
-      fd_opts = [[--color=never --hidden --type f --type l --exclude .git]],
+      rg_opts = [[--color=always --hidden --files --line-number --column -g "!.git"]],
+      fd_opts = [[--color=always --hidden --type f --type l --exclude .git]],
       dir_opts = [[/s/b/a:-d]],
     },
     grep = {

@@ -183,12 +183,11 @@ function M.config(_, _)
     capabilities = lsp_capabilities,
   })
   lspconfig.groovyls.setup({
-    cmd = {"java", "-jar", "/home/gklodkox/sources/groovy-language-server/build/libs/groovy-language-server-all.jar"},
+    cmd = {"java", "-jar", "/home/fox/Sources/groovy-language-server/build/libs/groovy-language-server-all.jar"},
     capabilities = lsp_capabilities
   })
-  lspconfig.gradle_ls.setup({ 
-    -- cmd = {"/home/gklodkox/sources/vscode-gradle/"},
-    -- capabilities = lsp_capabilities 
+  lspconfig.gradle_ls.setup({
+    capabilities = lsp_capabilities
   })
   lspconfig.lua_ls.setup({
     settings = {
