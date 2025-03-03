@@ -48,7 +48,7 @@ require("lazy").setup({
     reset_packpath = true,
     rtp = {
       reset = true,
-  paths = { "$HOME/.local/share/nvim/mason/bin" },
+  paths = { vim.fn.expand('~') .. "/.local/share/nvim/mason/bin" },
       disabled_plugins = {
         "tohtml",
         "gzip",

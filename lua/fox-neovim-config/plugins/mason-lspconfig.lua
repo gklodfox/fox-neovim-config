@@ -174,19 +174,17 @@ function M.config(_, _)
   lspconfig.jsonls.setup({ capabilities = lsp_capabilities })
   lspconfig.taplo.setup({ capabilities = lsp_capabilities })
   lspconfig.markdown_oxide.setup({ capabilities = lsp_capabilities })
+  lspconfig.gradle_ls.setup({ capabilities = lsp_capabilities })
   lspconfig.fish_lsp.setup({
-    cmd = {"fish-lsp", "start"},
+    cmd = {"fish-lsp", "start", "--disable", "signature"},
     cmd_env = {
-      fish_lsp_show_client_popups = true
+      fish_lsp_show_client_popups = false
     },
     filetypes = {"fish"},
     capabilities = lsp_capabilities,
   })
   lspconfig.groovyls.setup({
     cmd = {"java", "-jar", "/home/fox/Sources/groovy-language-server/build/libs/groovy-language-server-all.jar"},
-    capabilities = lsp_capabilities
-  })
-  lspconfig.gradle_ls.setup({
     capabilities = lsp_capabilities
   })
   lspconfig.lua_ls.setup({

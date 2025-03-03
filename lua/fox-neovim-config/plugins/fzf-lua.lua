@@ -25,7 +25,19 @@ function M.config()
       follow = false, -- do not follow symlinks by default
       no_ignore = false, -- respect ".gitignore"  by default
     },
+    fzf_opts = {
+      ["--ansi"]           = true,
+      ["--info"]       = "inline-right",
+      ["--height"] = "40%",
+      ["--width"] = "40%",
+      ["--layout"] = "reverse",
+      ["--border"] = "none",
+      ["--highlight-line"] = true,
+      ["--tmux"] = "center,80%,60%",
+    },
+    fzf_colors = true,
   })
+  require("fzf-lua").register_ui_select()
 end
 
 return M

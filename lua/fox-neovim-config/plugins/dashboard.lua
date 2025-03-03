@@ -29,7 +29,7 @@ function M.opts()
       -- limit how many projects list, action when you press key or enter it will run this action.
       -- action can be a function type, e.g.
       project = { enable = true, limit = 12, icon = "your icon", label = "", action = "FzfLua files cwd=" },
-      mru = { enable = true, limit = 15, icon = "your icon", label = "", cwd_only = false },
+      mru = { enable = true, limit = 15, icon = "your icon", label = "", action = "FzfLua oldfiles", cwd_only = false },
       footer = {}, -- footer
       header = ascii_art,
       shortcut = {

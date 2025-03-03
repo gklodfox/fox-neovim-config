@@ -61,7 +61,7 @@ set_o.signcolumn = "yes"
 -- BACKUP
 set_o.swapfile = false
 set_o.backup = false
-set_o.undodir = "$HOME/.nvim/undodir"
+set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
 set_o.undofile = true
 -- MISC
 set_opt.autochdir = true
