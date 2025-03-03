@@ -18,7 +18,7 @@ function M.opts()
 end
 
 function M.config(_, opts)
-  require(" log-highlight ").setup(opts)
+  require("log-highlight").setup(opts)
 end
 
 return M

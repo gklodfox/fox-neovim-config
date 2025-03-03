@@ -22,9 +22,10 @@ function M.opts()
       header = ascii_art,
       shortcut = {
         { desc = "Plugins", group = "@property", action = "Lazy", key = "p" },
-        { desc = " Files", group = "Label", action = "Telescope find_files hidden=true", key = "f" },
-        { desc = " Grep", group = "Label", action = "Telescope live_grep_args", key = "g" },
-        { desc = " Git files", group = "Label", action = "Telescope git_files", key = "G" },
+        { desc = " Files", group = "Label", action = "FzfLua files", key = "F" },
+        { desc = " File history", group = "Label", action = "FzfLua oldfiles", key = "H" },
+        { desc = " Grep", group = "Label", action = "FzfLua live_grep", key = "g" },
+        { desc = " Git files", group = "Label", action = "FzfLua git_files", key = "G" },
         { desc = " Projects", group = "Label", action = "NeovimProjectDiscover", key = "P" },
       }
     }

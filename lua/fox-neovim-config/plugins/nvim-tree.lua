@@ -4,7 +4,7 @@ M.cmd = { "NvimTreeToggle", "NvimTreeFocus" }
 
 function M.opts()
   return {
-    respect_buf_cwd = true,
+    respect_buf_cwd = false,
     hijack_cursor = true,
     sort = {
       sorter = "case_sensitive",
@@ -22,7 +22,7 @@ function M.opts()
           width = 69,
           height = 100,
           row = 1,
-          col = math.floor(vim.opt.columns:get() * 0.6667),
+          col = math.floor(vim.opt.columns:get() * 0.7667),
 
 
 

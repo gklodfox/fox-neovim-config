@@ -1,6 +1,7 @@
 local M = { "nvim-telescope/telescope.nvim" }
 
 M.cmd = "Telescope"
+M.enabled = false
 -- M.event = "VimEnter"
 
 M.dependencies = {

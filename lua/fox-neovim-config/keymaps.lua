@@ -69,28 +69,52 @@ require("which-key").add({
   { "<leader>pl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" },
 })
 
--- nvim-telescope/telescope.nvim
+-- fzf-lua
 require("which-key").add({
   mode = { "n" },
   cond = function()
-    if pcall(require, "telescope") then
+    if pcall(require, "fzf-lua") then
       return true
     end
     return false
   end,
-  { "<leader>ff", "<cmd>Telescope fd<CR>", desc = "Find files in CWD" },
-  { "<leader>fF", "<cmd>Telescope frecency<CR>", desc = "Search through file history" },
-  { "<leader>fg", "<cmd>Telescope live_grep_args<CR>", desc = "Grep files in CWD" },
-  { "<leader>fG", "<cmd>Telescope git_files<CR>", desc = "Find file in CWD git repository" },
-  { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Find buffer" },
-  { "<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "Find keymaps" },
-  { "<leader>fH", "<cmd>Telescope highlights<CR>", desc = "Find highlights" },
-  { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Find help tags" },
-  { "<leader>fc", "<cmd>Telescope command_history<CR>", desc = "Search command history" },
-  { "<leader>fo", "<cmd>Telescope vim_options<CR>", desc = "Lookup values of neovim settings" },
+  { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find files in CWD" },
+  { "<leader>fF", "<cmd>FzfLua oldfiles<CR>", desc = "Search through file history" },
+  { "<leader>fg", "<cmd>FzfLua live_grep<CR>", desc = "Grep files in CWD" },
+  { "<leader>fG", "<cmd>FzfLua git_files<CR>", desc = "Find file in CWD git repository" },
+  { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Find buffer" },
+  { "<leader>fk", "<cmd>FzfLua keymaps<CR>", desc = "Find keymaps" },
+  { "<leader>fH", "<cmd>FzfLua highlights<CR>", desc = "Find highlights" },
+  { "<leader>fh", "<cmd>FzfLua help_tags<CR>", desc = "Find help tags" },
+  { "<leader>fc", "<cmd>FzfLua command_history<CR>", desc = "Search command history" },
+  { "<leader>fo", "<cmd>FzfLua vim_options<CR>", desc = "Lookup values of neovim settings" },
+  { "<leader>fo", "<cmd>FzfLua diagnostics_workspace<CR>", desc = "Search through workspace diagnostics" },
   { "<leader>fp", "<cmd>NeovimProjectDiscover<CR>", desc = "Find project" },
-  { "Q", "<cmd>Telescope cmdline<CR>", desc = "Cmdline", noremap = true },
+  -- { "Q", "<cmd>Telescope cmdline<CR>", desc = "Cmdline", noremap = true },
 })
+
+-- -- nvim-telescope/telescope.nvim
+-- require("which-key").add({
+--   mode = { "n" },
+--   cond = function()
+--     if pcall(require, "telescope") then
+--       return true
+--     end
+--     return false
+--   end,
+--   { "<leader>ff", "<cmd>Telescope fd<CR>", desc = "Find files in CWD" },
+--   { "<leader>fF", "<cmd>Telescope frecency<CR>", desc = "Search through file history" },
+--   { "<leader>fg", "<cmd>Telescope live_grep_args<CR>", desc = "Grep files in CWD" },
+--   { "<leader>fG", "<cmd>Telescope git_files<CR>", desc = "Find file in CWD git repository" },
+--   { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Find buffer" },
+--   { "<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "Find keymaps" },
+--   { "<leader>fH", "<cmd>Telescope highlights<CR>", desc = "Find highlights" },
+--   { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Find help tags" },
+--   { "<leader>fc", "<cmd>Telescope command_history<CR>", desc = "Search command history" },
+--   { "<leader>fo", "<cmd>Telescope vim_options<CR>", desc = "Lookup values of neovim settings" },
+--   { "<leader>fp", "<cmd>NeovimProjectDiscover<CR>", desc = "Find project" },
+--   { "Q", "<cmd>Telescope cmdline<CR>", desc = "Cmdline", noremap = true },
+-- })
 
 -- nvim-lualine/lualine.nvim
 require("which-key").add({
