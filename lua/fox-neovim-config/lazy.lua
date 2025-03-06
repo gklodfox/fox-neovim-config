@@ -20,6 +20,32 @@ require("lazy").setup({
     lazy = false,
   },
   spec = {
+    {
+      "0xstepit/flow.nvim",
+      build = "make extras",
+      priority = 1000,
+      config = function()
+        require("flow").setup({
+          theme = {
+            style = "dark",
+            contrast = "high",
+            transparent = true,
+          },
+          colors = {
+            mode = "light",
+            fluo = "pink",
+          },
+          custom = {
+            saturation = 100,
+            light = 100,
+          },
+          ui = {
+            borders = "fluo",
+          },
+        })
+        vim.cmd.colorscheme("flow")
+      end,
+    },
     { import = "fox-neovim-config.plugins" },
   },
   ui = {
@@ -42,13 +68,13 @@ require("lazy").setup({
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  install = { missing = true, colorscheme = { "flow" } },
+  -- install = { missing = true, colorscheme = { "flow" } },
   performance = {
     cache = { enabled = true },
     reset_packpath = true,
     rtp = {
       reset = true,
-  paths = { vim.fn.expand('~') .. "/.local/share/nvim/mason/bin" },
+      paths = { vim.fn.expand("~") .. "/.local/share/nvim/mason/bin" },
       disabled_plugins = {
         "tohtml",
         "gzip",
@@ -87,6 +113,3 @@ require("lazy").setup({
     check_pinned = false,
   },
 })
-
-require("current-theme")
--- "vim.cmd("colorscheme flow")

@@ -4,9 +4,9 @@ M.dependencies = { "echasnovski/mini.icons" }
 
 function M.config()
   require("fzf-lua").setup({
-    {"telescope","fzf-native"},
+    {"telescope"},
     defaults = { file_icons = "mini" },
-    -- winopts = { preview = { default = "bat", wrap = true, hidden = true } },
+    winopts = { preview = { default = "bat", wrap = false, hidden = false } },
     -- files = {
     --   previewer = "bat", 
     --   cmd = "rg --files",

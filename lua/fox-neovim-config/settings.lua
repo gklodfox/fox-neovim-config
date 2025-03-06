@@ -3,7 +3,7 @@ local set_opt = vim.opt
 -- Recommended settings
 set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
-local set_win = vim.wo
+-- local set_win = vim.wo
 
 -- GLOBALS
 vim.scriptencoding = "UTF-8"
@@ -35,7 +35,7 @@ set_o.shiftwidth = 2
 set_o.tabstop = 2
 set_o.softtabstop = 2
 -- EDITOR
-set_win.conceallevel = 3
+-- set_win.conceallevel = 3
 set_opt.list = true
 set_opt.listchars = { trail = "·", nbsp = "␣" }
 
@@ -52,11 +52,11 @@ set_opt.timeoutlen = 300
 set_o.updatetime = 250
 set_o.wrap = false
 set_o.splitbelow = true
-set_o.hidden = true
+-- set_o.hidden = true
 set_o.splitright = true
 set_o.winheight = 3
 set_o.scrolloff = 8
-set_o.sidescrolloff = 2
+set_o.sidescrolloff = 4
 set_o.signcolumn = "yes"
 -- BACKUP
 set_o.swapfile = false
@@ -66,4 +66,4 @@ set_o.undofile = true
 -- MISC
 set_opt.autochdir = true
 set_opt.cmdheight = 0
-set_opt.isfname:append({ "@-@" })
+-- set_opt.isfname:append({ "@-@" })

@@ -53,12 +53,12 @@ function M.opts()
         "toggleterm",
       },
     },
-    picker = {
-      type = "fzf-lua",
-      opts = {
-        -- picker-specific options
-      },
-    },
+    -- picker = {
+      -- type = "fzf-lua",
+    --   opts = {
+    --     -- picker-specific options
+    --   },
+    -- },
   }
 end
 function M.init()
