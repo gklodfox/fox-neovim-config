@@ -17,9 +17,8 @@ function M.opts()
   }
 end
 
-function M.config(_, opts) 
+function M.config(_, opts)
   require("lsp-lens").setup(opts)
-end 
+end
 
 return M
-

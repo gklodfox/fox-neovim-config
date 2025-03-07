@@ -1,3 +1,7 @@
+local M = { "lukas-reineke/indent-blankline.nvim" }
+M.dependencies = "HiPhish/rainbow-delimiters.nvim"
+-- M.event = "User FilePost"
+
 local rainbow_highlight = {
   "RainbowRed",
   "RainbowYellow",
@@ -7,10 +11,6 @@ local rainbow_highlight = {
   "RainbowViolet",
   "RainbowCyan",
 }
-
-local M = { "lukas-reineke/indent-blankline.nvim" }
-M.dependencies = "HiPhish/rainbow-delimiters.nvim"
--- M.event = "User FilePost"
 
 function M.opts()
   return {

@@ -5,8 +5,8 @@ M.dependencies = { "echasnovski/mini.icons" }
 function M.opts()
   return {
     preview = {
-      icon_provider = "mini"
-    }
+      icon_provider = "mini",
+    },
   }
 end
 

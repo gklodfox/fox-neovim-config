@@ -2,9 +2,9 @@ local M = { "kawre/leetcode.nvim" }
 
 M.build = ":TSUpdate html"
 M.event = "VimEnter"
+M.enabled = false
 
 M.dependencies = {
-  -- "nvim-telescope/telescope.nvim",
   "nvim-lua/plenary.nvim",
   "MunifTanjim/nui.nvim",
 }

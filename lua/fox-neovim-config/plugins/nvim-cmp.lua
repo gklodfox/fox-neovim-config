@@ -33,7 +33,7 @@ M.dependencies = {
       require("cmp-plugins").setup({
         files = {
           ".*\\.lua",
-          vim.fn.expand('~') .. "/.config/nvim/lua/fox-neovim-config/plugins/.*\\.lua",
+          vim.fn.expand("~") .. "/.config/nvim/lua/fox-neovim-config/plugins/.*\\.lua",
         },
       })
     end,
@@ -46,20 +46,20 @@ function M.opts()
   local insert_opts = { behavior = cmp.SelectBehavior.Insert, select = true }
 
   return {
-    -- auto_brackets = {
-    --   "python",
-    --   "lua",
-    --   "rust",
-    --   "fish",
-    --   "sh",
-    --   "bash",
-    --   "json",
-    --   "markdown",
-    --   "yaml",
-    --   "toml",
-    --   "html",
-    --   "css",
-    -- },
+    auto_brackets = {
+      "python",
+      "lua",
+      "rust",
+      "fish",
+      "sh",
+      "bash",
+      "json",
+      "markdown",
+      "yaml",
+      "toml",
+      "html",
+      "css",
+    },
     window = {
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
@@ -147,24 +147,62 @@ function M.opts()
     experimental = {
       ghost_text = true,
     },
-    sorting = {
-      comparators = {
-        cmp.config.compare.offset,
-        cmp.config.compare.exact,
-        cmp.config.compare.recently_used,
-        require("clangd_extensions.cmp_scores"),
-        cmp.config.compare.kind,
-        cmp.config.compare.sort_text,
-        cmp.config.compare.length,
-        cmp.config.compare.order,
-      },
-    },
+    -- sorting = {
+    --   comparators = {
+    --     cmp.config.compare.offset,
+    --     cmp.config.compare.exact,
+    --     cmp.config.compare.recently_used,
+    --     require("clangd_extensions.cmp_scores"),
+    --     cmp.config.compare.kind,
+    --     cmp.config.compare.sort_text,
+    --     cmp.config.compare.length,
+    --     cmp.config.compare.order,
+    --   },
+    -- },
   }
 end
 
 function M.config(_, opts)
   local cmp = require("cmp")
-  cmp.setup(opts)
+  local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+  local handlers = require('nvim-autopairs.completion.handlers')
+
+    cmp.event:on(
+      'confirm_done',
+      cmp_autopairs.on_confirm_done({
+        filetypes = {
+          -- "*" is a alias to all filetypes
+          ["*"] = {
+            ["("] = {
+              kind = {
+                cmp.lsp.CompletionItemKind.Function,
+                cmp.lsp.CompletionItemKind.Method,
+              },
+              handler = handlers["*"]
+            }
+          },
+          lua = {
+            ["("] = {
+              kind = {
+                cmp.lsp.CompletionItemKind.Function,
+                cmp.lsp.CompletionItemKind.Method
+              },
+              ---@param char string
+              ---@param item table item completion
+              ---@param bufnr number buffer number
+              ---@param rules table
+              ---@param commit_character table<string>
+              handler = function(char, item, bufnr, rules, commit_character)
+                -- Your handler function. Inspect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+              end
+            }
+          },
+          -- Disable for tex
+          tex = false
+        }
+      })
+    )
+  cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
@@ -195,6 +233,7 @@ function M.config(_, opts)
       { name = "buffer" },
     },
   })
+  cmp.setup(opts)
 end
 
 return M

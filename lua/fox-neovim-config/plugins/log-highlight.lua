@@ -13,6 +13,8 @@ function M.opts()
     pattern = {
       "/var/log/.*",
       "messages%..*",
+      ".*/logs/.*",
+      ".*/log/.*",
     },
   }
 end

@@ -10,7 +10,7 @@ function M.opts()
   local cmake_formatters = { "cmake_format" }
   local tex_formatters = { "bibtex-tidy", "tex-fmt" }
   local python_formatters = {
-    "ruff_format",
+    "isort", "ruff_format",
     --   else
     --     return { "isort", "black" }
     --   end
@@ -20,8 +20,8 @@ function M.opts()
   local yaml_formatters = { "yamlfmt", "yamlfix" }
   local json_formatters = { "fixjson" }
   local sh_formatters = { "shellcheck", "shfmt" }
-  local all_formatters = { "codespell" }
-  local on_save_formatters = { "codespell" }
+  local all_formatters = { "prettier" }
+  local on_save_formatters = { "prettier" }
 
   return {
     formatters_by_ft = {

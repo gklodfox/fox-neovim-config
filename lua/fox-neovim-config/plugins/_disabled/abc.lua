@@ -1,5 +1,6 @@
 local M = { "jisensee/abc.nvim" }
 
+M.enabled = false
 M.ft = 'abc'
 M.opts = {}
 

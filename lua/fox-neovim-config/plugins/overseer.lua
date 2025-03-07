@@ -1,7 +1,14 @@
 local M = { "stevearc/overseer.nvim" }
 
+M.cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" }
 function M.opts()
   return {
+    task_list = {
+      direction = "bottom",
+      min_height = 5,
+      max_height = 10,
+      default_detail = 2,
+    },
     strategy = {
       "toggleterm",
       -- load your default shell before starting the task
@@ -30,6 +37,10 @@ function M.opts()
       on_create = nil,
     },
   }
+end
+
+function M.config(_, opts)
+  require("overseer").setup(opts)
 end
 
 return M
