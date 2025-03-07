@@ -1,5 +1,16 @@
 local M = { "coffebar/neovim-project" }
 
+M.dependencies = {
+  { "nvim-lua/plenary.nvim" },
+  -- optional picker
+  -- { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
+  -- optional picker
+  { "ibhagwan/fzf-lua" },
+  { "Shatur/neovim-session-manager" },
+}
+M.lazy = false
+M.priority = 100
+
 function M.opts()
   local projects = {}
   if os.getenv("USER") == "gklodkox" then
@@ -43,6 +54,8 @@ function M.opts()
       autosave_ignore_dirs = {
         vim.fn.expand("~"), -- don't create a session for $HOME/
         "/tmp",
+        "/.cache",
+        "/.local",
       },
       autosave_ignore_filetypes = {
         -- All buffers of these file types will be closed before the session is saved
@@ -53,26 +66,16 @@ function M.opts()
         "toggleterm",
       },
     },
-    -- picker = {
-      -- type = "fzf-lua",
-    --   opts = {
-    --     -- picker-specific options
-    --   },
-    -- },
+    picker = {
+      type = "fzf-lua",
+    },
   }
 end
-function M.init()
-  vim.opt.sessionoptions:append("globals") -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
-end
-M.dependencies = {
-  { "nvim-lua/plenary.nvim" },
-  -- optional picker
-  -- { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
-  -- optional picker
-  { "ibhagwan/fzf-lua" },
-  { "Shatur/neovim-session-manager" },
-}
-M.lazy = false
-M.priority = 100
 
+function M.config(_, opts)
+  local nproject = require("neovim-project")
+  vim.opt.sessionoptions:append("globals") -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
+  nproject.setup(opts)
+  nproject.register_ui_select()
+end
 return M

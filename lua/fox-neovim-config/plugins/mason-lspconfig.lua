@@ -45,6 +45,7 @@ function M.init()
       numhl = "",
     })
   end
+  vim.opt.rtp:prepend(vim.fn.expand('~') .. "/.local/share/nvim/mason")
 
   sign({ name = "DiagnosticSignError", text = "✘" })
   sign({ name = "DiagnosticSignWarn", text = "▲" })

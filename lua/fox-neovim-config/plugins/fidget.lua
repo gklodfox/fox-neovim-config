@@ -6,7 +6,7 @@ function M.opts()
       ignore_done_already = true,
       ignore_empty_message = true,
       display = {
-        render_limit = 16,
+        render_limit = 5,
       },
     },
     notification = {
