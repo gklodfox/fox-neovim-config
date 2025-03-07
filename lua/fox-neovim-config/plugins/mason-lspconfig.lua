@@ -326,6 +326,7 @@ function M.config(_, _)
     ensure_installed = {
       -- "ast-grep",
       "checkmake",
+      "swiftlint",
       "cmakelint",
       "codespell",
       "cpplint",

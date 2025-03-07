@@ -1,6 +1,6 @@
 local M = { "ibhagwan/fzf-lua" }
 
-M.dependencies = { "echasnovski/mini.icons" }
+M.dependencies = { "nvim-tree/nvim-web-devicons", "echasnovski/mini.icons" }
 
 function M.opts()
   local fzf = require("fzf-lua")
@@ -55,19 +55,19 @@ function M.opts()
         ["alt-h"] = { actions.toggle_hidden },
       },
       lsp = {
-      symbols = {
-        symbol_hl = function(s)
-          return "TroubleIcon" .. s
-        end,
-        symbol_fmt = function(s)
-          return s:lower() .. "\t"
-        end,
-        child_prefix = false,
+        symbols = {
+          symbol_hl = function(s)
+            return "TroubleIcon" .. s
+          end,
+          symbol_fmt = function(s)
+            return s:lower() .. "\t"
+          end,
+          child_prefix = false,
+        },
+        code_actions = {
+          previewer = vim.fn.executable("delta") == 1 and "codeaction_native" or nil,
+        },
       },
-      code_actions = {
-        previewer = vim.fn.executable("delta") == 1 and "codeaction_native" or nil,
-      },
-    },
     },
   }
 end

@@ -3,7 +3,7 @@ local set_opt = vim.opt
 -- Recommended settings
 set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
--- local set_win = vim.wo
+local set_win = vim.wo
 
 -- GLOBALS
 vim.scriptencoding = "UTF-8"
@@ -16,7 +16,7 @@ elseif os.getenv("USER") == "fox" then
   set_global.python3_host_prog = "/home/fox/.cache/pypoetry/virtualenvs/neovim-venv-8W5n8m1R-py3.13/bin/python"
   set_global.node_host_prog = "/usr/bin/neovim-node-host"
   set_global.ruby_host_prog = "/home/fox/.local/share/gem/ruby/3.3.0/bin/neovim-ruby-host"
-  set_global.integererl_host_prog = "/usr/bin/perl"
+  set_global.perl_host_prog = "/usr/bin/perl"
 else
   set_global.python3_host_prog = vim.fn.exepath("python")
 end
@@ -32,11 +32,11 @@ set_o.numberwidth = 2
 set_opt.breakindent = true
 set_o.autoindent = true
 set_o.expandtab = true
-set_o.shiftwidth = 2
-set_o.tabstop = 2
-set_o.softtabstop = 2
+set_o.shiftwidth = 4
+set_o.tabstop = 4
+set_o.softtabstop = 4
 -- EDITOR
--- set_win.conceallevel = 3
+set_win.conceallevel = 1
 set_opt.list = true
 set_opt.listchars = { trail = "·", nbsp = "␣" }
 

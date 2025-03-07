@@ -1,6 +1,5 @@
 local M = { 'creativenull/diagnosticls-configs-nvim' }
 
-M.enabled = false
 M.dependencies = { 'neovim/nvim-lspconfig' }
 
 function M.config()
