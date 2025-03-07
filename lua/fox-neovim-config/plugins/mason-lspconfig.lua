@@ -52,13 +52,18 @@ function M.init()
   sign({ name = "DiagnosticSignHint", text = "⚑" })
   sign({ name = "DiagnosticSignInfo", text = "" })
 
+  vim.keymap.set('n', 'gK', function()
+    local new_config = not vim.diagnostic.config().virtual_lines
+    vim.diagnostic.config({ virtual_lines = new_config })
+  end, { desc = 'Toggle diagnostic virtual_lines' })
+
   vim.diagnostic.config({
     virtual_text = true,
     update_in_insert = true,
     underline = true,
     severity_sort = true,
     float = {
-      border = "rounded",
+      border = "single",
     },
   })
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })

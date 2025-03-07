@@ -11,7 +11,7 @@ function M.opts()
       cmake = { "cmakelint" },
       cpp = { "cpplint" },
       vim = { "vint" },
-      markdown = { "markdownlint" },
+      markdown = {},
       json = { "jsonlint" },
       python = { "pylint", "flake8", "ruff", "mypy" },
       rust = {},
