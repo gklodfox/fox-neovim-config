@@ -35,7 +35,7 @@ function M.opts()
         ["ctrl-q"] = "select-all+accept",
       },
     },
-    defaults = { formatter = "path.dirname_first" },
+    -- defaults = { formatter = "path" },
     winopts = {
       width = 0.8,
       preview = { scrollchars = { "┃", "" }, default = "bat", wrap = false, hidden = false },
@@ -73,9 +73,8 @@ function M.opts()
 end
 
 function M.config(_, opts)
-  local fzf = require("fzf-lua")
-  fzf.setup(opts)
-  fzf.register_ui_select()
+  require("fzf-lua").setup(opts)
+  require("fzf-lua").register_ui_select()
 end
 
 return M

@@ -1,6 +1,7 @@
 local M = { 'creativenull/diagnosticls-configs-nvim' }
 
 M.dependencies = { 'neovim/nvim-lspconfig' }
+M.enabled = false
 
 function M.config()
   local dlsconfig = require("diagnosticls-configs")

@@ -117,6 +117,15 @@ function M.opts()
           timer = { progress_enddelay = 500, spinner = 10, lsp_client_name_enddelay = 1000 },
         },
         {
+          "diagnostic-message",
+          colors = {
+            error = "#FFEB55",
+            warn = "#EE66A6",
+            info = "#D91656",
+            hint = "#640D5F",
+          },
+        },
+        {
           "overseer",
           label = "", -- Prefix for task counts
           colored = true, -- Color the task icons and counts
@@ -162,15 +171,6 @@ function M.opts()
       },
       lualine_c = { { get_current_signature } },
       lualine_x = {
-        {
-          "diagnostic-message",
-          colors = {
-            error = "#FFEB55",
-            warn = "#EE66A6",
-            info = "#D91656",
-            hint = "#640D5F",
-          },
-        },
       },
       lualine_y = {},
       lualine_z = {
