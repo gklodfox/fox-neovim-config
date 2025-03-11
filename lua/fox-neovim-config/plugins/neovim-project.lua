@@ -19,6 +19,7 @@ function M.opts()
       "~/repositories/*",
       "~/repositories/forks/*",
       "~/work/DCAP/repos/*",
+      "~/work/DCAP/*",
     }
   elseif os.getenv("USER") == "fox" then
     projects = {

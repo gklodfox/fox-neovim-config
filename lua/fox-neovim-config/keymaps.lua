@@ -79,9 +79,9 @@ require("which-key").add({
     return false
   end,
   { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find files in CWD" },
-  { "<leader>fF", "<cmd>FzfLua oldfiles<CR>", desc = "Search through file history" },
+  { "<leader>fF", "<cmd>FzfLua git_files<CR>", desc = "Find files in git CWD" },
   { "<leader>fg", "<cmd>FzfLua live_grep<CR>", desc = "Grep files in CWD" },
-  { "<leader>fG", "<cmd>FzfLua git_files<CR>", desc = "Find file in CWD git repository" },
+  { "<leader>fG", "<cmd>FzfLua live_grep cmd = 'git grep --line-number --column --color=always'<CR>", desc = "Grep files in git CWD" },
   { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Find buffer" },
   { "<leader>fk", "<cmd>FzfLua keymaps<CR>", desc = "Find keymaps" },
   { "<leader>fH", "<cmd>FzfLua highlights<CR>", desc = "Find highlights" },
@@ -101,6 +101,6 @@ require("which-key").add({
     end
     return false
   end,
-  { "gb", "<cmd>LualineBuffersJump! " .. vim.v.count .. "<CR>", desc = "Go to buffer" },
-  { "gB", "<cmd>LualineBuffersJump! $<CR>", desc = "Go to last buffer" },
+  { "gb", "<cmd>LualineBuffersJump! " ..tostring(vim.v.count).. "<CR>", desc = "Go to buffer" },
+  { "gB", '<cmd>LualineBuffersJump! $<CR>', desc = "Go to last buffer" },
 })

@@ -18,6 +18,7 @@ function M.opts()
   }
   local rust_formatters = { "rustfmt" }
   local yaml_formatters = { "yamlfmt", "yamlfix" }
+  local groovy_formatters = { "npm-groovy-lint" }
   local json_formatters = { "fixjson" }
   local sh_formatters = { "shellcheck", "shfmt" }
   local all_formatters = { "prettier" }

@@ -53,7 +53,7 @@ function M.init()
   sign({ name = "DiagnosticSignInfo", text = "" })
 
   vim.keymap.set("n", "gK", function()
-    local new_config = not vim.diagnostic.config().virtual_lines
+    local new_config = not vim.diagnostic.config().virtual_text
     vim.diagnostic.config({ virtual_lines = new_config })
   end, { desc = "Toggle diagnostic virtual_lines" })
 
@@ -172,14 +172,17 @@ function M.config(_, _)
     capabilities = lsp_capabilities,
   })
   lspconfig.groovyls.setup({
-    cmd = { "java", "-jar", "/home/fox/Sources/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+    cmd = { "java", "-jar", "/home/gklodkox/.local/share/nvim/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+    filetypes = {
+      "groovy", "Jenkinsfile"
+    },
     capabilities = lsp_capabilities,
   })
   lspconfig.lua_ls.setup({
     settings = {
       Lua = {
         runtime = {
-          version = "Lua5.4",
+          version = "Lua5.1",
         },
         diagnostics = { globals = { "vim" } },
         -- Make the server aware of Neovim runtime files
