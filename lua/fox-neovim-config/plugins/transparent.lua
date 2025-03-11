@@ -1,7 +1,5 @@
 local M = {"xiyaowong/nvim-transparent"}
 
-M.enabled = false
-
 function M.opts()
     return {
         groups = {

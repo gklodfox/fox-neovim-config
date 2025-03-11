@@ -21,7 +21,7 @@ function M.opts()
 
   return {
     "default-title",
-    fzf_colors = true,
+    -- fzf_colors = true,
     fzf_opts = {
       ["--border"] = true,
       ["--style"] = "full",

@@ -45,17 +45,17 @@ function M.init()
       numhl = "",
     })
   end
-  vim.opt.rtp:prepend(vim.fn.expand('~') .. "/.local/share/nvim/mason")
+  vim.opt.rtp:prepend(vim.fn.expand("~") .. "/.local/share/nvim/mason")
 
   sign({ name = "DiagnosticSignError", text = "✘" })
   sign({ name = "DiagnosticSignWarn", text = "▲" })
   sign({ name = "DiagnosticSignHint", text = "⚑" })
   sign({ name = "DiagnosticSignInfo", text = "" })
 
-  vim.keymap.set('n', 'gK', function()
+  vim.keymap.set("n", "gK", function()
     local new_config = not vim.diagnostic.config().virtual_lines
     vim.diagnostic.config({ virtual_lines = new_config })
-  end, { desc = 'Toggle diagnostic virtual_lines' })
+  end, { desc = "Toggle diagnostic virtual_lines" })
 
   vim.diagnostic.config({
     virtual_text = true,
@@ -97,11 +97,12 @@ end
 function M.config(_, _)
   -- require("neodev").setup({})
   local lspconfig = require("lspconfig")
-  local lsp_capabilities = vim.tbl_deep_extend(
-    "force",
-    vim.lsp.protocol.make_client_capabilities(),
-    require("cmp_nvim_lsp").default_capabilities()
-  )
+  local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+  -- local lsp_capabilities = vim.tbl_deep_extend(
+  --   "force",
+  --   vim.lsp.protocol.make_client_capabilities(),
+  --   require("cmp_nvim_lsp").default_capabilities()
+  -- )
   require("mason-tool-installer").setup({
     auto_update = true,
     run_on_start = true,
@@ -163,22 +164,22 @@ function M.config(_, _)
   lspconfig.markdown_oxide.setup({ capabilities = lsp_capabilities })
   lspconfig.gradle_ls.setup({ capabilities = lsp_capabilities })
   lspconfig.fish_lsp.setup({
-    cmd = {"fish-lsp", "start", "--disable", "signature"},
+    cmd = { "fish-lsp", "start", "--disable", "signature" },
     cmd_env = {
-      fish_lsp_show_client_popups = false
+      fish_lsp_show_client_popups = false,
     },
-    filetypes = {"fish"},
+    filetypes = { "fish" },
     capabilities = lsp_capabilities,
   })
   lspconfig.groovyls.setup({
-    cmd = {"java", "-jar", "/home/fox/Sources/groovy-language-server/build/libs/groovy-language-server-all.jar"},
-    capabilities = lsp_capabilities
+    cmd = { "java", "-jar", "/home/fox/Sources/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+    capabilities = lsp_capabilities,
   })
   lspconfig.lua_ls.setup({
     settings = {
       Lua = {
         runtime = {
-          version = "Lua5.1",
+          version = "Lua5.4",
         },
         diagnostics = { globals = { "vim" } },
         -- Make the server aware of Neovim runtime files
@@ -261,7 +262,7 @@ function M.config(_, _)
     root_dir = function(fname)
       return require("lspconfig").util.find_git_ancestor(fname)
     end,
-    single_file_support = true,     -- suggested
+    single_file_support = true, -- suggested
     capabilities = lsp_capabilities,
     init_options = {
       format = {
@@ -270,7 +271,7 @@ function M.config(_, _)
       lint = {
         enable = true,
       },
-      scan_cmake_in_package = true,     -- default is true
+      scan_cmake_in_package = true, -- default is true
     },
   })
   lspconfig.texlab.setup({

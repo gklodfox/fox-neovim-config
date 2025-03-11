@@ -1,5 +1,10 @@
 local M = { "hrsh7th/nvim-cmp" }
 
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 M.dependencies = {
   "hrsh7th/cmp-buffer",
   "FelipeLema/cmp-async-path",
@@ -78,8 +83,26 @@ function M.opts()
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<Down>"] = cmp.mapping.select_next_item(insert_opts),
       ["<Up>"] = cmp.mapping.select_prev_item(insert_opts),
-      ["<CR>"] = cmp.mapping.confirm({ select = true }),
-      ["<C-Space>"] = cmp.mapping.complete({}),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        local ls = require("luasnip")
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif ls.expand_or_jumpable() then
+          ls.expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
+        else
+          fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        end
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function()
+        local ls = require("luasnip")
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif ls.jumpable(-1) then
+          ls.jump(-1)
+        end
+      end, { "i", "s" }),
     }),
     --   ["<C-x>"] = cmp.mapping(
     --     cmp.mapping.complete({
@@ -147,61 +170,61 @@ function M.opts()
     experimental = {
       ghost_text = true,
     },
-    -- sorting = {
-    --   comparators = {
-    --     cmp.config.compare.offset,
-    --     cmp.config.compare.exact,
-    --     cmp.config.compare.recently_used,
-    --     require("clangd_extensions.cmp_scores"),
-    --     cmp.config.compare.kind,
-    --     cmp.config.compare.sort_text,
-    --     cmp.config.compare.length,
-    --     cmp.config.compare.order,
-    --   },
-    -- },
+    sorting = {
+      comparators = {
+        cmp.config.compare.offset,
+        cmp.config.compare.exact,
+        cmp.config.compare.recently_used,
+        require("clangd_extensions.cmp_scores"),
+        cmp.config.compare.kind,
+        cmp.config.compare.sort_text,
+        cmp.config.compare.length,
+        cmp.config.compare.order,
+      },
+    },
   }
 end
 
 function M.config(_, opts)
   local cmp = require("cmp")
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-  local handlers = require('nvim-autopairs.completion.handlers')
+  local handlers = require("nvim-autopairs.completion.handlers")
 
-    cmp.event:on(
-      'confirm_done',
-      cmp_autopairs.on_confirm_done({
-        filetypes = {
-          -- "*" is a alias to all filetypes
-          ["*"] = {
-            ["("] = {
-              kind = {
-                cmp.lsp.CompletionItemKind.Function,
-                cmp.lsp.CompletionItemKind.Method,
-              },
-              handler = handlers["*"]
-            }
+  cmp.event:on(
+    "confirm_done",
+    cmp_autopairs.on_confirm_done({
+      filetypes = {
+        -- "*" is a alias to all filetypes
+        ["*"] = {
+          ["("] = {
+            kind = {
+              cmp.lsp.CompletionItemKind.Function,
+              cmp.lsp.CompletionItemKind.Method,
+            },
+            handler = handlers["*"],
           },
-          lua = {
-            ["("] = {
-              kind = {
-                cmp.lsp.CompletionItemKind.Function,
-                cmp.lsp.CompletionItemKind.Method
-              },
-              ---@param char string
-              ---@param item table item completion
-              ---@param bufnr number buffer number
-              ---@param rules table
-              ---@param commit_character table<string>
-              handler = function(char, item, bufnr, rules, commit_character)
-                -- Your handler function. Inspect with print(vim.inspect{char, item, bufnr, rules, commit_character})
-              end
-            }
+        },
+        lua = {
+          ["("] = {
+            kind = {
+              cmp.lsp.CompletionItemKind.Function,
+              cmp.lsp.CompletionItemKind.Method,
+            },
+            ---@param char string
+            ---@param item table item completion
+            ---@param bufnr number buffer number
+            ---@param rules table
+            ---@param commit_character table<string>
+            handler = function(char, item, bufnr, rules, commit_character)
+              -- Your handler function. Inspect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+            end,
           },
-          -- Disable for tex
-          tex = false
-        }
-      })
-    )
+        },
+        -- Disable for tex
+        tex = false,
+      },
+    })
+  )
   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),
