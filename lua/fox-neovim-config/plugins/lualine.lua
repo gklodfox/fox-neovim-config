@@ -6,7 +6,7 @@ local get_current_signature = function()
     return
   end
   local sig = require("lsp_signature").status_line(width)
-  return sig.label .. "" .. sig.hint
+  return sig.label .. "  " .. sig.hint
 end
 
 local get_venv = function()
@@ -84,7 +84,6 @@ function M.opts()
         },
       },
       lualine_c = {
-        { "diff", source = diff_source, icons_enabled = true },
         {
           "diagnostics",
           sources = {
@@ -103,18 +102,26 @@ function M.opts()
           -- symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
           colored = true, -- Displays diagnostics status in color if set to true.
           update_in_insert = true, -- Update diagnostics in insert mode.
-          always_visible = false, -- Show diagnostics even if there are none.
+          always_visible = true, -- Show diagnostics even if there are none.
         },
+        { "diff", source = diff_source, icons_enabled = true },
         { "searchcount", maxcount = 999, timeout = 500 },
         "selectioncount",
       },
       lualine_x = {
         {
           "lsp_progress",
-          display_components = { "lsp_client_name", { "title", "message" }, "spinner" },
-          max_length = 1,
-          spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
-          timer = { progress_enddelay = 500, spinner = 10, lsp_client_name_enddelay = 1000 },
+          display_components = { "lsp_client_name", { "title", "percentage", "message" }, "spinner" },
+          colors = {
+            percentage = "#80204e ",
+            title = "#ff007b",
+            message = "#ff007b",
+            spinner = "#51a0cf",
+            lsp_client_name = "#51a0cf",
+            use = true,
+          },
+          spinner_symbols = { " 🌑 ", " 🌒 ", " 🌓 ", " 🌔 ", " 🌕 ", " 🌖 ", " 🌗 ", " 🌘 " },
+          timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000 },
         },
         {
           "diagnostic-message",
@@ -170,8 +177,7 @@ function M.opts()
         },
       },
       lualine_c = { { get_current_signature } },
-      lualine_x = {
-      },
+      lualine_x = {},
       lualine_y = {},
       lualine_z = {
         {

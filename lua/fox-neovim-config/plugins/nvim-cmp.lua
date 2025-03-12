@@ -28,11 +28,6 @@ M.dependencies = {
   "windwp/nvim-autopairs",
   "williamboman/mason-lspconfig.nvim",
   {
-    "garymjr/nvim-snippets",
-    opts = { friendly_snippets = true },
-    dependencies = { "rafamadriz/friendly-snippets" },
-  },
-  {
     "KadoBOT/cmp-plugins",
     config = function()
       require("cmp-plugins").setup({
@@ -70,15 +65,22 @@ function M.opts()
       documentation = cmp.config.window.bordered(),
     },
     completion = {
-      completeopt = "menu,menuone,noselect",
+      completeopt = "menu,menuone,noinsert",
     },
     preselect = cmp.PreselectMode.Item,
     snippet = {
       expand = function(args)
-        luasnip.lsp_expand(args.body)
+        require("luasnip").lsp_expand(args.body)
       end,
     },
     mapping = cmp.mapping.preset.insert({
+      ["<CR>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+        else
+          fallback() -- Default behavior (new line)
+        end
+      end, { "i", "s" }),
       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<Down>"] = cmp.mapping.select_next_item(insert_opts),

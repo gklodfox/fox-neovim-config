@@ -1,7 +1,5 @@
 local M = { "3rd/image.nvim" }
 
-M.enabled = false
-
 function M.opts()
   return {
     backend = "ueberzug",

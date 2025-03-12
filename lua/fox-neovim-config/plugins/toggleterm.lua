@@ -12,10 +12,11 @@ function M.opts()
     direction = "float",
     float_opts = {
       border = "rounded",
-      winblend = 0,
+      winblend = 2,
       highlights = {
-        border = "Normal",
-        background = "Normal",
+        NormalFloat = { link = 'Normal' }
+      --   border = "Normal",
+      --   background = "Normal",
       },
     },
   }

@@ -23,6 +23,7 @@ require("lazy").setup({
     {
       "0xstepit/flow.nvim",
       build = "make extras",
+      lazy = false,
       priority = 1000,
       config = function()
         require("flow").setup({
@@ -41,6 +42,7 @@ require("lazy").setup({
           },
           ui = {
             borders = "fluo",
+            aggressive_spell = false,
           },
         })
         vim.cmd.colorscheme("flow")
@@ -118,3 +120,4 @@ require("lazy").setup({
     check_pinned = false,
   },
 })
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#460D33", bold = true })
