@@ -2,7 +2,6 @@ local M = { "williamboman/mason-lspconfig.nvim" }
 
 M.dependencies = {
   "stevearc/conform.nvim",
-  "hrsh7th/cmp-nvim-lsp",
   {
     "williamboman/mason.nvim",
     config = function()
@@ -30,6 +29,7 @@ M.dependencies = {
     end,
   },
   { "neovim/nvim-lspconfig", lazy = true, dependencies = { "williamboman/mason-lspconfig.nvim" } },
+  "saghen/blink.cmp",
   "ray-x/lsp_signature.nvim",
   "simrat39/rust-tools.nvim",
   "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -66,9 +66,6 @@ function M.init()
       border = "single",
     },
   })
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
   vim.filetype.add({ pattern = { [".*/*.asasm"] = "asasm" } })
   vim.api.nvim_create_autocmd("LspAttach", {
     desc = "LSP actions",
@@ -93,11 +90,159 @@ function M.init()
     end,
   })
 end
+function M.opts()
+  return {
 
-function M.config(_, _)
+    servers = {
+      asm_lsp = {},
+      diagnosticls = {},
+      dockerls = {},
+      marksman = {},
+      rust_analyzer = {},
+      vimls = {},
+      yamlls = {},
+      html = {},
+      jsonls = {},
+      taplo = {},
+      markdown_oxide = {},
+      gradle_ls = {},
+      fish_lsp = {
+        cmd = { "fish-lsp", "start", "--disable", "signature" },
+        cmd_env = {
+          fish_lsp_show_client_popups = false,
+        },
+        filetypes = { "fish" },
+      },
+      groovyls = {
+        cmd = {
+          "java",
+          "-jar",
+          "/home/gklodkox/.local/share/nvim/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar",
+        },
+        filetypes = {
+          "groovy",
+          "Jenkinsfile",
+        },
+      },
+      lua_ls = {},
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "openFilesOnly",
+              useLibraryCodeForTypes = true,
+            },
+          },
+        },
+      },
+      pylsp = {
+        settings = {
+          pylsp = {
+            plugins = {
+              -- formatter
+              black = { enabled = true },
+              pylint = {
+                enabled = true,
+                -- executable = "pylint",
+                args = { "-d C0114,C0115,C0116" },
+              },
+              pylsp_mypy = {
+                enabled = true,
+                report_progress = true,
+                live_mode = true,
+              },
+              pycodestyle = {
+                ignore = { "W391" },
+                maxLineLength = 100,
+              },
+              isort = { enabled = true },
+            },
+          },
+        },
+      },
+      bashls = {
+        settings = {
+          bashIde = { globPattern = "*@(.sh|.inc|.bash|.command)" },
+        },
+      },
+      clangd = {
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+        cmd = { "clangd" },
+        capabilities = {
+          offsetEncoding = { "utf-16" },
+          textDocument = {
+            completion = {
+              editsNearCursor = true,
+            },
+          },
+        },
+        init_options = {
+          fallbackFlags = { "-std=c++17" },
+        },
+      },
+      neocmake = {
+        cmd = { "neocmakelsp", "--stdio" },
+        filetypes = { "cmake" },
+        root_dir = function(fname)
+          return require("lspconfig").util.find_git_ancestor(fname)
+        end,
+        single_file_support = true, -- suggested
+        init_options = {
+          format = {
+            enable = true,
+          },
+          lint = {
+            enable = true,
+          },
+          scan_cmake_in_package = true, -- default is true
+        },
+      },
+      texlab = {
+        settings = {
+          texlab = {
+            bibtexFormatter = "texlab",
+            build = {
+              args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+              executable = "latexmk",
+              forwardSearchAfter = false,
+              onSave = true,
+            },
+            chktex = {
+              onEdit = true,
+              onOpenAndSave = true,
+            },
+            diagnosticsDelay = 300,
+            formatterLineLength = 80,
+            forwardSearch = {
+              args = {},
+            },
+            latexFormatter = "tex-fmt",
+            latexindent = {
+              modifyLineBreaks = false,
+            },
+          },
+        },
+      },
+    },
+  }
+end
+function M.config(_, opts)
   -- require("neodev").setup({})
   local lspconfig = require("lspconfig")
-  local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+  for server, config in pairs(opts.servers) do
+    -- passing config.capabilities to blink.cmp merges with the capabilities in your
+    -- `opts[server].capabilities, if you've defined it
+    config.capabilities =
+      { textDocument = {
+        foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true,
+        },
+      } }
+    config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+    lspconfig[server].setup(config)
+  end
   -- local lsp_capabilities = vim.tbl_deep_extend(
   --   "force",
   --   vim.lsp.protocol.make_client_capabilities(),
@@ -149,164 +294,9 @@ function M.config(_, _)
       "yamlfmt",
     },
   })
-  lspconfig.asm_lsp.setup({ capabilities = lsp_capabilities })
-  local neocmake_cap = lsp_capabilities
-  neocmake_cap.textDocument.completion.completionItem.snippetSupport = true
-  lspconfig.diagnosticls.setup({ capabilities = lsp_capabilities })
-  lspconfig.dockerls.setup({ capabilities = lsp_capabilities })
-  lspconfig.marksman.setup({ capabilities = lsp_capabilities })
-  lspconfig.rust_analyzer.setup({ capabilities = lsp_capabilities })
-  lspconfig.vimls.setup({ capabilities = lsp_capabilities })
-  lspconfig.yamlls.setup({ capabilities = lsp_capabilities })
-  lspconfig.html.setup({ capabilities = lsp_capabilities })
-  lspconfig.jsonls.setup({ capabilities = lsp_capabilities })
-  lspconfig.taplo.setup({ capabilities = lsp_capabilities })
-  lspconfig.markdown_oxide.setup({ capabilities = lsp_capabilities })
-  lspconfig.gradle_ls.setup({ capabilities = lsp_capabilities })
-  lspconfig.fish_lsp.setup({
-    cmd = { "fish-lsp", "start", "--disable", "signature" },
-    cmd_env = {
-      fish_lsp_show_client_popups = false,
-    },
-    filetypes = { "fish" },
-    capabilities = lsp_capabilities,
-  })
-  lspconfig.groovyls.setup({
-    cmd = { "java", "-jar", "/home/gklodkox/.local/share/nvim/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar" },
-    filetypes = {
-      "groovy", "Jenkinsfile"
-    },
-    capabilities = lsp_capabilities,
-  })
-  lspconfig.lua_ls.setup({
-    settings = {
-      Lua = {
-        runtime = {
-          version = "Lua5.1",
-        },
-        diagnostics = { globals = { "vim" } },
-        -- Make the server aware of Neovim runtime files
-        workspace = {
-          checkThirdParty = true,
-          library = {
-            vim.env.VIMRUNTIME,
-            "${3rd}/luv/library",
-            "${3rd}/busted/library",
-            vim.api.nvim_get_runtime_file("", true),
-          },
-        },
-        capabilities = lsp_capabilities,
-      },
-    },
-  })
-  lspconfig.basedpyright.setup({
-    settings = {
-      basedpyright = {
-        analysis = {
-          autoSearchPaths = true,
-          diagnosticMode = "openFilesOnly",
-          useLibraryCodeForTypes = true,
-        },
-      },
-    },
-    capabilities = lsp_capabilities,
-  })
-  lspconfig.pylsp.setup({
-    settings = {
-      pylsp = {
-        plugins = {
-          -- formatter
-          black = { enabled = true },
-          pylint = {
-            enabled = true,
-            -- executable = "pylint",
-            args = { "-d C0114,C0115,C0116" },
-          },
-          pylsp_mypy = {
-            enabled = true,
-            report_progress = true,
-            live_mode = true,
-          },
-          pycodestyle = {
-            ignore = { "W391" },
-            maxLineLength = 100,
-          },
-          isort = { enabled = true },
-        },
-      },
-    },
-    capabilities = lsp_capabilities,
-  })
-  lspconfig.bashls.setup({
-    settings = {
-      bashIde = { globPattern = "*@(.sh|.inc|.bash|.command)" },
-    },
-    capabilities = lsp_capabilities,
-  })
-  local temp_cap = {
-    offsetEncoding = { "utf-16" },
-    textDocument = {
-      completion = {
-        editsNearCursor = true,
-      },
-    },
-  }
-  lspconfig.clangd.setup({
-    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-    cmd = { "clangd" },
-    capabilities = vim.tbl_deep_extend("force", lsp_capabilities, temp_cap),
-    init_options = {
-      fallbackFlags = { "-std=c++17" },
-    },
-  })
-  lspconfig.neocmake.setup({
-    cmd = { "neocmakelsp", "--stdio" },
-    filetypes = { "cmake" },
-    root_dir = function(fname)
-      return require("lspconfig").util.find_git_ancestor(fname)
-    end,
-    single_file_support = true, -- suggested
-    capabilities = lsp_capabilities,
-    init_options = {
-      format = {
-        enable = true,
-      },
-      lint = {
-        enable = true,
-      },
-      scan_cmake_in_package = true, -- default is true
-    },
-  })
-  lspconfig.texlab.setup({
-    capabilities = lsp_capabilities,
-    settings = {
-      texlab = {
-        bibtexFormatter = "texlab",
-        build = {
-          args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-          executable = "latexmk",
-          forwardSearchAfter = false,
-          onSave = true,
-        },
-        chktex = {
-          onEdit = true,
-          onOpenAndSave = true,
-        },
-        diagnosticsDelay = 300,
-        formatterLineLength = 80,
-        forwardSearch = {
-          args = {},
-        },
-        latexFormatter = "tex-fmt",
-        latexindent = {
-          modifyLineBreaks = false,
-        },
-      },
-    },
-  })
+
   require("mason-conform").setup({
     ensure_installed = {
-      -- "latexindent",
       "bibtex-tidy",
       "tex_fmt",
       "autoflake",
@@ -327,39 +317,35 @@ function M.config(_, _)
     },
   })
   require("mason-nvim-lint").setup({
-    ensure_installed = {
-      -- "ast-grep",
-      "checkmake",
-      "swiftlint",
-      "cmakelint",
-      "codespell",
-      "cpplint",
-      "editorconfig-checker",
-      "eslint_d",
-      "flake8",
-      "htmlhint",
-      "jsonlint",
-      "luacheck",
-      "markdownlint",
-      "commitlint",
-      "misspell",
-      "mypy",
-      "pydocstyle",
-      "pyflakes",
-      "pylint",
-      "revive",
-      "ruff",
-      "shellcheck",
-      "staticcheck",
-      "systemdlint",
-      "vint",
-      "yamllint",
-      "npm-groovy-lint",
-      "bacon",
-      "commitlint",
-    },
-    automatic_installation = true,
-    quiet_mode = false,
+    -- ensure_installed = {
+    --   "checkmake",
+    --   "swiftlint",
+    --   "cmakelang",
+    --   "codespell",
+    --   "cpplint",
+    --   "editorconfig-checker",
+    --   "eslint_d",
+    --   "flake8",
+    --   "htmlhint",
+    --   "jsonlint",
+    --   "luacheck",
+    --   "markdownlint",
+    --   "commitlint",
+    --   "misspell",
+    --   "mypy",
+    --   "pydocstyle",
+    --   "pyflakes",
+    --   "pylint",
+    --   "revive",
+    --   "ruff",
+    --   "shellcheck",
+    --   "staticcheck",
+    --   "systemdlint",
+    --   "vint",
+    --   "yamllint",
+    --   "npm-groovy-lint",
+    --   "bacon",
+    -- },
   })
 end
 

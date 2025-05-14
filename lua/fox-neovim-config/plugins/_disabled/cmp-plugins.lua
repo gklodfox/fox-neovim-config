@@ -1,4 +1,5 @@
 local M = { "KadoBOT/cmp-plugins" }
+M.enabled = false
 
 function M.opts()
   return {

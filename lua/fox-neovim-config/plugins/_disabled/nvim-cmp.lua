@@ -40,6 +40,7 @@ M.dependencies = {
   },
 }
 M.event = "InsertEnter"
+M.enabled = false
 function M.opts()
   local cmp = require("cmp")
   local luasnip = require("luasnip")
