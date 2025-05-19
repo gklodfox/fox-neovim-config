@@ -13,7 +13,7 @@ set_o.syntax = "on"
 if os.getenv("USER") == "gklodkox" then
   set_global.python3_host_prog = "/home/gklodkox/.pyenv/versions/neovim/bin/python"
 elseif os.getenv("USER") == "fox" then
-  set_global.python3_host_prog = "/home/fox/.cache/pypoetry/virtualenvs/neovim-venv-8W5n8m1R-py3.13/bin/python"
+  set_global.python3_host_prog = "/home/fox/.config/nvim/venv/bin/python3"
   set_global.node_host_prog = "/usr/bin/neovim-node-host"
   set_global.ruby_host_prog = "/home/fox/.local/share/gem/ruby/3.3.0/bin/neovim-ruby-host"
   set_global.perl_host_prog = "/usr/bin/perl"
