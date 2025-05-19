@@ -143,12 +143,7 @@ vim.api.nvim_create_autocmd("FileType", {
       -- vim.print(string.format("mark_pos: %s", vim.inspect(mark_pos)))
       -- it seems that without vim.schedule, the cursor position can not be set correctly
       vim.schedule(function()
-        local status, result = pcall(vim.api.nvim_win_set_cursor, 0, mark_pos)
-        if not status then
-          vim.api.nvim_err_writeln(
-            string.format("Failed to resume cursor position. Context %s, error: %s", vim.inspect(ev), result)
-          )
-        end
+        local _, _ = pcall(vim.api.nvim_win_set_cursor, 0, mark_pos)
       end)
       -- the following two ways also seem to work,
       -- ref: https://www.reddit.com/r/neovim/comments/104lc26/how_can_i_press_escape_key_using_lua/

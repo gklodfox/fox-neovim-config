@@ -1,7 +1,7 @@
 local M = { "hrsh7th/nvim-cmp" }
 
 local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
@@ -43,7 +43,6 @@ M.event = "InsertEnter"
 M.enabled = false
 function M.opts()
   local cmp = require("cmp")
-  local luasnip = require("luasnip")
   local insert_opts = { behavior = cmp.SelectBehavior.Insert, select = true }
 
   return {
@@ -219,7 +218,7 @@ function M.config(_, opts)
             ---@param rules table
             ---@param commit_character table<string>
             handler = function(char, item, bufnr, rules, commit_character)
-              -- Your handler function. Inspect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+              print(vim.inspect({ char, item, bufnr, rules, commit_character }))
             end,
           },
         },
