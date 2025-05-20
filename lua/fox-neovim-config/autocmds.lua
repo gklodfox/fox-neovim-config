@@ -1,3 +1,10 @@
+vim.api.nvim_create_autocmd('LspNotify', {
+  callback = function(args)
+    if args.data.method == 'textDocument/didOpen' then
+      vim.lsp.foldclose('imports', vim.fn.bufwinid(args.buf))
+    end
+  end,
+})
 -- vim.api.nvim_create_user_command("ReloadConfig", "source $MYVIMRC", {})
 
 -- vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {

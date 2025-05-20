@@ -6,65 +6,68 @@ local set_o = vim.o
 local set_win = vim.wo
 
 -- GLOBALS
-vim.scriptencoding = "UTF-8"
-set_o.encoding = "UTF-8"
-set_o.fileencoding = "UTF-8"
-set_o.syntax = "on"
-if os.getenv("USER") == "gklodkox" then
-  set_global.python3_host_prog = "/home/gklodkox/.pyenv/versions/neovim/bin/python"
-elseif os.getenv("USER") == "fox" then
-  set_global.python3_host_prog = "/home/fox/.config/nvim/venv/bin/python3"
-  set_global.node_host_prog = "/usr/bin/neovim-node-host"
-  set_global.ruby_host_prog = "/home/fox/.local/share/gem/ruby/3.3.0/bin/neovim-ruby-host"
-  set_global.perl_host_prog = "/usr/bin/perl"
-else
-  set_global.python3_host_prog = vim.fn.exepath("python")
-end
+set_global.python3_host_prog = vim.fn.exepath("python")
+-- CMDS 
+vim.cmd('syntax on')
+vim.cmd('syntax enable')
+vim.cmd('filetype plugin indent on')
+vim.cmd('syntax spell notoplevel')
 
--- NUMBER LINE
+-- GLOBALS
+set_global.python3_host_prog = vim.fn.exepath('python')
+
+-- WHITESPACE
+set_opt.listchars = { space = '_', tab = '>~' }
+set_o.cindent = true
+set_o.autoindent = true
+set_o.smartindent = true
+set_o.expandtab = true
+set_o.shiftwidth = 4
+set_o.tabstop = 8
+set_o.softtabstop = 4
+set_o.wrap = false
+set_o.nrformats = 'alpha'
+set_o.backspace = 'indent,eol,start'
+
+-- EDITOR
 set_o.number = true
 set_o.relativenumber = true
 set_o.cursorline = true
 set_o.cursorlineopt = "both"
 set_o.ruler = false
-set_o.numberwidth = 2
--- INDENTS
-set_opt.breakindent = true
-set_o.autoindent = true
-set_o.expandtab = true
-set_o.shiftwidth = 4
-set_o.tabstop = 4
-set_o.softtabstop = 4
--- EDITOR
-set_win.conceallevel = 1
-set_opt.list = true
-set_opt.listchars = { trail = "·", nbsp = "␣" }
-
-set_opt.ignorecase = true
-set_opt.smartcase = true
-set_opt.showmode = false
--- set_opt.path = vim.opt.path + "**"
+set_o.spelllang = 'en_us,pl_pl'
+set_o.ignorecase = true
+set_o.smartcase = true
+set_o.showmode = false
 set_o.mouse = "a"
 set_o.smoothscroll = true
 set_o.title = true
 set_o.inccommand = "split"
 set_o.ttimeoutlen = 0
 set_opt.timeoutlen = 300
-set_o.updatetime = 250
-set_o.wrap = false
+set_o.updatetime = 500
 set_o.splitbelow = true
--- set_o.hidden = true
+set_o.hidden = true
 set_o.splitright = true
-set_o.winheight = 3
 set_o.scrolloff = 8
-set_o.sidescrolloff = 4
+set_o.sidescrolloff = 6
 set_o.signcolumn = "yes"
--- BACKUP
-set_o.swapfile = false
-set_o.backup = false
-set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
-set_o.undofile = true
+set_o.virtualedit = 'all'
+set_o.winborder = 'rounded'
+
 -- MISC
 set_opt.autochdir = true
-set_opt.cmdheight = 0
--- set_opt.isfname:append({ "@-@" })
+set_opt.cmdheight = 1
+set_opt.wildignore:append { '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', 'venv', 'doc*.txt', 'man' }
+set_o.swapfile = false
+set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
+set_o.undofile = true
+set_o.mmp = 2000
+set_o.compatible = false
+set_o.completeopt = 'menu,menuone,noselect'
+set_o.shortmess = vim.o.shortmess .. 'c'
+
+-- LEADER
+set_global.mapleader = " "
+set_global.maplocalleader = " "
+

@@ -1,33 +1,13 @@
+local function tableHasKey(table,key)
+   return table[key] ~= nil
+end
+
+
 local M = { "williamboman/mason-lspconfig.nvim" }
 
 M.dependencies = {
   "stevearc/conform.nvim",
-  {
-    "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup({
-        install_root_dir = vim.fn.stdpath("data") .. "/mason",
-        PATH = "prepend",
-        ui = {
-          border = "rounded",
-          icons = {
-            package_installed = "✓",
-            package_pending = "~",
-            package_uninstalled = "✗",
-          },
-        },
-        registries = {
-          "github:mason-org/mason-registry",
-        },
-        providers = {
-          "mason.providers.registry-api",
-          "mason.providers.client",
-        },
-        log_level = vim.log.levels.INFO,
-        max_concurrent_installers = 8,
-      })
-    end,
-  },
+  { "williamboman/mason.nvim", opts = { ui = { border = "rounded" }, max_concurrent_installers = 8 } },
   { "neovim/nvim-lspconfig", lazy = true, dependencies = { "williamboman/mason-lspconfig.nvim" } },
   "saghen/blink.cmp",
   "ray-x/lsp_signature.nvim",
@@ -45,12 +25,12 @@ function M.init()
       numhl = "",
     })
   end
-  vim.opt.rtp:prepend(vim.fn.expand("~") .. "/.local/share/nvim/mason")
+  -- vim.opt.rtp:prepend(vim.fn.expand("~") .. "/.local/share/nvim/mason")
 
-  sign({ name = "DiagnosticSignError", text = "✘" })
-  sign({ name = "DiagnosticSignWarn", text = "▲" })
-  sign({ name = "DiagnosticSignHint", text = "⚑" })
-  sign({ name = "DiagnosticSignInfo", text = "" })
+  -- sign({ name = "DiagnosticSignError", text = "✘" })
+  -- sign({ name = "DiagnosticSignWarn", text = "▲" })
+  -- sign({ name = "DiagnosticSignHint", text = "⚑" })
+  -- sign({ name = "DiagnosticSignInfo", text = "" })
 
   vim.keymap.set("n", "gK", function()
     local new_config = not vim.diagnostic.config().virtual_text
@@ -58,26 +38,58 @@ function M.init()
   end, { desc = "Toggle diagnostic virtual_lines" })
 
   vim.diagnostic.config({
-    virtual_text = true,
+    virtual_text = { current_line = true },
+    virtual_lines = { current_line = true },
     update_in_insert = true,
     underline = true,
     severity_sort = true,
-    float = {
-      border = "single",
+  })
+  vim.lsp.config('*', {
+  capabilities = {
+      textDocument = {
+        semanticTokens = {
+          multilineTokenSupport = true,
+        },
+        foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true
+        },
+      }
     },
+    root_markers = { '.git' },
   })
   vim.filetype.add({ pattern = { [".*/*.asasm"] = "asasm" } })
   vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup('my.lsp', {}),
     desc = "LSP actions",
-    callback = function()
+    callback = function(args)
+      local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
       local bufmap = function(mode, lhs, rhs)
         local opts = { buffer = true }
         vim.keymap.set(mode, lhs, rhs, opts)
       end
+      if client:supports_method('textDocument/implementation') then
+        bufmap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>")
+      end
+      if client:supports_method('textDocument/completion') then
+        local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+        client.server_capabilities.completionProvider.triggerCharacters = chars
+        vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
+      end
+      if not client:supports_method('textDocument/willSaveWaitUntil')
+      and client:supports_method('textDocument/formatting') then
+        vim.api.nvim_create_autocmd('BufWritePre', {
+          group = vim.api.nvim_create_augroup('my.lsp', {clear=false}),
+          buffer = args.buf,
+          callback = function()
+            vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+          end,
+        })
+      end
+
       bufmap("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
       bufmap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>")
       bufmap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>")
-      bufmap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>")
       bufmap("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
       bufmap("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>")
       bufmap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
@@ -91,27 +103,44 @@ function M.init()
   })
 end
 function M.opts()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = {
+      textDocument = {
+        semanticTokens = {
+          multilineTokenSupport = true,
+        },
+        foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true
+        },
+      }
+    }
+  capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
   return {
-
     servers = {
-      asm_lsp = {},
-      diagnosticls = {},
-      dockerls = {},
-      marksman = {},
-      rust_analyzer = {},
-      vimls = {},
-      yamlls = {},
-      html = {},
-      jsonls = {},
-      taplo = {},
-      markdown_oxide = {},
-      gradle_ls = {},
+      asm_lsp = { capabilities = capabilities },
+      diagnosticls = { capabilities = capabilities },
+      dockerls = { capabilities = capabilities },
+      marksman = { capabilities = capabilities },
+      rust_analyzer = { capabilities = capabilities },
+      vimls = { capabilities = capabilities },
+      yamlls = { capabilities = capabilities },
+      html = { capabilities = capabilities },
+      jsonls = { capabilities = capabilities },
+      taplo = { capabilities = capabilities },
+      markdown_oxide = { capabilities = capabilities },
+      gradle_ls = { capabilities = capabilities },
       fish_lsp = {
-        cmd = { "fish-lsp", "start", "--disable", "signature" },
+        cmd = { "fish-lsp", "start" },
         cmd_env = {
-          fish_lsp_show_client_popups = false,
+          fish_lsp_show_client_popups = true,
         },
         filetypes = { "fish" },
+        root_dir = function(fname)
+          return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+        end,
+        single_file_support = true,
+        capabilities = capabilities,
       },
       groovyls = {
         cmd = {
@@ -123,8 +152,9 @@ function M.opts()
           "groovy",
           "Jenkinsfile",
         },
+        capabilities = capabilities,
       },
-      lua_ls = {},
+      lua_ls = { capabilities = capabilities },
       basedpyright = {
         settings = {
           basedpyright = {
@@ -135,6 +165,7 @@ function M.opts()
             },
           },
         },
+        capabilities = capabilities,
       },
       pylsp = {
         settings = {
@@ -160,26 +191,29 @@ function M.opts()
             },
           },
         },
+        capabilities = capabilities,
       },
       bashls = {
         settings = {
           bashIde = { globPattern = "*@(.sh|.inc|.bash|.command)" },
         },
+        capabilities = capabilities,
       },
       clangd = {
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
         cmd = { "clangd" },
-        capabilities = {
-          offsetEncoding = { "utf-16" },
-          textDocument = {
-            completion = {
-              editsNearCursor = true,
+        capabilities = function()
+          local cap = {
+            offsetEncoding = { "utf-16" },
+            textDocument = {
+              completion = {
+                editsNearCursor = true,
+              },
             },
-          },
-        },
-        init_options = {
-          fallbackFlags = { "-std=c++17" },
-        },
+          }
+          return vim.tbl_deep_extend('force', cap, capabilities)
+        end,
+        init_options = { fallbackFlags = { "-std=c++17" } },
       },
       neocmake = {
         cmd = { "neocmakelsp", "--stdio" },
@@ -197,6 +231,7 @@ function M.opts()
           },
           scan_cmake_in_package = true, -- default is true
         },
+        capabilities = capabilities,
       },
       texlab = {
         settings = {
@@ -223,31 +258,23 @@ function M.opts()
             },
           },
         },
+        capabilities = capabilities,
       },
     },
   }
 end
 function M.config(_, opts)
-  -- require("neodev").setup({})
-  local lspconfig = require("lspconfig")
-  for server, config in pairs(opts.servers) do
-    -- passing config.capabilities to blink.cmp merges with the capabilities in your
-    -- `opts[server].capabilities, if you've defined it
-    config.capabilities =
-      { textDocument = {
-        foldingRange = {
-          dynamicRegistration = false,
-          lineFoldingOnly = true,
-        },
-      } }
-    config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-    lspconfig[server].setup(config)
+  local language_servers = vim.lsp.get_clients() -- or list servers manually like {'gopls', 'clangd'}
+  for _, ls in ipairs(language_servers) do
+      if tableHasKey(opts.servers) then
+        require('lspconfig')[ls].setup(opts.servers[ls])
+      else
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
+        capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+        require('lspconfig')[ls].setup({ capabilities = capabilities })
+      end
   end
-  -- local lsp_capabilities = vim.tbl_deep_extend(
-  --   "force",
-  --   vim.lsp.protocol.make_client_capabilities(),
-  --   require("cmp_nvim_lsp").default_capabilities()
-  -- )
   require("mason-tool-installer").setup({
     auto_update = true,
     run_on_start = true,
@@ -317,35 +344,35 @@ function M.config(_, opts)
     },
   })
   require("mason-nvim-lint").setup({
-    -- ensure_installed = {
-    --   "checkmake",
-    --   "swiftlint",
-    --   "cmakelang",
-    --   "codespell",
-    --   "cpplint",
-    --   "editorconfig-checker",
-    --   "eslint_d",
-    --   "flake8",
-    --   "htmlhint",
-    --   "jsonlint",
-    --   "luacheck",
-    --   "markdownlint",
-    --   "commitlint",
-    --   "misspell",
-    --   "mypy",
-    --   "pydocstyle",
-    --   "pyflakes",
-    --   "pylint",
-    --   "revive",
-    --   "ruff",
-    --   "shellcheck",
-    --   "staticcheck",
-    --   "systemdlint",
-    --   "vint",
-    --   "yamllint",
-    --   "npm-groovy-lint",
-    --   "bacon",
-    -- },
+    ensure_installed = {
+      "checkmake",
+      "swiftlint",
+      "cmakelang",
+      "codespell",
+      "cpplint",
+      "editorconfig-checker",
+      "eslint_d",
+      "flake8",
+      "htmlhint",
+      "jsonlint",
+      "luacheck",
+      "markdownlint",
+      "commitlint",
+      "misspell",
+      "mypy",
+      "pydocstyle",
+      "pyflakes",
+      "pylint",
+      "revive",
+      "ruff",
+      "shellcheck",
+      "staticcheck",
+      "systemdlint",
+      "vint",
+      "yamllint",
+      "npm-groovy-lint",
+      "bacon",
+    },
   })
 end
 

@@ -69,6 +69,20 @@ require("which-key").add({
   { "<leader>pl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" },
 })
 
+require("which-key").add({
+  mode = { 'n' },
+  cond = function()
+      if pcall(require, "ufo") then
+          return true
+      end
+      return false
+  end,
+  { "<leader>zR", require("ufo").openAllFolds, desc = "Open all folds under the cursor position" },
+  { "<leader>zM", require("ufo").closeAllFolds, desc = "Close all folds under the cursor position" },
+  { "<leader>zr", require("ufo").openFoldsExceptKinds, desc = "Open folds under the cursor, except for kinds"},
+  { "<leader>zm", require("ufo").closeFoldsWith, desc = "Close folds under the cursor with..."}
+})
+
 -- fzf-lua
 require("which-key").add({
   mode = { "n" },

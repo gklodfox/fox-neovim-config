@@ -75,7 +75,7 @@ require("lazy").setup({
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  install = { missing = true, colorscheme = { "flow" } },
+  install = { missing = true, colorscheme = { "flow", lazy = false, priority = 1000, tag = "vX.0.0", opts = {} } },
   performance = {
     cache = { enabled = true },
     reset_packpath = true,
@@ -120,4 +120,4 @@ require("lazy").setup({
     check_pinned = false,
   },
 })
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#460D33", bold = true })
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#6e253e", bold = true })
