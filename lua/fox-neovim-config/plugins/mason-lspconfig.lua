@@ -8,11 +8,12 @@ local M = { "williamboman/mason-lspconfig.nvim" }
 M.dependencies = {
   "stevearc/conform.nvim",
   { "williamboman/mason.nvim", opts = { ui = { border = "rounded" }, max_concurrent_installers = 8 } },
-  { "neovim/nvim-lspconfig", lazy = true, dependencies = { "williamboman/mason-lspconfig.nvim" } },
+  { "neovim/nvim-lspconfig" }, -- , lazy = true, dependencies = { "williamboman/mason-lspconfig.nvim" } },
   "saghen/blink.cmp",
   "ray-x/lsp_signature.nvim",
   "simrat39/rust-tools.nvim",
   "WhoIsSethDaniel/mason-tool-installer.nvim",
+  "mfussenegger/nvim-lint",
   "rshkarin/mason-nvim-lint",
   "zapling/mason-conform.nvim",
 }
@@ -290,7 +291,6 @@ function M.config(_, opts)
       "neocmake",
       "diagnosticls",
       "dockerls",
-      -- "digestif",
       "texlab",
       "gradle_ls",
       "lua_ls",
@@ -344,35 +344,13 @@ function M.config(_, opts)
     },
   })
   require("mason-nvim-lint").setup({
+    quiet_mode = false,
+    automatic_installation = true,
     ensure_installed = {
-      "checkmake",
-      "swiftlint",
-      "cmakelang",
-      "codespell",
-      "cpplint",
-      "editorconfig-checker",
-      "eslint_d",
-      "flake8",
-      "htmlhint",
-      "jsonlint",
-      "luacheck",
-      "markdownlint",
-      "commitlint",
-      "misspell",
-      "mypy",
-      "pydocstyle",
-      "pyflakes",
-      "pylint",
-      "revive",
-      "ruff",
-      "shellcheck",
-      "staticcheck",
-      "systemdlint",
-      "vint",
-      "yamllint",
-      "npm-groovy-lint",
-      "bacon",
-    },
+      "rstcheck", "luacheck", "checkmake", "cmakelint", "cpplint", "vint", "editorconfig-checker",
+      "eslint_d", "jsonlint", "pylint", "flake8", "ruff", "mypy", "htmlhint", "markdownlint",
+      "pydocstyle", "shellcheck", "yamllint", "codespell", "buf_lint"
+    }
   })
 end
 

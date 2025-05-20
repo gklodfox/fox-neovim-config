@@ -5,15 +5,18 @@ M.event = { "BufNewFile", "BufReadPre" }
 function M.opts()
   return {
     linters_by_ft = {
-      tex = {},
+      uex = {"rstcheck"},
       lua = { "luacheck" },
       make = { "checkmake" },
       cmake = { "cmakelint" },
       cpp = { "cpplint" },
       vim = { "vint" },
-      markdown = {},
+      editorconfig = { "editorconfig-checker" },
+      markdown = {"markdownlint"},
+      javascript = { "eslint_d" },
+      typescript = { "eslint_d" },
       json = { "jsonlint" },
-      python = { "pylint", "flake8", "ruff", "mypy" },
+      python = { "pylint", "ruff", "mypy", "flake8", "pydocstyle" },
       rust = {},
       yaml = { "yamllint" },
       sh = { "shellcheck" },
