@@ -58,7 +58,7 @@ set_o.winborder = 'rounded'
 -- MISC
 set_opt.autochdir = true
 set_opt.cmdheight = 1
-set_opt.wildignore:append { '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', 'venv', 'doc*.txt', 'man' }
+set_opt.wildignore:append { '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', '/venv', '*.txt', '/man', '/log' }
 set_o.swapfile = false
 set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
 set_o.undofile = true
