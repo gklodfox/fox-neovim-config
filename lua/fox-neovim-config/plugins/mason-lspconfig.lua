@@ -13,7 +13,7 @@ M.dependencies = {
         dependencies = { "williamboman/mason-lspconfig.nvim" },
     },
     "saghen/blink.cmp",
-    "ray-x/lsp_signature.nvim",
+    -- "ray-x/lsp_signature.nvim",
     "simrat39/rust-tools.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     "rshkarin/mason-nvim-lint",
@@ -24,14 +24,18 @@ function M.init()
     vim.opt.rtp:prepend(vim.fn.expand("~") .. "/.local/share/nvim/mason")
 
     vim.keymap.set("n", "gK", function()
+        local new_config = not vim.diagnostic.config().virtual_lines
+        vim.diagnostic.config({ virtual_lines = new_config })
+    end, { desc = "Toggle diagnostic virtual_lines" })
+    vim.keymap.set("n", "gk", function()
         local new_config = not vim.diagnostic.config().virtual_text
         vim.diagnostic.config({ virtual_lines = new_config })
     end, { desc = "Toggle diagnostic virtual_lines" })
 
     vim.diagnostic.config({
-        virtual_text = { current_line = true },
-        virtual_lines = { current_line = true },
-        update_in_insert = true,
+        virtual_text = false,
+        virtual_lines = { current_line = false },
+        update_in_insert = false,
         underline = true,
         severity_sort = true,
     })
@@ -266,7 +270,7 @@ function M.config(_, _)
             "lua_ls",
             "pylsp",
             "marksman",
-            "basedpyright",
+            -- "basedpyright",
             "rust_analyzer",
             "vimls",
             "yamlls",
@@ -326,8 +330,8 @@ function M.config(_, _)
             "editorconfig-checker",
             "eslint_d",
             "jsonlint",
-            "pylint",
-            "flake8",
+            -- "pylint",
+            -- "flake8",
             "ruff",
             "mypy",
             "htmlhint",
