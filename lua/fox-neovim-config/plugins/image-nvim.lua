@@ -1,11 +1,11 @@
 local M = { "3rd/image.nvim" }
 
-M.enabled = false
+M.build = false
 
 function M.opts()
   return {
-    backend = "ueberzug",
-    processor = "magick_rock", -- or "magick_cli"
+    -- backend = "ueberzug",
+    processor = "magick_cli", -- or "magick_cli"
     integrations = {
       markdown = {
         enabled = true,
