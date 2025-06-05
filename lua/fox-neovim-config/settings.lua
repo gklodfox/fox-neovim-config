@@ -3,11 +3,10 @@ local set_opt = vim.opt
 -- Recommended settings
 set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
-local set_win = vim.wo
 
 -- GLOBALS
 set_global.python3_host_prog = vim.fn.exepath("python")
--- CMDS 
+-- CMDS
 vim.cmd('syntax on')
 vim.cmd('syntax enable')
 vim.cmd('filetype plugin indent on')
@@ -35,7 +34,6 @@ set_o.relativenumber = true
 set_o.cursorline = true
 set_o.cursorlineopt = "both"
 set_o.ruler = false
-set_o.spelllang = 'en_us,pl_pl'
 set_o.ignorecase = true
 set_o.smartcase = true
 set_o.showmode = false
@@ -52,7 +50,6 @@ set_o.splitright = true
 set_o.scrolloff = 8
 set_o.sidescrolloff = 6
 set_o.signcolumn = "yes"
-set_o.virtualedit = 'all'
 set_o.winborder = 'rounded'
 
 -- MISC
@@ -70,4 +67,3 @@ set_o.shortmess = vim.o.shortmess .. 'c'
 -- LEADER
 set_global.mapleader = " "
 set_global.maplocalleader = " "
-
