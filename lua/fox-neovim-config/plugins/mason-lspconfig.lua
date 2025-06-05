@@ -56,6 +56,7 @@ function M.init()
 end
 
 function M.config(_, _)
+    require("mason").setup()
     require("mason-lspconfig").setup()
     require("mason-tool-installer").setup({
         auto_update = true,
