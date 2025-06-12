@@ -7,11 +7,7 @@ local M = { "williamboman/mason-lspconfig.nvim" }
 M.dependencies = {
     "stevearc/conform.nvim",
     { "williamboman/mason.nvim", opts = { ui = { border = "rounded" }, max_concurrent_installers = 8 } },
-    {
-        "neovim/nvim-lspconfig",
-        lazy = true,
-        dependencies = { "williamboman/mason-lspconfig.nvim" },
-    },
+    { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason-lspconfig.nvim" }, },
     "saghen/blink.cmp",
     -- "ray-x/lsp_signature.nvim",
     "simrat39/rust-tools.nvim",
@@ -55,7 +51,7 @@ function M.init()
     })
 end
 
-function M.config(_, _)
+function M.config()
     require("mason").setup()
     require("mason-lspconfig").setup()
     require("mason-tool-installer").setup({
