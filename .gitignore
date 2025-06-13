@@ -1,7 +1,0 @@
-lazy-lock.json
-poetry.lock
-/luarocks
-/lua_modules
-/.luarocks
-/*.rockspec
-venv/
