@@ -1,2 +1,3 @@
--- Neovim config, way the gklodfox is doing it!
-print("ELO")
+-- init
+
+require("fox-neovim-config")
