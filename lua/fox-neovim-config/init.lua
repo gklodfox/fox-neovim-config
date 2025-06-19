@@ -1,4 +1,4 @@
-require('core.options')
-require('core.keymaps')
-require('core.autocommands')
-require('core.lazy')
+require('fox-neovim-config.core.options')
+require('fox-neovim-config.core.keymaps')
+require('fox-neovim-config.core.autocommands')
+require('fox-neovim-config.core.lazy')
