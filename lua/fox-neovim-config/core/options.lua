@@ -29,7 +29,6 @@ set_option.splitbelow = true
 set_option.list = true
 set_options.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
-set_option.inccomand = 'split'
 set_option.cursorline = true
 set_option.scrolloff = 10
 set_option.confirm = true
