@@ -4,7 +4,7 @@ local set_options = vim.opt
 
 set_global.mapleader = ' '
 set_global.maplocalleader = ' '
-set_global.have_nerd_font = false
+set_global.have_nerd_font = true
 
 set_option.number = true
 set_option.relativenumber = true
