@@ -11,14 +11,13 @@ M.dependencies = {
         end,
     }
 }
-M.opts = require("fox-neovim-config.plugins.configs.convenience.telescope")
+M.opts = require("fox-neovim-config.plugins.configs.convenience.telescope-nvim")
 
 function M.config(_, opts)
     require("telescope").setup(opts)
 
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "ui-select")
-    
 end
 
 
