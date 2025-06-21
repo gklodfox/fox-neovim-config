@@ -1,6 +1,6 @@
 return {
-    require('fox-neovim-config.plugins.convenience'),
     require('fox-neovim-config.plugins.lsp'),
+    require('fox-neovim-config.plugins.convenience'),
 }
 -- return {
 --     {
