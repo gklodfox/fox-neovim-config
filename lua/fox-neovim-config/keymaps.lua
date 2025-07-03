@@ -55,6 +55,7 @@ require("which-key").add({
         return false
     end,
     { "<leader>cc", "<cmd>ChatGPT<CR>", desc = "ChatGPT", icon = "󱙺" },
+    { "<leader>cA", "<cmd>ChatGPTActAs", desc = "Act as..." },
     { "<leader>ce", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
     { "<leader>cg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
     { "<leader>ct", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
@@ -119,6 +120,9 @@ require("which-key").add({
         end
         return false
     end,
-    { "gb", "<cmd>LualineBuffersJump! " .. tostring(vim.v.count) .. "<CR>", desc = "Go to buffer" },
-    { "gB", "<cmd>LualineBuffersJump! $<CR>", desc = "Go to last buffer" },
+    { "gb", function ()
+        vim.cmd("LualineBuffersJump! " .. vim.v.count)
+    end, desc = "Go to buffer" },
 })
+
+print(vim.inspect(require("lualine").tabline()))

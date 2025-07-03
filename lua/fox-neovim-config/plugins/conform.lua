@@ -21,8 +21,8 @@ function M.opts()
   local groovy_formatters = { "npm-groovy-lint" }
   local json_formatters = { "fixjson" }
   local sh_formatters = { "shellcheck", "shfmt" }
-  local all_formatters = { "prettier" }
-  local on_save_formatters = { "prettier" }
+  local all_formatters = {}
+  local on_save_formatters = {}
 
   return {
     formatters_by_ft = {

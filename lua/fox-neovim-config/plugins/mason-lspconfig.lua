@@ -7,7 +7,7 @@ local M = { "williamboman/mason-lspconfig.nvim" }
 M.dependencies = {
     "stevearc/conform.nvim",
     { "williamboman/mason.nvim", opts = { ui = { border = "rounded" }, max_concurrent_installers = 8 } },
-    { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason-lspconfig.nvim" }, },
+    { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason-lspconfig.nvim" } },
     "saghen/blink.cmp",
     -- "ray-x/lsp_signature.nvim",
     "simrat39/rust-tools.nvim",
@@ -30,7 +30,7 @@ function M.init()
 
     vim.diagnostic.config({
         virtual_text = true,
-        virtual_lines = false, 
+        virtual_lines = false,
         update_in_insert = true,
         underline = true,
         severity_sort = true,
@@ -52,6 +52,17 @@ function M.init()
 end
 
 function M.config()
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "fish",
+        callback = function()
+            vim.lsp.start({
+                name = "fish-lsp",
+                cmd = { "fish-lsp", "start" },
+                cmd_env = { fish_lsp_show_client_popups = false },
+            })
+        end,
+    })
+
     require("mason").setup()
     require("mason-lspconfig").setup()
     require("mason-tool-installer").setup({
@@ -88,7 +99,6 @@ function M.config()
             "autopep8",
             "black",
             "autoflake",
-            "prettierd",
             "luaformatter",
             "stylua",
             "beautysh",
@@ -112,7 +122,6 @@ function M.config()
             "isort",
             "cmake_format",
             "clang-format",
-            "prettier",
             "shellcheck",
             "shfmt",
             "stylua",
