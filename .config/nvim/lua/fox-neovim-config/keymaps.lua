@@ -125,4 +125,3 @@ require("which-key").add({
     end, desc = "Go to buffer" },
 })
 
-print(vim.inspect(require("lualine").tabline()))

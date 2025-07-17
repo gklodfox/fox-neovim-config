@@ -14,6 +14,7 @@ vim.cmd('syntax spell notoplevel')
 
 -- GLOBALS
 set_global.python3_host_prog = vim.fn.exepath('python')
+set_global.have_nerd_font = true
 
 -- WHITESPACE
 set_opt.listchars = { space = '_', tab = '>~' }

@@ -48,23 +48,23 @@ end
 local M = { "nvim-lualine/lualine.nvim" }
 
 M.dependencies = {
-  -- "nvim-tree/nvim-web-devicons",
+  "nvim-tree/nvim-web-devicons",
   "Isrothy/lualine-diagnostic-message",
   "arkav/lualine-lsp-progress",
   "echasnovski/mini.icons",
-}
+  }
 
 function M.opts()
   local flow_theme = require("lualine.themes.flow")
-  flow_theme.normal.a = { bg = "#ff007b", fg = "#000000" }
-  flow_theme.normal.b = { bg = "#60002e", fg = "#ff007b" }
-  flow_theme.normal.c = { bg = nil, fg = "#60002e" }
-  flow_theme.normal.x = { bg = nil, fg = "#ff007b" }
-  flow_theme.normal.y = { fg = "#ff007b", bg = "#60002e" }
-  flow_theme.normal.z = { bg = "#ff007b", fg = "#000000" }
+  -- flow_theme.normal.a = { bg = "#ff007b", fg = "#000000" }
+  -- flow_theme.normal.b = { bg = "#60002e", fg = "#ff007b" }
+  -- flow_theme.normal.c = { bg = nil, fg = "#60002e" }
+  -- flow_theme.normal.x = { bg = nil, fg = "#ff007b" }
+  -- flow_theme.normal.y = { fg = "#ff007b", bg = "#60002e" }
+  -- flow_theme.normal.z = { bg = "#ff007b", fg = "#000000" }
   return {
     options = {
-      theme = flow_theme,
+      -- theme = flow_theme,
       icons_enabled = true,
       always_show_tabline = false,
       globalstatus = true,

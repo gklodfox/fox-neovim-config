@@ -5,12 +5,13 @@ M.cmd = { "NvimTreeToggle", "NvimTreeFocus" }
 function M.opts()
   return {
     respect_buf_cwd = true,
+    sync_root_with_cwd = true,
     hijack_cursor = true,
     sort = {
       sorter = "case_sensitive",
     },
     view = {
-      width = 70,
+      width = 90,
       side = "right",
       centralize_selection = true,
       float = {
@@ -23,145 +24,8 @@ function M.opts()
           height = 100,
           row = 1,
           col = math.floor(vim.opt.columns:get() * 0.7667),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
       }
-    },
-    renderer = {
-      group_empty = true,
-    },
-    filters = {
-      dotfiles = true,
     },
   }
 end
