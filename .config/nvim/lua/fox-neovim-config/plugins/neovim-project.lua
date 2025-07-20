@@ -26,9 +26,8 @@ function M.opts()
         }
     elseif os.getenv("USER") == "fox" then
         projects = {
-            "~/.config/*",
+            "~/.kotfiles/*",
             "~/Sources/*",
-            "~/Code/*",
             "~/Code/**/*",
         }
     else
