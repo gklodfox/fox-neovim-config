@@ -4,8 +4,6 @@ local set_opt = vim.opt
 set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
 
--- GLOBALS
-set_global.python3_host_prog = vim.fn.exepath("python")
 -- CMDS
 vim.cmd('syntax on')
 vim.cmd('syntax enable')

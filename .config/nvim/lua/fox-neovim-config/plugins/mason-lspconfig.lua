@@ -91,7 +91,7 @@ function M.config()
             "vimls",
             "yamlls",
             "clangd",
-            "groovyls",
+            -- "groovyls",
             "html",
             "jsonls",
             "taplo",

@@ -28,7 +28,7 @@ function M.opts()
         projects = {
             "~/.kotfiles/*",
             "~/Sources/*",
-            "~/Code/**/*",
+            "~/Code/*/*",
         }
     else
         projects = {}
@@ -48,6 +48,7 @@ function M.opts()
             autosave_ignore_dirs = {
                 vim.fn.expand("~"), -- don't create a session for $HOME/
                 "/tmp",
+                "/build",
                 "/.cache",
                 "/.local",
                 "/doc",
