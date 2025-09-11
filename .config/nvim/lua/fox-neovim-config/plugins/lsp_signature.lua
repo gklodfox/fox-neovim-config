@@ -1,7 +1,6 @@
 local M = { 'ray-x/lsp_signature.nvim' }
 
-M.enabled = false
--- M.event = "InsertEnter"
+M.event = "InsertEnter"
 --
 function M.init()
     vim.keymap.set({ 'n' }, '<Leader>k', function()

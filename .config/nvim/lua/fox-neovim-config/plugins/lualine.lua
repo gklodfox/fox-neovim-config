@@ -3,7 +3,7 @@ local venv_path = os.getenv("VIRTUAL_ENV")
 local get_current_signature = function()
   local width = 10
   if not pcall(require, "lsp_signature") then
-    return
+    return ' '
   end
   local sig = require("lsp_signature").status_line(width)
   return sig.label .. "  " .. sig.hint
@@ -52,22 +52,23 @@ M.dependencies = {
   "Isrothy/lualine-diagnostic-message",
   "arkav/lualine-lsp-progress",
   "echasnovski/mini.icons",
+  "x-ray/lsp_signature.nvim",
   }
 
 function M.opts()
   local flow_theme = require("lualine.themes.flow")
-  -- flow_theme.normal.a = { bg = "#ff007b", fg = "#000000" }
-  -- flow_theme.normal.b = { bg = "#60002e", fg = "#ff007b" }
-  -- flow_theme.normal.c = { bg = nil, fg = "#60002e" }
-  -- flow_theme.normal.x = { bg = nil, fg = "#ff007b" }
-  -- flow_theme.normal.y = { fg = "#ff007b", bg = "#60002e" }
-  -- flow_theme.normal.z = { bg = "#ff007b", fg = "#000000" }
+  flow_theme.normal.a = { bg = "#ff007b", fg = "#000000" }
+  flow_theme.normal.b = { bg = "#60002e", fg = "#ff007b" }
+  flow_theme.normal.c = { bg = nil, fg = "#60002e" }
+  flow_theme.normal.x = { bg = nil, fg = "#ff007b" }
+  flow_theme.normal.y = { fg = "#ff007b", bg = "#60002e" }
+  flow_theme.normal.z = { bg = "#ff007b", fg = "#000000" }
   return {
     options = {
-      -- theme = flow_theme,
+      theme = flow_theme,
       icons_enabled = true,
       always_show_tabline = false,
-      globalstatus = true,
+      globalstatus = false,
       disabled_filetypes = {
         statusline = { "dashboard", "NvimTree", "terminal" },
         winbar = { "dashboard", "NvimTree", "terminal" },

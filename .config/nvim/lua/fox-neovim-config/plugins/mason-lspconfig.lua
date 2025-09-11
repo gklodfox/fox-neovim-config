@@ -9,7 +9,7 @@ M.dependencies = {
     { "williamboman/mason.nvim", opts = { ui = { border = "rounded" }, max_concurrent_installers = 8 } },
     { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason-lspconfig.nvim" } },
     "saghen/blink.cmp",
-    -- "ray-x/lsp_signature.nvim",
+    "ray-x/lsp_signature.nvim",
     "simrat39/rust-tools.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     "rshkarin/mason-nvim-lint",
@@ -19,22 +19,26 @@ M.dependencies = {
 function M.init()
     vim.opt.rtp:prepend(vim.fn.expand("~") .. "/.local/share/nvim/mason")
 
-    vim.keymap.set("n", "gK", function()
-        local new_config = not vim.diagnostic.config().virtual_lines
-        vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "Toggle diagnostic virtual_lines" })
-    vim.keymap.set("n", "gk", function()
-        local new_config = not vim.diagnostic.config().virtual_text
-        vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "Toggle diagnostic virtual_lines" })
-
     vim.diagnostic.config({
-        virtual_text = true,
+        virtual_text = false,
         virtual_lines = false,
         update_in_insert = true,
         underline = true,
         severity_sort = true,
     })
+
+    vim.keymap.set("n", "tv", function()
+        local new_config = vim.diagnostic.config()
+        new_config.virtual_lines = not new_config.virtual_lines
+        vim.diagnostic.config(new_config)
+    end, { desc = "Toggle diagnostic virtual_lines" })
+
+    vim.keymap.set("n", "tV", function()
+        local new_config = vim.diagnostic.config()
+        new_config.virtual_text = not new_config.virtual_text
+        vim.diagnostic.config(new_config)
+    end, { desc = "Toggle diagnostic virtual_text" })
+
     vim.lsp.config("*", {
         capabilities = {
             textDocument = {
@@ -45,6 +49,7 @@ function M.init()
                     dynamicRegistration = false,
                     lineFoldingOnly = true,
                 },
+                signatureHelp = true,
             },
         },
         root_markers = { ".git" },
@@ -52,17 +57,6 @@ function M.init()
 end
 
 function M.config()
-    vim.api.nvim_create_autocmd("FileType", {
-        pattern = "fish",
-        callback = function()
-            vim.lsp.start({
-                name = "fish-lsp",
-                cmd = { "fish-lsp", "start" },
-                cmd_env = { fish_lsp_show_client_popups = false },
-            })
-        end,
-    })
-
     require("mason").setup()
     require("mason-lspconfig").setup()
     require("mason-tool-installer").setup({
@@ -76,6 +70,7 @@ function M.config()
         },
         ensure_installed = {
             "asm_lsp",
+            "fish_lsp",
             "bashls",
             "neocmake",
             "diagnosticls",
