@@ -12,8 +12,15 @@ function M.opts()
     local projects = {}
     if os.getenv("USER") == "gklodkox" then
         projects = {
-            "~/.config/*", "~/repositories/*", "~/repositories/forks/*",
-            "~/work/DCAP/repos/*", "~/work/DCAP/*"
+            "~/.kotfiles/*",
+            "~/repositories/*",
+            "~/repositories/forks/*",
+            "~/work/DCAP/repos/*",
+            "~/work/DCAP/repos/new_ci/*",
+            "~/work/DCAP/*",
+            "~/work/DCAP/code/**/*",
+            "~/work/DCAP/docs/**/*",
+            "~/work/DCAP/dockerfiles/**/*",
         }
     elseif os.getenv("USER") == "fox" then
         projects = {

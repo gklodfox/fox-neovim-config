@@ -224,3 +224,15 @@ require("which-key").add({
         desc = "Toggle diagnostic virtual_text"
     }
 })
+require("which-key").add({
+    mode = { "n" },
+    cond = function()
+        if pcall(require, "jenkinsfile_linter") then
+            return true
+        end
+        return false
+    end,
+    { "<leader>vj", function ()
+        require("jenkinsfile_linter").validate()
+    end, desc = "Validate Jenkinsfile" },
+})
