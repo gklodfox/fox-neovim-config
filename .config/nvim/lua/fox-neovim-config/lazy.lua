@@ -14,37 +14,26 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 require("lazy").setup({
   spec = {
     { import = "fox-neovim-config.plugins" },
   },
-  install = { colorscheme = { "flow", priority = 1000 } },
-ui = {
-    browser = "qutebrowser", ---@type string?
+  install = { 
+    colorscheme = { "flow" }
+  },
+  ui = {
+    browser = "qutebrowser",
     border = "double",
-    size = {
-      width = 0.8,
-      height = 0.8,
-    },
   },
-    performance = {
-    cache = { enabled = true },
-    reset_packpath = true,
+  performance = {
     rtp = {
-      reset = true,
       paths = { vim.fn.expand("~") .. "/.local/share/nvim/mason/bin" },
-      disabled_plugins = {
-        "tohtml",
-        "gzip",
-        "netrw",
-        "netrwPlugin",
-        "matchit",
-        "tarPlugin",
-        "zipPlugin",
-        "tutor",
-      },
     },
   },
-  checker = { enabled = true, concurrency = nil }
+  diff = { cmd = "diffview.nvim" },
+  checker = { enabled = true },
 })
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#6e253e", bold = true })
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#820f48", bold = true })

@@ -5,6 +5,7 @@ end
 local M = { "williamboman/mason-lspconfig.nvim" }
 
 M.dependencies = {
+    { "williamboman/mason.nvim", opts = {} },
     "stevearc/conform.nvim",
     { "williamboman/mason.nvim", opts = { ui = { border = "rounded" }, max_concurrent_installers = 8 } },
     { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason-lspconfig.nvim" } },
@@ -27,18 +28,6 @@ function M.init()
         severity_sort = true,
     })
 
-    vim.keymap.set("n", "tv", function()
-        local new_config = vim.diagnostic.config()
-        new_config.virtual_lines = not new_config.virtual_lines
-        vim.diagnostic.config(new_config)
-    end, { desc = "Toggle diagnostic virtual_lines" })
-
-    vim.keymap.set("n", "tV", function()
-        local new_config = vim.diagnostic.config()
-        new_config.virtual_text = not new_config.virtual_text
-        vim.diagnostic.config(new_config)
-    end, { desc = "Toggle diagnostic virtual_text" })
-
     vim.lsp.config("*", {
         capabilities = {
             textDocument = {
@@ -49,7 +38,6 @@ function M.init()
                     dynamicRegistration = false,
                     lineFoldingOnly = true,
                 },
-                signatureHelp = true,
             },
         },
         root_markers = { ".git" },

@@ -28,7 +28,7 @@ function M.opts()
         projects = {
             "~/.kotfiles/*",
             "~/Sources/*",
-            "~/Code/*/*",
+            "~/code/**/*",
         }
     else
         projects = {}
