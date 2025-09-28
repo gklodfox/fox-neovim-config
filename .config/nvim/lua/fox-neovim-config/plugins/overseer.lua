@@ -1,46 +1,44 @@
-local M = { "stevearc/overseer.nvim" }
+local M = {"stevearc/overseer.nvim"}
 
-M.cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" }
+M.cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"}
 function M.opts()
-  return {
-    task_list = {
-      direction = "bottom",
-      min_height = 5,
-      max_height = 10,
-      default_detail = 2,
-    },
-    strategy = {
-      "toggleterm",
-      -- load your default shell before starting the task
-      use_shell = false,
-      -- overwrite the default toggleterm "direction" parameter
-      direction = nil,
-      -- overwrite the default toggleterm "highlights" parameter
-      highlights = nil,
-      -- overwrite the default toggleterm "auto_scroll" parameter
-      auto_scroll = nil,
-      -- have the toggleterm window close and delete the terminal buffer
-      -- automatically after the task exits
-      close_on_exit = false,
-      -- have the toggleterm window close without deleting the terminal buffer
-      -- automatically after the task exits
-      -- can be "never, "success", or "always". "success" will close the window
-      -- only if the exit code is 0.
-      quit_on_exit = "never",
-      -- open the toggleterm window when a task starts
-      open_on_start = true,
-      -- mirrors the toggleterm "hidden" parameter, and keeps the task from
-      -- being rendered in the toggleable window
-      hidden = false,
-      -- command to run when the terminal is created. Combine with `use_shell`
-      -- to run a terminal command before starting the task
-      on_create = nil,
-    },
-  }
+    return {
+        task_list = {
+            direction = "bottom",
+            min_height = 5,
+            max_height = 10,
+            default_detail = 2
+        },
+        strategy = {
+            "toggleterm",
+            -- load your default shell before starting the task
+            use_shell = false,
+            -- overwrite the default toggleterm "direction" parameter
+            direction = nil,
+            -- overwrite the default toggleterm "highlights" parameter
+            highlights = nil,
+            -- overwrite the default toggleterm "auto_scroll" parameter
+            auto_scroll = nil,
+            -- have the toggleterm window close and delete the terminal buffer
+            -- automatically after the task exits
+            close_on_exit = false,
+            -- have the toggleterm window close without deleting the terminal buffer
+            -- automatically after the task exits
+            -- can be "never, "success", or "always". "success" will close the window
+            -- only if the exit code is 0.
+            quit_on_exit = "never",
+            -- open the toggleterm window when a task starts
+            open_on_start = true,
+            -- mirrors the toggleterm "hidden" parameter, and keeps the task from
+            -- being rendered in the toggleable window
+            hidden = false,
+            -- command to run when the terminal is created. Combine with `use_shell`
+            -- to run a terminal command before starting the task
+            on_create = nil
+        }
+    }
 end
 
-function M.config(_, opts)
-  require("overseer").setup(opts)
-end
+function M.config(_, opts) require("overseer").setup(opts) end
 
 return M

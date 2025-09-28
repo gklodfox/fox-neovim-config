@@ -1,12 +1,10 @@
-local M = { "jackMort/ChatGPT.nvim" }
+local M = {"jackMort/ChatGPT.nvim"}
 
 M.enabled = false
 
 M.dependencies = {
-    "MunifTanjim/nui.nvim",
-    "nvim-lua/plenary.nvim",
-    "folke/trouble.nvim", -- optional
-    "nvim-telescope/telescope.nvim",
+    "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "folke/trouble.nvim", -- optional
+    "nvim-telescope/telescope.nvim"
 }
 
 M.event = "VeryLazy"
@@ -20,13 +18,11 @@ function M.opts()
             max_tokens = 4095,
             temperature = 0.2,
             top_p = 0.1,
-            n = 1,
-        },
+            n = 1
+        }
     }
 end
 
-function M.config(_, opts)
-    require("chatgpt").setup(opts)
-end
+function M.config(_, opts) require("chatgpt").setup(opts) end
 
 return M

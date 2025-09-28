@@ -1,7 +1,8 @@
-local M = { "mbbill/undotree" }
+local M = {"mbbill/undotree"}
 
 function M.config()
-  vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Undotree" })
+    vim.keymap
+        .set("n", "<leader>u", vim.cmd.UndotreeToggle, {desc = "Undotree"})
 end
 
 return M

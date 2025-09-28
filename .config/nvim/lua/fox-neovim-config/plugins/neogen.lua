@@ -1,4 +1,4 @@
-local M = { "danymat/neogen" }
+local M = {"danymat/neogen"}
 
 M.config = true
 

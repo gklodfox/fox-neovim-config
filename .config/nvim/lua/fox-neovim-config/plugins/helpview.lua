@@ -1,17 +1,9 @@
-local M = { "OXY2DEV/helpview.nvim" }
+local M = {"OXY2DEV/helpview.nvim"}
 
-M.dependencies = { "echasnovski/mini.icons" }
+M.dependencies = {"echasnovski/mini.icons"}
 
-function M.opts()
-  return {
-    preview = {
-      icon_provider = "mini",
-    },
-  }
-end
+function M.opts() return {preview = {icon_provider = "mini"}} end
 
-function M.config(_, opts)
-  require("helpview").setup(opts)
-end
+function M.config(_, opts) require("helpview").setup(opts) end
 
 return M

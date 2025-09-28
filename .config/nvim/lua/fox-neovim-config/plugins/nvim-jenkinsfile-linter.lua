@@ -1,5 +1,5 @@
-local M = { "ckipp01/nvim-jenkinsfile-linter" }
+local M = {"ckipp01/nvim-jenkinsfile-linter"}
 
-M.dependencies = { "nvim-lua/plenary.nvim" }
+M.dependencies = {"nvim-lua/plenary.nvim"}
 
 return M

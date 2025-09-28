@@ -1,6 +1,6 @@
-local M = { "frankroeder/parrot.nvim"}
+local M = {"frankroeder/parrot.nvim"}
 
-M.dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim" }
+M.dependencies = {"ibhagwan/fzf-lua", "nvim-lua/plenary.nvim"}
 M.enabled = false
 
 function M.opts()
@@ -11,20 +11,16 @@ function M.opts()
                 api_key = os.getenv "OPENAI_API_KEY",
                 endpoint = "https://api.openai.com/v1/chat/cmopletions",
                 params = {
-                    chat = { temperature = 1.1, top_p = 1 },
-                    command = { temperature = 1.1, top_p = 1 },
+                    chat = {temperature = 1.1, top_p = 1},
+                    command = {temperature = 1.1, top_p = 1}
                 },
                 topic = {
                     model = "gpt-4.1-nano",
-                    params = { max_completion_tokens = 64 },
+                    params = {max_completion_tokens = 64}
                 },
-                models = {
-                    "gpt-4o",
-                    "o4-mini",
-                    "gpt-4.1-nano",
-                }
+                models = {"gpt-4o", "o4-mini", "gpt-4.1-nano"}
             }
-        },
+        }
     }
 end
 

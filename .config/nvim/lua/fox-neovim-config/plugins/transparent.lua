@@ -1,4 +1,4 @@
-local M = { "xiyaowong/nvim-transparent" }
+local M = {"xiyaowong/nvim-transparent"}
 
 M.lazy = false
 

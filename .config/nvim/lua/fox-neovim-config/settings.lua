@@ -13,7 +13,7 @@ set_global.python3_host_prog = vim.fn.exepath('python')
 set_global.have_nerd_font = true
 
 -- WHITESPACE
-set_opt.listchars:append { space = '_', tab = '>-', trail = '~' }
+set_opt.listchars:append{space = '_', tab = '>-', trail = '~'}
 set_o.autoindent = true
 set_o.smartindent = true
 set_o.expandtab = true
@@ -49,9 +49,12 @@ set_o.winborder = 'rounded'
 
 -- MISC
 set_o.autochdir = true
-set_opt.wildignore:append { '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', '/venv', '*.txt', '/man', '/log' }
+set_opt.wildignore:append{
+    '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', '/venv', '*.txt',
+    '/man', '/log'
+}
 set_o.swapfile = false
 set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
 set_o.undofile = true
 set_o.mmp = 2000
-set_opt.completeopt:append {'menu', 'menuone', 'noselect'}
+set_opt.completeopt:append{'menu', 'menuone', 'noselect'}

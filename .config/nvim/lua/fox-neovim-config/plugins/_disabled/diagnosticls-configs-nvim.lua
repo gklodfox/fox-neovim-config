@@ -1,17 +1,14 @@
-local M = { 'creativenull/diagnosticls-configs-nvim' }
+local M = {'creativenull/diagnosticls-configs-nvim'}
 
-M.dependencies = { 'neovim/nvim-lspconfig' }
+M.dependencies = {'neovim/nvim-lspconfig'}
 M.enabled = false
 
 function M.config()
-  local dlsconfig = require("diagnosticls-configs")
+    local dlsconfig = require("diagnosticls-configs")
 
-  dlsconfig.init({
-    default_config = true,
-    format = true,
-  })
+    dlsconfig.init({default_config = true, format = true})
 
-  dlsconfig.setup()
+    dlsconfig.setup()
 end
 -- function M.opts()
 --   local cpplint = require("diagnosticls-configs.linters.cpplint")

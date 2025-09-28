@@ -1,20 +1,18 @@
-local function tableHasKey(table, key)
-    return table[key] ~= nil
-end
+local function tableHasKey(table, key) return table[key] ~= nil end
 
-local M = { "williamboman/mason-lspconfig.nvim" }
+local M = {"williamboman/mason-lspconfig.nvim"}
 
 M.dependencies = {
-    { "williamboman/mason.nvim", opts = {} },
-    "stevearc/conform.nvim",
-    { "williamboman/mason.nvim", opts = { ui = { border = "rounded" }, max_concurrent_installers = 8 } },
-    { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason-lspconfig.nvim" } },
-    "saghen/blink.cmp",
-    "ray-x/lsp_signature.nvim",
-    "simrat39/rust-tools.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    "rshkarin/mason-nvim-lint",
-    "zapling/mason-conform.nvim",
+    {"williamboman/mason.nvim", opts = {}}, "stevearc/conform.nvim", {
+        "williamboman/mason.nvim",
+        opts = {ui = {border = "rounded"}, max_concurrent_installers = 8}
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {"williamboman/mason-lspconfig.nvim"}
+    }, "saghen/blink.cmp", "ray-x/lsp_signature.nvim",
+    "simrat39/rust-tools.nvim", "WhoIsSethDaniel/mason-tool-installer.nvim",
+    "rshkarin/mason-nvim-lint", "zapling/mason-conform.nvim"
 }
 
 function M.init()
@@ -25,22 +23,20 @@ function M.init()
         virtual_lines = false,
         update_in_insert = true,
         underline = true,
-        severity_sort = true,
+        severity_sort = true
     })
 
     vim.lsp.config("*", {
         capabilities = {
             textDocument = {
-                semanticTokens = {
-                    multilineTokenSupport = true,
-                },
+                semanticTokens = {multilineTokenSupport = true},
                 foldingRange = {
                     dynamicRegistration = false,
-                    lineFoldingOnly = true,
-                },
-            },
+                    lineFoldingOnly = true
+                }
+            }
         },
-        root_markers = { ".git" },
+        root_markers = {".git"}
     })
 end
 
@@ -54,91 +50,38 @@ function M.config()
         integrations = {
             ["mason-lspconfig"] = true,
             ["mason-null-ls"] = false,
-            ["mason-nvim-dap"] = false,
+            ["mason-nvim-dap"] = false
         },
         ensure_installed = {
-            "asm_lsp",
-            "fish_lsp",
-            "bashls",
-            "neocmake",
-            "diagnosticls",
-            "dockerls",
-            -- "digestif",
-            "texlab",
-            "gradle_ls",
-            "lua_ls",
-            "pylsp",
-            "marksman",
+            "asm_lsp", "fish_lsp", "bashls", "neocmake", "diagnosticls",
+            "dockerls", -- "digestif",
+            "texlab", "gradle_ls", "lua_ls", "pylsp", "marksman",
             -- "basedpyright",
-            "rust_analyzer",
-            "vimls",
-            "yamlls",
-            "clangd",
-            -- "groovyls",
-            "html",
-            "jsonls",
-            "taplo",
-            "markdown_oxide",
-            "autopep8",
-            "black",
-            "autoflake",
-            "luaformatter",
-            "stylua",
-            "beautysh",
-            "fixjson",
-            "htmlbeautifier",
-            "mdformat",
-            "xmlformatter",
-            "yamlfix",
-            "yamlfmt",
-        },
+            "rust_analyzer", "vimls", "yamlls", "clangd", -- "groovyls",
+            "html", "jsonls", "taplo", "markdown_oxide", "autopep8", "black",
+            "autoflake", "luaformatter", "stylua", "beautysh", "fixjson",
+            "htmlbeautifier", "mdformat", "xmlformatter", "yamlfix", "yamlfmt"
+        }
     })
 
     require("mason-conform").setup({
         ensure_installed = {
-            "bibtex-tidy",
-            "tex_fmt",
-            "autoflake",
-            "autopep8",
-            "black",
-            "ruff_format",
-            "isort",
-            "cmake_format",
-            "clang-format",
-            "shellcheck",
-            "shfmt",
-            "stylua",
-            "yamlfix",
-            "fixjson",
-            "rustfmt",
-            "yamlfmt",
-        },
+            "bibtex-tidy", "tex_fmt", "autoflake", "autopep8", "black",
+            "ruff_format", "isort", "cmake_format", "clang-format",
+            "shellcheck", "shfmt", "stylua", "yamlfix", "fixjson", "rustfmt",
+            "yamlfmt"
+        }
     })
     require("mason-nvim-lint").setup({
         quiet_mode = false,
         automatic_installation = true,
         ensure_installed = {
-            "rstcheck",
-            "luacheck",
-            "checkmake",
-            "cmakelint",
-            "cpplint",
-            "vint",
-            "editorconfig-checker",
-            "eslint_d",
-            "jsonlint",
-            -- "pylint",
+            "rstcheck", "luacheck", "checkmake", "cmakelint", "cpplint", "vint",
+            "editorconfig-checker", "eslint_d", "jsonlint", -- "pylint",
             -- "flake8",
-            "ruff",
-            "mypy",
-            "htmlhint",
-            "markdownlint",
-            "pydocstyle",
-            "shellcheck",
-            "yamllint",
-            "codespell",
-            "buf_lint",
-        },
+            "ruff", "mypy", "htmlhint", "markdownlint", "pydocstyle",
+            "shellcheck", "yamllint", "codespell", "buf_lint"
+        }
     })
 end
 

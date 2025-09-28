@@ -1,4 +1,4 @@
-local M = { "Exafunction/windsurf.vim" }
+local M = {"Exafunction/windsurf.vim"}
 M.enabled = false
 M.event = "BufEnter"
 
