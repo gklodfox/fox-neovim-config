@@ -169,7 +169,7 @@ require("which-key").add({
 		"<leader>tV",
 		function()
 			local new_config = vim.diagnostic.config()
-			new_config.virtual_lines = not new_config.virtual_lines
+			new_config.virtual_text = not new_config.virtual_text
 			vim.diagnostic.config(new_config)
 		end,
 		desc = "Toggle diagnostic virtual_text",

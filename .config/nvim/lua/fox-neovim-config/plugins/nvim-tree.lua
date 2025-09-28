@@ -1,6 +1,7 @@
 local M = { "nvim-tree/nvim-tree.lua" }
 
 M.cmd = { "NvimTreeToggle", "NvimTreeFocus" }
+M.lazy = false
 
 function M.opts()
   return {
