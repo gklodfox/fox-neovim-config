@@ -158,6 +158,7 @@ function M.opts()
                     file_status = true,
                     newfile_status = false,
                     path = 1,
+                    shorting_target = 10,
                     symbols = {
                         readonly = "[R]",
                         modified = "[~]",

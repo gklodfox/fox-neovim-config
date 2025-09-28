@@ -2,6 +2,7 @@ local M = {"ThePrimeagen/harpoon"}
 
 M.branch = "harpoon2"
 M.dependencies = {"nvim-lua/plenary.nvim"}
+M.enabled = false
 M.opts = {}
 
 function M.config(_, opts)

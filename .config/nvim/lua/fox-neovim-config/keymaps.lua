@@ -3,74 +3,50 @@ local function _if_available(modname)
     return false
 end
 
--- Explorator
-vim.keymap.set("n", "\\", vim.cmd.NvimTreeToggle)
-vim.keymap.set("n", "<C-S-Up>", "<cmd>resize +2<cr>",
-               {desc = "Increase Window Height"})
-vim.keymap.set("n", "<C-S-Down>", "<cmd>resize -2<cr>",
-               {desc = "Decrease Window Height"})
-vim.keymap.set("n", "<C-S-Left>", "<cmd>vertical resize -2<cr>",
-               {desc = "Decrease Window Width"})
-vim.keymap.set("n", "<C-S-Right>", "<cmd>vertical resize +2<cr>",
-               {desc = "Increase Window Width"})
+local function set_keybind(mode, key, command, opts)
+    local desc = opts.desc or ""
+    local modname = opts.modname or ""
+    require("which-key").add({
+        mode = mode,
+        cond = function ()
+            if modname == "" then return true end
+            return _if_available(modname)
+        end,
+        {key, command, desc = desc},
+    })
+end
 
--- Dashboard
-vim.keymap.set("n", "|", ":Dashboard<CR>")
+assert(_if_available("which-key"))
+
+set_keybind({"n"}, "\\", vim.cmd.NvimTreeToggle, {modname = "nvim-tree", desc = "Toggle file explorer"})
+set_keybind({"n"}, "<C-S-Down>", "<cmd>resize +2<cr>", {desc = "Increase Window Height"})
+set_keybind({"n"}, "<C-S-Up>", "<cmd>resize -2<cr>", {desc = "Decrease Window Height"})
+set_keybind({"n"}, "<C-S-Right>", "<cmd>vertical resize -2<cr>", {desc = "Decrease Window Width"})
+set_keybind({"n"}, "<C-S-Left>", "<cmd>vertical resize +2<cr>", {desc = "Increase Window Width"})
+set_keybind({"n"}, "|", ":Dashboard<CR>", {desc = "Toggle dashboard"})
 
 -- Easy terminal escape
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {desc = "Exit terminal"})
+set_keybind({"t"}, "<Esc>", "<C-\\><C-n>", {desc = "Exit terminal"})
+set_keybind({"n"}, "<Esc>", "<cmd>nohlsearch<cr>", {desc = "Clean hl"})
 
 -- Move lines
-vim.keymap.set("v", "<S-Down>", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "<S-Up>", ":m '<-2<CR>gv=gv")
+set_keybind({"v"}, "<S-Down>", ":m '>+1<CR>gv=gv", {desc = "Move line down"})
+set_keybind({"v"}, "<S-Up>", ":m '<-2<CR>gv=gv", {desc = "Move line up"})
 
--- Clear hl on esc
-vim.keymap.set("n", "<Esc>", ":nohlsearch<CR>")
-
-vim.keymap.set("n", "<leader>a", function() require("harpoon"):list():add() end)
-vim.keymap.set("n", "<C-e>", function()
-    require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
-end)
-
-vim.keymap.set("n", "<C-h>", function() require("harpoon"):list():select(1) end)
-vim.keymap.set("n", "<C-t>", function() require("harpoon"):list():select(2) end)
-vim.keymap.set("n", "<C-n>", function() require("harpoon"):list():select(3) end)
-vim.keymap.set("n", "<C-s>", function() require("harpoon"):list():select(4) end)
-
--- Toggle previous & next buffers stored within require('harpoon') list
-vim.keymap.set("n", "<C-S-P>", function() require("harpoon"):list():prev() end)
-vim.keymap.set("n", "<C-S-N>", function() require("harpoon"):list():next() end)
-
-require("which-key").add({
-    mode = {"n", "v"},
-    cond = _if_available("chatgpt"),
-    {"<leader>cc", "<cmd>ChatGPT<CR>", desc = "ChatGPT", icon = "󱙺"},
-    {"<leader>cA", "<cmd>ChatGPTActAs", desc = "Act as..."},
-    {
-        "<leader>ce",
-        "<cmd>ChatGPTEditWithInstruction<CR>",
-        desc = "Edit with instruction"
-    },
-    {
-        "<leader>cg",
-        "<cmd>ChatGPTRun grammar_correction<CR>",
-        desc = "Grammar Correction"
-    },
-    {"<leader>ct", "<cmd>ChatGPTRun translate<CR>", desc = "Translate"},
-    {"<leader>ck", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords"},
-    {"<leader>cd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring"},
-    {"<leader>ca", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests"},
-    {"<leader>co", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code"},
-    {"<leader>cs", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize"},
-    {"<leader>cf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs"},
-    {"<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code"},
-    {"<leader>cr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit"},
-    {
-        "<leader>cl",
-        "<cmd>ChatGPTRun code_readability_analysis<CR>",
-        desc = "Code Readability Analysis"
-    }
-})
+set_keybind({"n", "v"}, "<leader>cc", "<cmd>ChatGPT<CR>", {desc = "ChatGPT", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cA", "<cmd>ChatGPTActAs", {desc = "Act as...", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>ce", "<cmd>ChatGPTEditWithInstruction<CR>", {desc = "Edit with instruction", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cg", "<cmd>ChatGPTRun grammar_correction<CR>", {desc = "Grammar Correction", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>ct", "<cmd>ChatGPTRun translate<CR>", {desc = "Translate", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>ck", "<cmd>ChatGPTRun keywords<CR>", {desc = "Keywords", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cd", "<cmd>ChatGPTRun docstring<CR>", {desc = "Docstring", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>ca", "<cmd>ChatGPTRun add_tests<CR>", {desc = "Add Tests", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>co", "<cmd>ChatGPTRun optimize_code<CR>", {desc = "Optimize Code", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cs", "<cmd>ChatGPTRun summarize<CR>", {desc = "Summarize", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cf", "<cmd>ChatGPTRun fix_bugs<CR>", {desc = "Fix Bugs", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", {desc = "Explain Code", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cr", "<cmd>ChatGPTRun roxygen_edit<CR>", {desc = "Roxygen Edit", modname = "chatgpt"})
+set_keybind({"n", "v"}, "<leader>cl", "<cmd>ChatGPTRun code_readability_analysis<CR>", {desc = "Code Readability Analysis", modname = "chatgpt"})
 
 require("which-key").add({
     mode = {"n"},
