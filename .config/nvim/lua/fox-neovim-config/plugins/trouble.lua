@@ -13,7 +13,7 @@ function M.opts()
         mode = "diagnostics", -- inherit from diagnostics mode
         filter = { buf = 0 }, -- filter diagnostics to the current buffer
         auto_close = false,
-        auto_open = true,
+        auto_open = false,
         pinned = true,
         warn_no_results = false,
         open_no_results = true,

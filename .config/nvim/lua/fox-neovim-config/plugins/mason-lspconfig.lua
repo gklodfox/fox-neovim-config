@@ -21,7 +21,7 @@ function M.init()
     vim.opt.rtp:prepend(vim.fn.expand("~") .. "/.local/share/nvim/mason")
 
     vim.diagnostic.config({
-        virtual_text = false,
+        virtual_text = true,
         virtual_lines = false,
         update_in_insert = true,
         underline = true,

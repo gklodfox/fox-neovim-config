@@ -29,6 +29,7 @@ function M.opts()
             "~/.kotfiles/*",
             "~/Sources/*",
             "~/code/**/*",
+            "~/Code/**/*",
         }
     else
         projects = {}
@@ -36,7 +37,7 @@ function M.opts()
     return {
         projects = projects,
         datapath = vim.fn.stdpath("data"), -- ~/.local/share/nvim/
-        last_session_on_startup = true,
+        last_session_on_startup = false,
         dashboard_mode = true,
         filetype_autocmd_timeout = 200,
         forget_project_keys = {
