@@ -226,13 +226,15 @@ require("which-key").add({
 })
 require("which-key").add({
     mode = { "n" },
-    cond = function()
-        if pcall(require, "jenkinsfile_linter") then
-            return true
-        end
-        return false
-    end,
+    cond = _if_available("jenkinsfile_linter"),
     { "<leader>vj", function ()
         require("jenkinsfile_linter").validate()
     end, desc = "Validate Jenkinsfile" },
+})
+require("which-key").add({
+    mode = { "n" },
+    cond = _if_available("remote-sshfs"),
+    { "<leader>rc", require('remote-sshfs.api').connect, desc = "Connect to remote host" },
+    { "<leader>rd", require('remote-sshfs.api').disconnect, desc = "Disconnect from remote host" },
+    { "<leader>re", require('remote-sshfs.api').edit, desc = "Edit remote host" }
 })
