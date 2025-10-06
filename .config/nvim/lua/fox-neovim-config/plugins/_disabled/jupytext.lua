@@ -1,6 +1,7 @@
 local M = {"GCBallesteros/jupytext.nvim"}
 
 M.lazy = false
+M.enabled = false
 
 function M.opts()
     return {

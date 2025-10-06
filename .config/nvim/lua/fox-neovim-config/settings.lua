@@ -1,29 +1,26 @@
 local set_global = vim.g
 local set_opt = vim.opt
--- Recommended settings
-set_opt.showcmd = true -- Display incomplete commands
 local set_o = vim.o
 
 -- CMDS
--- vim.cmd('filetype plugin indent on')
+vim.cmd('filetype plugin indent on')
 -- vim.cmd('syntax spell notoplevel'
+set_o.syntax = 'on'
 
 -- GLOBALS
 set_global.python3_host_prog = vim.fn.exepath('python')
-set_global.have_nerd_font = true
-
--- WHITESPACE
-set_opt.listchars:append{space = '_', tab = '>-', trail = '~'}
-set_o.autoindent = true
-set_o.smartindent = true
-set_o.expandtab = true
-set_o.shiftwidth = 4
-set_o.tabstop = 4
-set_o.wrap = false
-set_o.nrformats = 'alpha'
-set_o.backspace = 'indent,eol,start'
+-- set_global.have_nerd_font = true
 
 -- EDITOR
+-- set_opt.listchars:append{space = '_', tab = '>>', trail = '~'}
+set_opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+set_opt.laststatus = 3
+set_o.smartindent = true
+set_o.breakindent = true
+-- set_o.tabstop = 4
+set_o.wrap = false
+-- set_o.nrformats = 'alpha'
+set_o.backspace = 'indent,eol,start'
 set_o.number = true
 set_o.relativenumber = true
 set_o.cursorline = true
@@ -37,10 +34,9 @@ set_o.smoothscroll = true
 set_o.title = true
 set_o.inccommand = "split"
 set_o.ttimeoutlen = 0
-set_opt.timeoutlen = 300
-set_o.updatetime = 500
+set_o.timeoutlen = 300
+set_o.updatetime = 250
 set_o.splitbelow = true
-set_o.hidden = true
 set_o.splitright = true
 set_o.scrolloff = 8
 set_o.sidescrolloff = 6
@@ -49,10 +45,10 @@ set_o.winborder = 'rounded'
 
 -- MISC
 set_o.autochdir = true
-set_opt.wildignore:append{
-    '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', '/venv', '*.txt',
-    '/man', '/log'
-}
+-- set_opt.wildignore:append{
+--     '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', '/venv', '*.txt',
+--     '/man', '/log', '/doc'
+-- }
 set_o.swapfile = false
 set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
 set_o.undofile = true

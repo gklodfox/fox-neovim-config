@@ -2,6 +2,7 @@ local M = {'quarto-dev/quarto-nvim'}
 
 M.dependencies = {"jmbuhr/otter.nvim", "nvim-treesitter/nvim-treesitter"}
 M.ft = {"quarto", "markdown"}
+M.enabled = false
 
 function M.opts()
     return {

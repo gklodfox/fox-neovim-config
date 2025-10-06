@@ -1,5 +1,7 @@
 local M = {"folke/lazydev.nvim"}
 
+M.ft = 'lua'
+
 function M.opts()
     return {
         library = {

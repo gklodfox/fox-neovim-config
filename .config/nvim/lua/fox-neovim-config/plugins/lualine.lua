@@ -1,12 +1,12 @@
 local venv_path = os.getenv("VIRTUAL_ENV")
 
-local get_current_signature = function()
-    local width = 10
-    if not pcall(require, "lsp_signature") then return " " end
-    local sig = require("lsp_signature").status_line(width)
-    return sig.label .. "  " .. sig.hint
-end
-
+-- local get_current_signature = function()
+--     local width = 10
+--     if not pcall(require, "lsp_signature") then return " " end
+--     local sig = require("lsp_signature").status_line(width)
+--     return sig.label .. "  " .. sig.hint
+-- end
+--
 local get_venv = function()
     if vim.bo.filetype ~= "python" or venv_path == nil then return "" end
     return vim.fn.fnamemodify(venv_path, ":t")
@@ -44,7 +44,6 @@ local M = {"nvim-lualine/lualine.nvim"}
 M.dependencies = {
     "nvim-tree/nvim-web-devicons", "Isrothy/lualine-diagnostic-message",
     "arkav/lualine-lsp-progress", "echasnovski/mini.icons",
-    "x-ray/lsp_signature.nvim"
 }
 
 function M.opts()
@@ -167,7 +166,7 @@ function M.opts()
                     }
                 }
             },
-            lualine_c = {{get_current_signature}},
+            lualine_c = {},
             lualine_x = {},
             lualine_y = {},
             lualine_z = {

@@ -118,49 +118,49 @@ require("which-key").add({
     }
 })
 
-require("which-key").add({
-    mode = {"n"},
-    cond = _if_available("quarto"),
-    {
-        "<leader>rc",
-        require("quarto.runner").run_cell,
-        desc = "run cell",
-        silent = true
-    },
-    {
-        "<leader>ra",
-        require("quarto.runner").run_above,
-        desc = "run cell and above",
-        silent = true
-    },
-    {
-        "<leader>rA",
-        require("quarto.runner").run_all,
-        desc = "run all cells",
-        silent = true
-    },
-    {
-        "<leader>rl",
-        require("quarto.runner").run_line,
-        desc = "run line",
-        silent = true
-    },
-    {
-        "<leader>RA",
-        function() require("quarto.runner").run_all(true) end,
-        desc = "run all cells of all languages",
-        silent = true
-    }
-}, {
-    mode = {"v"},
-    cond = _if_available("quarto"),
-    {
-        "<leader>r",
-        require("quarto.runner").run_range,
-        desc = "run range",
-        silent = true
-    }
-})
+-- require("which-key").add({
+--     mode = {"n"},
+--     cond = _if_available("quarto"),
+--     {
+--         "<leader>rc",
+--         require("quarto.runner").run_cell,
+--         desc = "run cell",
+--         silent = true
+--     },
+--     {
+--         "<leader>ra",
+--         require("quarto.runner").run_above,
+--         desc = "run cell and above",
+--         silent = true
+--     },
+--     {
+--         "<leader>rA",
+--         require("quarto.runner").run_all,
+--         desc = "run all cells",
+--         silent = true
+--     },
+--     {
+--         "<leader>rl",
+--         require("quarto.runner").run_line,
+--         desc = "run line",
+--         silent = true
+--     },
+--     {
+--         "<leader>RA",
+--         function() require("quarto.runner").run_all(true) end,
+--         desc = "run all cells of all languages",
+--         silent = true
+--     }
+-- }, {
+--     mode = {"v"},
+--     cond = _if_available("quarto"),
+--     {
+--         "<leader>r",
+--         require("quarto.runner").run_range,
+--         desc = "run range",
+--         silent = true
+--     }
+-- })
 
 require("which-key").add({
     mode = {"n"},
