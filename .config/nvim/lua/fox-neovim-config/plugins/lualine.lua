@@ -104,7 +104,7 @@ function M.opts()
                         "spinner"
                     },
                     colors = {
-                        percentage = "#80204e ",
+                        percentage = "#ff007b",
                         title = "#ff007b",
                         message = "#ff007b",
                         spinner = "#51a0cf",
@@ -125,7 +125,7 @@ function M.opts()
                         error = "#FFEB55",
                         warn = "#EE66A6",
                         info = "#D91656",
-                        hint = "#640D5F"
+                        hint = "#51a0cf"
                     }
                 }, {
                     "overseer",

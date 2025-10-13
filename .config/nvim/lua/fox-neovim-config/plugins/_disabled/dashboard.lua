@@ -1,5 +1,6 @@
 local M = { "nvimdev/dashboard-nvim" }
 
+M.enabled = false
 M.event = "VimEnter"
 M.dependencies = { 'folke/snacks.nvim', 'nvim-tree/nvim-web-devicons', { 'Shatur/neovim-session-manager', opts = {}, dependencies = { "nvim-lua/plenary.nvim", { "stevearc/dressing.nvim", opts = {} } } } }
 
