@@ -1,6 +1,7 @@
 local M = {"coffebar/neovim-project"}
 
 M.lazy = false
+M.enabled = false
 M.priority = 100
 
 M.dependencies = {

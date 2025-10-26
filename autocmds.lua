@@ -30,6 +30,22 @@ vim.api.nvim_create_autocmd("VimResized", {
     desc = "autoresize windows on resizing operation",
     command = "wincmd ="
 })
+local function open_nvim_tree(data)
+    local Snacks = require('snacks')
+    -- check if buffer is a directory
+    local directory = vim.fn.isdirectory(data.file) == 1
+    if not directory then
+        return
+    end
+    vim.cmd.enew()
+    vim.cmd.bw(data.buf)
+    vim.notify(Snacks.git.get_root(data.file))
+    if Snacks.git.get_root(data.file) then
+        Snacks.explorer.open()
+    end
+    Snacks.dashboard()
+end
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 -- Do not use smart case in command line mode, extracted from https://vi.stackexchange.com/a/16511/15292.
 vim.api.nvim_create_augroup("dynamic_smartcase", { clear = true })
 vim.api.nvim_create_autocmd("CmdLineEnter", {

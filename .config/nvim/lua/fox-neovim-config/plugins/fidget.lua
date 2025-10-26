@@ -6,7 +6,7 @@ function M.opts()
 		display = { done_ttl = math.huge}
 		},
         notification = {
-	    poll_rate = 10,
+	    poll_rate = 500,
 	    filter = vim.log.levels.INFO,
             override_vim_notify = true,
             window = { avoid = {"NvimTree"} },

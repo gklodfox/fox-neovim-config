@@ -1,21 +1,10 @@
 local M = {"ibhagwan/fzf-lua"}
 
-M.dependencies = {"nvim-tree/nvim-web-devicons", "echasnovski/mini.icons"}
-
-M.lazy = false
-
-function M.init()
-    vim.api.nvim_create_autocmd("VimResized", {
-        pattern = "*",
-        command = 'lua require("fzf-lua").redraw()'
-    })
-end
-
-function M.config(_, opts)
-    opts = opts or {}
-    local fzf = require("fzf-lua")
-
-    fzf.setup({
+M.dependencies = {"echasnovski/mini.icons"}
+M.enabled = true
+function M.opts()
+    return {
+        defaults = { file_icons = "mini" },
         help_open_win = vim.api.nvim_open_win,
         previewers = {
             cat = {cmd = "cat", args = "-n"},
@@ -119,8 +108,11 @@ function M.config(_, opts)
                 }
             }
         }
-    })
-    fzf.register_ui_select()
+    }
+end
+
+function M.config(_, opts)
+    require('fzf-lua').setup(opts)
 end
 
 return M

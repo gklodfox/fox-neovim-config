@@ -1,7 +1,5 @@
 local M = {"folke/which-key.nvim"}
 
--- M.event = "VeryLazy"
---
 function M.opts()
     return {
         delay = 0,
