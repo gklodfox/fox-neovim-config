@@ -67,7 +67,7 @@ function M.init()
 end
 
 M.lsp_servers = { "ast_grep", "bashls", "lua_ls", "markdown_oxide", "clangd", "autotools_ls", "pyright", "groovyls", "yamlls",
-    "docker_language_server", "neocmake" , "cmake", "gh_actions_ls"}
+    "docker_language_server", "neocmake" , "cmake", "gh_actions_ls", "cobol_ls"}
 M.linters     = { "luacheck", "markdownlint", "cpplint", "checkmake", "cmakelint", "flake8", "mypy", "yamllint",
     "hadolint", "vint", "actionlint" }
 M.formatters  = { "luaformatter", "cbfmt", "mdformat", "clang-format", "gersemi", "autoflake", "blue",

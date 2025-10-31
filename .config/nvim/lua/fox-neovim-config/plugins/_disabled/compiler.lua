@@ -2,6 +2,7 @@ local M = {"Zeioth/compiler.nvim"}
 
 M.dependencies = {"stevearc/overseer.nvim"}
 M.cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"}
+M.enabled = false
 
 function M.init()
     vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>",

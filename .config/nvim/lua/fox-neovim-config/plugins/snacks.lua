@@ -43,6 +43,8 @@ function M.opts()
             refresh = 50, -- refresh at most every 50ms
         },
         image = { enabled = true },
+        scroll = { enabled = true },
+        words = { enabled = true },
         bufdelete = { enabled = true },
         indent = {
             enabled = true,
@@ -56,43 +58,43 @@ function M.opts()
                 "RainbowDelimiterRed", "RainbowDelimiterYellow", "RainbowDelimiterBlue", "RainbowDelimiterOrange",
                 "RainbowDelimiterGreen", "RainbowDelimiterViolet", "RainbowDelimiterCyan"
             },
-            animate = {
-                enabled = true,
-                style = "out",
-                easing = "linear",
-                duration = {
-                    step = 20,   -- ms per step
-                    total = 300, -- maximum duration
-                },
+        },
+        animate = {
+            enabled = true,
+            style = "out",
+            easing = "linear",
+            duration = {
+                step = 20,       -- ms per step
+                total = 300,     -- maximum duration
             },
-            scope = {
-                enabled = true,
-                priority = 200,
-                underline = true,
-                only_current = false,
-                hl = {
-                    "RainbowRed", "RainbowYellow", "RainbowBlue", "RainbowOrange",
-                    "RainbowGreen", "RainbowViolet", "RainbowCyan"
-                },
+        },
+        scope = {
+            enabled = true,
+            priority = 200,
+            underline = true,
+            only_current = false,
+            hl = {
+                "RainbowRed", "RainbowYellow", "RainbowBlue", "RainbowOrange",
+                "RainbowGreen", "RainbowViolet", "RainbowCyan"
             },
-            chunk = {
-                -- when enabled, scopes will be rendered as chunks, except for the
-                -- top-level scope which will be rendered as a scope.
-                enabled = true,
-                -- only show chunk scopes in the current window
-                only_current = false,
-                priority = 200,
-                hl = {
-                    "RainbowRed", "RainbowYellow", "RainbowBlue", "RainbowOrange",
-                    "RainbowGreen", "RainbowViolet", "RainbowCyan"
-                },
-                char = {
-                    corner_top = "╭",
-                    corner_bottom = "╰",
-                    horizontal = "─",
-                    vertical = "│",
-                    arrow = ">",
-                },
+        },
+        chunk = {
+            -- when enabled, scopes will be rendered as chunks, except for the
+            -- top-level scope which will be rendered as a scope.
+            enabled = true,
+            -- only show chunk scopes in the current window
+            only_current = false,
+            priority = 200,
+            hl = {
+                "RainbowRed", "RainbowYellow", "RainbowBlue", "RainbowOrange",
+                "RainbowGreen", "RainbowViolet", "RainbowCyan"
+            },
+            char = {
+                corner_top = "╭",
+                corner_bottom = "╰",
+                horizontal = "─",
+                vertical = "│",
+                arrow = ">",
             },
         },
         notifier = { enabled = false },
@@ -216,7 +218,10 @@ function M.opts()
                 projects = {
                     finder = "recent_projects",
                     format = "file",
-                    dev = { "~/.kotfiles", "~/code" },
+                    dev = { "~/.kotfiles", "~/code",
+                        "~/repositories",
+                        "~/work/DCAP"
+                    },
                     confirm = "load_session",
                     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
                     recent = false,

@@ -1,5 +1,6 @@
 local M = {"lukas-reineke/indent-blankline.nvim"}
 M.dependencies = "HiPhish/rainbow-delimiters.nvim"
+M.enabled = false
 -- M.event = "User FilePost"
 
 local rainbow_highlight = {

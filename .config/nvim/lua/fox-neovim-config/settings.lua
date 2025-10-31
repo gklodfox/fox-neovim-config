@@ -3,23 +3,22 @@ local set_opt = vim.opt
 local set_o = vim.o
 
 -- CMDS
-vim.cmd('filetype plugin indent on')
+-- vim.cmd('filetype plugin indent on')
 -- vim.cmd('syntax spell notoplevel'
-set_o.syntax = 'on'
+set_o.syntax = 'ON'
 
 -- GLOBALS
 set_global.python3_host_prog = vim.fn.exepath('python')
--- set_global.have_nerd_font = true
+set_global.have_nerd_font = true
 
 -- EDITOR
 -- set_opt.listchars:append{space = '_', tab = '>>', trail = '~'}
 set_opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-set_opt.laststatus = 3
 set_o.smartindent = true
 set_o.breakindent = true
--- set_o.tabstop = 4
+set_o.tabstop = 4
 set_o.wrap = false
--- set_o.nrformats = 'alpha'
+set_o.nrformats = 'alpha'
 set_o.backspace = 'indent,eol,start'
 set_o.number = true
 set_o.relativenumber = true
@@ -45,12 +44,12 @@ set_o.winborder = 'rounded'
 
 -- MISC
 set_o.autochdir = true
--- set_opt.wildignore:append{
---     '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', '/venv', '*.txt',
---     '/man', '/log', '/doc'
--- }
+set_opt.wildignore:append{
+    '*.o', '*.a', '__pycache__', '*.pyc', 'node_modules', '/venv', '*.txt',
+    '/man', '/log', '/doc'
+}
 set_o.swapfile = false
 set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
 set_o.undofile = true
 set_o.mmp = 2000
-set_opt.completeopt:append{'menu', 'menuone', 'noselect'}
+-- set_opt.completeopt:append{'menu', 'menuone', 'noselect'}

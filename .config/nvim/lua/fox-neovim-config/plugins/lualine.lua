@@ -43,7 +43,7 @@ local M = {"nvim-lualine/lualine.nvim"}
 
 M.dependencies = {
     "nvim-tree/nvim-web-devicons", "Isrothy/lualine-diagnostic-message",
-    "arkav/lualine-lsp-progress", "echasnovski/mini.icons",
+    "arkav/lualine-lsp-progress", "echasnovski/mini.icons", "stevearc/overseer.nvim"
 }
 
 function M.opts()

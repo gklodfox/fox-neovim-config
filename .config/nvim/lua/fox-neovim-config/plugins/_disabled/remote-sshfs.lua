@@ -1,5 +1,6 @@
 local M = { "nosduco/remote-sshfs.nvim" }
 
+M.enabled = false
 M.dependencies = { {"nvim-telescope/telescope.nvim", config = function ()
     require("telescope").load_extension("remote-sshfs")
 end}, "nvim-lua/plenary.nvim" }

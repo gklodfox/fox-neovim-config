@@ -1,5 +1,6 @@
 local M = {"stevearc/overseer.nvim"}
 
+M.enabled = false
 M.cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"}
 function M.opts()
     return {
