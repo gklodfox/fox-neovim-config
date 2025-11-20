@@ -33,8 +33,6 @@ set_o.smoothscroll = true
 set_o.title = true
 set_o.inccommand = "split"
 set_o.ttimeoutlen = 0
-set_o.timeoutlen = 300
-set_o.updatetime = 250
 set_o.splitbelow = true
 set_o.splitright = true
 set_o.scrolloff = 8
@@ -52,4 +50,4 @@ set_o.swapfile = false
 set_o.undodir = vim.fn.expand('~') .. "/.nvim/undodir"
 set_o.undofile = true
 set_o.mmp = 2000
--- set_opt.completeopt:append{'menu', 'menuone', 'noselect'}
+set_opt.completeopt:append{'menu', 'menuone', 'noselect'}

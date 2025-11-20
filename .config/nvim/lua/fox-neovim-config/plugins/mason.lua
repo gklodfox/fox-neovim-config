@@ -67,11 +67,11 @@ function M.init()
 end
 
 M.lsp_servers = { "ast_grep", "bashls", "lua_ls", "markdown_oxide", "clangd", "autotools_ls", "pyright", "groovyls", "yamlls",
-    "docker_language_server", "neocmake" , "cmake", "gh_actions_ls", "cobol_ls"}
+    "docker_language_server", "neocmake" , "cmake", "gh_actions_ls", "cobol_ls", "jsonls"}
 M.linters     = { "luacheck", "markdownlint", "cpplint", "checkmake", "cmakelint", "flake8", "mypy", "yamllint",
-    "hadolint", "vint", "actionlint" }
+    "hadolint", "vint", "actionlint", "jsonlint"}
 M.formatters  = { "luaformatter", "cbfmt", "mdformat", "clang-format", "gersemi", "autoflake", "blue",
-    "reorder-python-imports", "yamlfmt", "beautysh", "cmakelang" }
+    "reorder-python-imports", "yamlfmt", "beautysh", "cmakelang", "fixjson"}
 
 function M.config()
     require("mason-lspconfig").setup({ ensure_installed = M.lsp_servers })
