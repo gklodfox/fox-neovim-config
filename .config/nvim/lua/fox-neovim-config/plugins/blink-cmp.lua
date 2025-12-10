@@ -13,14 +13,14 @@ function M.opts()
             preset = "super-tab",
         },
         completion = {
-            -- list = {
-            --     selection = {
-            --         preselect = true,
-            --         auto_insert = true
-            --     }
-            -- },
-            -- menu = { auto_show = true },
-            -- accept = { auto_brackets = { enabled = true } },
+            list = {
+                selection = {
+                    preselect = true,
+                    auto_insert = true
+                }
+            },
+            menu = { auto_show = true },
+            accept = { auto_brackets = { enabled = true } },
             keyword = { range = 'full' },
             ghost_text = { enabled = true },
             documentation = { auto_show = true, auto_show_delay_ms = 500 }
@@ -31,7 +31,7 @@ function M.opts()
                 lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
             }
         },
-        fuzzy = { implementation = "prefer_rust" },
+        fuzzy = { implementation = "prefer_rust", frecency = { enabled = false} },
         cmdline = {
             completion = {
                 menu = {
