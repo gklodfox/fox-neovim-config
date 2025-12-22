@@ -16,7 +16,9 @@ set_global.have_nerd_font = true
 set_opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 set_o.smartindent = true
 set_o.breakindent = true
-set_o.tabstop = 4
+set_o.tabstop = 8
+set_o.softtabstop = 4
+set_o.shiftwidth = 4
 set_o.wrap = false
 set_o.nrformats = 'alpha'
 set_o.backspace = 'indent,eol,start'
