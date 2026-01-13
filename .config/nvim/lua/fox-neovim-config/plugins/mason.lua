@@ -28,6 +28,9 @@ M.dependencies = {
     { "LittleEndianRoot/mason-conform" },
 }
 function M.init()
+    local new_config = vim.diagnostic.config()
+    new_config.virtual_lines = {enabled = false}
+    vim.diagnostic.config(new_config)
     vim.diagnostic.config({
         virtual_text = { enabled = false, severity = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR } },
         virtual_lines = { severity = { vim.diagnostic.severity.HINT, vim.diagnostic.severity.INFO } },
@@ -67,11 +70,11 @@ function M.init()
 end
 
 M.lsp_servers = { "ast_grep", "bashls", "lua_ls", "markdown_oxide", "clangd", "autotools_ls", "pyright", "groovyls", "yamlls",
-    "docker_language_server", "neocmake" , "cmake", "gh_actions_ls", "cobol_ls", "jsonls"}
+    "docker_language_server", "neocmake" , "cmake", "gh_actions_ls", "cobol_ls", "jsonls", "ltex_plus"}
 M.linters     = { "luacheck", "markdownlint", "cpplint", "checkmake", "cmakelint", "flake8", "mypy", "yamllint",
     "hadolint", "vint", "actionlint", "jsonlint"}
 M.formatters  = { "luaformatter", "cbfmt", "mdformat", "clang-format", "gersemi", "autoflake", "blue",
-    "reorder-python-imports", "yamlfmt", "beautysh", "cmakelang", "fixjson"}
+    "reorder-python-imports", "yamlfmt", "beautysh", "cmakelang", "fixjson", "latexindent", "tex-fmt", "bibtex-tidy"}
 
 function M.config()
     require("mason-lspconfig").setup({ ensure_installed = M.lsp_servers })

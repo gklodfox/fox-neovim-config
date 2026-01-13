@@ -40,8 +40,8 @@ function M.opts()
             left = { "mark", "sign" }, -- priority of signs on the left (high to low)
             right = { "fold", "git" }, -- priority of signs on the right (high to low)
             folds = {
-                open = false,          -- show open fold icons
-                git_hl = false,        -- use Git Signs hl for fold icons
+                open = true,          -- show open fold icons
+                git_hl = true,        -- use Git Signs hl for fold icons
             },
             git = {
                 -- patterns to match Git signs
@@ -109,15 +109,8 @@ function M.opts()
             enabled = true,
             preset = {
                 keys = {
-                    { icon = "󰍉  ", key = "f", desc = "Find File", action = ":lua Snacks.picker.files()" },
-                    { icon = "󰍉  ", key = "G", desc = "Find Git file", action = ":lua Snacks.picker.git_files()" },
-                    { icon = "  ", key = "n", desc = "New File", action = ":ene | startinsert" },
-                    { icon = "󰍉  ", key = "g", desc = "Grep Text", action = ":lua Snacks.picker.grep()" },
-                    { icon = "󰍉  ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
-                    { icon = "󰍉  ", key = "C", desc = "Browse Config", action = ":lua Snacks.picker.files({cwd = vim.fn.stdpath('config')})" },
                     { icon = "󰍉  ", key = "P", desc = "Browse Projects", action = ":lua Snacks.picker.projects()" },
                     { icon = "   ", key = "p", desc = "Plugin Manager", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-                    { icon = "󰱮   ", key = "q", desc = "Quit", action = ":qa" },
                 },
                 header = [[
 ╔════════════════════════════════════════════════╗
@@ -153,9 +146,9 @@ function M.opts()
             },
             sections = {
                 { section = "header", pane = 2 },
-                { section = "keys", padding = 1, pane = 2 },
-                { icon = " ", title = "Recent Projects", section = "projects", indent = 2 },
-                { icon = " ", title = "Recent Files", section = "recent_files", indent = 2 },
+                { section = "keys", padding = 1, pane = 1 },
+                { icon = " ", title = "Recent Projects", section = "projects", indent = 2, limit = 5 },
+                { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, limit = 10 },
                 { section = "startup", padding = 1 },
                 {
                     icon = " ",
@@ -178,6 +171,7 @@ function M.opts()
                             key = "B",
                             icon = "󰘬 ",
                             height = 2,
+                            pane = 2,
                             enabled = true,
                         },
                         {
@@ -188,6 +182,7 @@ function M.opts()
                                 Snacks.picker.git_diff()
                             end,
                             icon = " ",
+                            pane = 2,
                             height = 2,
                         },
                         {
@@ -198,10 +193,12 @@ function M.opts()
                             action = function()
                                 vim.fn.jobstart("gh pr list --web", { detach = true })
                             end,
+                            pane = 2,
                             height = 2,
                         },
                         {
                             icon = " ",
+                            pane = 2,
                             title = "Git File Diff",
                             cmd = "git --no-pager diff --stat -B -M -C",
                             height = 2,
@@ -209,7 +206,7 @@ function M.opts()
                     }
                     return vim.tbl_map(function(cmd)
                         return vim.tbl_extend("force", {
-                            pane = 1,
+                            pane = 2,
                             section = "terminal",
                             enabled = in_git,
                             padding = 0,
@@ -227,16 +224,16 @@ function M.opts()
                     format = "file",
                     dev = { "~/.kotfiles", "~/code",
                         "~/repositories",
-                        "~/work/DCAP"
+                        "~/work/DCAP", "~/Code", "~/.docs"
                     },
                     confirm = "load_session",
                     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
-                    recent = false,
-                    max_depth = 4,
+                    recent = true,
+                    max_depth = 8,
                     matcher = {
                         frecency = true,   -- use frecency boosting
                         sort_empty = true, -- sort even when the filter is empty
-                        cwd_bonus = false,
+                        cwd_bonus = true,
                     },
                     sort = { fields = { "score:desc", "idx" } },
                     win = {

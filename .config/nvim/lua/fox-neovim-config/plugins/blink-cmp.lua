@@ -5,7 +5,7 @@ M.dependencies = {
     'folke/lazydev.nvim',
 }
 M.version = "1.*"
--- M.build = "cargo build --release"
+M.build = "cargo build --release"
 
 function M.opts()
     return {

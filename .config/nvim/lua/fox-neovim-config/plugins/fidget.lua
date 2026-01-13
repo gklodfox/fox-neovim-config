@@ -2,14 +2,12 @@ local M = {"j-hui/fidget.nvim"}
 
 function M.opts()
     return {
-	progress = {
-		display = { done_ttl = math.huge}
-		},
+        progress = {
+            display = { done_ttl = math.huge}
+        },
         notification = {
-	    poll_rate = 500,
-	    filter = vim.log.levels.INFO,
+            poll_rate = 500,
             override_vim_notify = true,
-            window = { avoid = {"NvimTree"} },
         }
     }
 end
