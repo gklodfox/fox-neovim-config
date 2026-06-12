@@ -2,7 +2,7 @@ local M = {"L3MON4D3/LuaSnip"}
 
 M.build = "make install_jsregexp"
 M.lazy = true
-M.dependencies = {
+M.dependencies = {{
     "rafamadriz/friendly-snippets",
     config = function()
         require("luasnip.loaders.from_vscode").lazy_load()
@@ -10,7 +10,7 @@ M.dependencies = {
             paths = {vim.fn.stdpath("config") .. "/snippets"}
         })
     end
-}
+}}
 
 function M.opts()
     local types = require("luasnip.util.types")
@@ -22,10 +22,10 @@ function M.opts()
         store_selection_keys = "<Tab>",
         ext_opts = {
             [types.choiceNode] = {
-                active = {virt_text = {{"●", "GruvboxOrange"}}}
+                active = {virt_text = {{"●", "WarningMsg"}}}
             },
             [types.insertNode] = {
-                active = {virt_text = {{"●", "GruvboxBlue"}}}
+                active = {virt_text = {{"●", "Special"}}}
             }
         }
     }

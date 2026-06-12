@@ -5,7 +5,8 @@ local set_o = vim.o
 -- CMDS
 -- vim.cmd('filetype plugin indent on')
 -- vim.cmd('syntax spell notoplevel'
-set_o.syntax = 'ON'
+-- Treesitter handles syntax highlighting; only enable if you need legacy syntax
+-- set_o.syntax = 'ON'
 
 -- GLOBALS
 set_global.python3_host_prog = vim.fn.exepath('python')

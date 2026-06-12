@@ -42,8 +42,7 @@ end
 local M = {"nvim-lualine/lualine.nvim"}
 
 M.dependencies = {
-    "nvim-tree/nvim-web-devicons", "Isrothy/lualine-diagnostic-message",
-    "arkav/lualine-lsp-progress", "echasnovski/mini.icons", "stevearc/overseer.nvim"
+    "echasnovski/mini.icons", "arkav/lualine-lsp-progress", "stevearc/overseer.nvim"
 }
 
 function M.opts()
@@ -51,8 +50,8 @@ function M.opts()
     flow_theme.normal.a = {bg = "#ff007b", fg = "#000000"}
     flow_theme.normal.b = {bg = "#60002e", fg = "#ff007b"}
     flow_theme.normal.c = {bg = nil, fg = "#60002e"}
-    flow_theme.normal.x = {bg = nil, fg = "#ff007b"}
-    flow_theme.normal.y = {fg = "#ff007b", bg = "#60002e"}
+    flow_theme.normal.x = {bg = "#000000", fg = "#ff007b"}
+    flow_theme.normal.y = {bg = "#60002e", fg = "#ff007b"}
     flow_theme.normal.z = {bg = "#ff007b", fg = "#000000"}
     return {
         options = {
@@ -78,10 +77,7 @@ function M.opts()
             lualine_c = {
                 {
                     "diagnostics",
-                    sources = {
-                        "nvim_lsp", "nvim_diagnostic",
-                        "nvim_workspace_diagnostic", "vim_lsp"
-                    },
+                    sources = {"nvim_lsp"},
                     sections = {"error", "warn", "info", "hint"},
                     diagnostics_color = {
                         error = "DiagnosticError", -- Changes diagnostics' error color.
@@ -119,33 +115,10 @@ function M.opts()
                         spinner = 1000,
                         lsp_client_name_enddelay = 1000
                     }
-                }, {
-                    "diagnostic-message",
-                    colors = {
-                        error = "#FFEB55",
-                        warn = "#EE66A6",
-                        info = "#D91656",
-                        hint = "#51a0cf"
-                    }
-                }, {
-                    "overseer",
-                    label = "", -- Prefix for task counts
-                    colored = true, -- Color the task icons and counts
-                    symbols = {
-                        [require("overseer").STATUS.FAILURE] = "F:",
-                        [require("overseer").STATUS.CANCELED] = "C:",
-                        [require("overseer").STATUS.SUCCESS] = "S:",
-                        [require("overseer").STATUS.RUNNING] = "R:"
-                    },
-                    unique = false, -- Unique-ify non-running task count by name
-                    name = nil, -- List of task names to search for
-                    name_not = false, -- When true, invert the name search
-                    status = nil, -- List of task statuses to display
-                    status_not = false -- When true, invert the status search
                 }
             },
             lualine_y = {
-                "fileformat", {"encoding", fmt = string.upper}, "filesize"
+                {require("opencode").statusline}, {"encoding", fmt = string.upper}, "filesize"
             },
             lualine_z = {{get_venv}, "branch"}
         },

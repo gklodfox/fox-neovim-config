@@ -1,6 +1,7 @@
 local M = { "MeanderingProgrammer/render-markdown.nvim" }
 
 M.enabled = false
+M.lazy = true
 M.dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }
 M.ft = { 'markdown', 'Avante' }
 
@@ -12,10 +13,6 @@ function M.opts()
 		},
 		file_types = { 'markdown', 'Avante'},
 	}
-end
-
-function M.config(_, opts)
-	require('render-markdown').setup(opts)
 end
 
 return M

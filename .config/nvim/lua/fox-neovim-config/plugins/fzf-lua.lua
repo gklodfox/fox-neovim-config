@@ -29,7 +29,7 @@ function M.opts()
                 extensions = {
                     ["png"] = {"viu", "-b"},
                     ["svg"] = {"chafa", "{file}"},
-                    ["jpg"] = {"ueberzug"}
+                    ["jpg"] = {"viu", "-b"}
                 },
                 ueberzug_scaler = "cover",
                 render_markdown = {
@@ -109,10 +109,6 @@ function M.opts()
             }
         }
     }
-end
-
-function M.config(_, opts)
-    require('fzf-lua').setup(opts)
 end
 
 return M

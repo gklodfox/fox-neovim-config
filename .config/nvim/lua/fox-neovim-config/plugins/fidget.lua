@@ -8,6 +8,9 @@ function M.opts()
         notification = {
             poll_rate = 500,
             override_vim_notify = true,
+            window = {
+                avoid = { 'NvimTree' }
+            },
         }
     }
 end

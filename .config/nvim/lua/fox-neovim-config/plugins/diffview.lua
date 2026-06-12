@@ -1,5 +1,7 @@
 local M = {'sindrets/diffview.nvim'}
 
+M.dependencies = { 'nvim-tree/nvim-web-devicons' }
+
 function M.opts() return {enhanced_diff_hl = false} end
 
 function M.config(_, opts) require("diffview").setup(opts) end

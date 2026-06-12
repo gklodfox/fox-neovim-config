@@ -1,7 +1,5 @@
 local M = {'benlubas/molten-nvim'}
 
-M.dependencies = {"3rd/image.nvim"}
-
 M.build = ":UpdateRemotePlugins"
 M.version = "^1.0.0"
 

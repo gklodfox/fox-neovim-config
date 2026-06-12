@@ -1,3 +1,13 @@
+vim.api.nvim_create_augroup( "disable_virtual_lines", { clear = true })
+
+vim.api.nvim_create_autocmd( {'BufEnter'}, {
+    pattern = "*",
+    group = "disable_virtual_lines",
+    callback = function()
+        vim.diagnostic.config({ virtual_lines = false, virtual_text = true })        
+    end
+})
+
 vim.api.nvim_create_autocmd('FileType', {
     pattern = "snacks_dashboard",
     callback = function() vim.cmd("stopinsert") end

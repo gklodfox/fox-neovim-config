@@ -2,16 +2,14 @@ local M = { "saghen/blink.cmp" }
 
 M.dependencies = {
     "rafamadriz/friendly-snippets",
-    'folke/lazydev.nvim',
 }
 M.version = "1.*"
-M.build = "cargo build --release"
+M.opts_extend = { "sources.default" }
 
 function M.opts()
     return {
-        keymap = {
-            preset = "super-tab",
-        },
+        keymap = { preset = "enter", },
+        appearance = { nerd_font_variant = 'mono' },
         completion = {
             list = {
                 selection = {
@@ -19,33 +17,13 @@ function M.opts()
                     auto_insert = true
                 }
             },
-            menu = { auto_show = true },
-            accept = { auto_brackets = { enabled = true } },
-            keyword = { range = 'full' },
-            ghost_text = { enabled = true },
-            documentation = { auto_show = true, auto_show_delay_ms = 500 }
+            documentation = { auto_show = true, auto_show_delay_ms = 3000 }
         },
         sources = {
-            default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-            providers = {
-                lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-            }
+            default = { "lsp", "path", "snippets", "buffer" },
         },
-        fuzzy = { implementation = "prefer_rust", frecency = { enabled = false} },
-        cmdline = {
-            completion = {
-                menu = {
-                    auto_show = true,
-                },
-            },
-        },
-        snippets = { preset = 'luasnip' },
-        signature = { enabled = true },
+        fuzzy = { implementation = "prefer_rust_with_warning" }
     }
-end
-
-function M.config(_, opts)
-    require('blink.cmp').setup(opts)
 end
 
 return M

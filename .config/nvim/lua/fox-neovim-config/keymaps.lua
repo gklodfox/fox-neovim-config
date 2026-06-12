@@ -1,4 +1,3 @@
-_ = require('snacks')
 local function _if_available(modname)
     if pcall(require, modname) then return true end
     return false
